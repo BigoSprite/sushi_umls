@@ -1,0 +1,235 @@
+
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+participant AsyncLLM
+participant AsyncMPClient #aqua
+participant DPAsyncMPClient #aqua
+entity asyncio #orange
+participant CoreEngine
+queue input_socket <<(M,orange) ZeroMQ>> #lightgreen
+queue output_socket <<(M,orange) ZeroMQ>> #lightgreen
+control EngineCoreProc #aqua
+
+control DPEngineCoreProc #aqua
+participant Scheduler
+participant MultiprocExecutor
+queue worker_response_mq <<(M,orange) MessageQueue>ZeroMQ>> #lightgreen
+queue rpc_broadcast_mq <<(M,orange) MessageQueue>ZeroMQ>> #lightgreen
+control WorkerProc
+participant WorkerBase
+
+==在线推理 - 多进程异步==
+
+User -[#green]> AsyncLLM: <color red>**prompt: str**</color>\n提示词
+
+activate AsyncLLM
+AsyncLLM -[#blue]> AsyncLLM: async generate()
+AsyncLLM --> AsyncLLM: _run_output_handler() 第一次调用时创建输出处理线程
+
+activate AsyncMPClient #aqua
+hnote over AsyncMPClient, DPAsyncMPClient #aqua: 主进程（通过CoreEngine开启子进程-EngineCoreProc）
+
+AsyncLLM -[#lightblue]-> AsyncLLM: await add_request()->q
+activate AsyncLLM #lightblue
+AsyncLLM --> AsyncLLM: processor.process_inputs()-><color red>**EngineCoreRequest**</color>
+
+alt dp == 1
+  AsyncLLM o-[#blue]> AsyncMPClient: \tengine_core.add_request_async()
+  activate AsyncMPClient
+else
+  AsyncLLM o-[#blue]> DPAsyncMPClient: \tengine_core.add_request_async()
+  activate DPAsyncMPClient #aqua
+end
+'alt dp == 1
+
+group DPAsyncMPClient.add_request_async()
+  activate CoreEngine
+  DPAsyncMPClient o-[#aqua]> CoreEngine: 在构建阶段调用_init_core_engines(), 重写方法-创建1..dp个CoreEngine示例
+  activate CoreEngine
+
+  DPAsyncMPClient --> DPAsyncMPClient: 从self.core_engines找出请求最少的chosen_engine(CoreEngine)
+  DPAsyncMPClient --> DPAsyncMPClient: _send_input(chosen_engine,req)->to_await
+  DPAsyncMPClient o-> input_socket: \tZMQ input_socket[<color purple>**input_path**</color>].send_multipart()
+  activate input_socket #lightgreen
+  DPAsyncMPClient --> DPAsyncMPClient: _ensure_output_queue_task()\n第一次调用时创建处理线程
+  DPAsyncMPClient -[#orange]> asyncio: \tasyncio.create_task(process_outputs_socket())
+  activate asyncio #orange
+  deactivate DPAsyncMPClient
+end
+
+group AsyncMPClient.add_request_async()
+AsyncMPClient o-[#aqua]> CoreEngine:\t在构建阶段通过CoreEngine开启新进程（1个）
+AsyncMPClient --> AsyncMPClient:_send_input()\n非DP模式仅含有一个子进程
+AsyncMPClient o-> input_socket: \tZMQ input_socket[<color purple>**input_path**</color>].send_multipart()
+activate input_socket
+AsyncMPClient --> AsyncMPClient:_ensure_output_queue_task()\n第一次调用时创建处理线程
+activate asyncio #orange
+{start} AsyncMPClient -[#orange]> asyncio: \tasyncio.create_task(process_outputs_socket())
+end
+
+deactivate AsyncMPClient
+
+hnote over EngineCoreProc, DPEngineCoreProc #aqua: 子进程-与主进程通过ZeroMQ通信
+group EngineCoreProc.process_input_socket() [input_socket处理线程\nwhile True:]
+  EngineCoreProc --> input_socket: \t接收input_socket发送的消息\n\tsocket[[<color purple>**input_path**</color>].recv_multipart()
+  deactivate input_socket
+  activate EngineCoreProc #aqua
+  EngineCoreProc --> EngineCoreProc: self.<color blue>**input_queue.put()**</color>
+
+  activate DPEngineCoreProc #aqua
+  DPEngineCoreProc --> input_socket: \tsocket[[<color purple>**input_path**</color>].recv_multipart()
+  deactivate input_socket
+  DPEngineCoreProc --> DPEngineCoreProc: self.<color blue>**input_queue.put()**</color>
+end
+
+'process busy loop
+alt dp > 1
+    hnote over EngineCoreProc, DPEngineCoreProc: run_engine_core()为静态方法\nrun_busy_loop()为实例的方法, 实现不同\n根据dp值路由到DPEngineCore或EngineCore
+    CoreEngine -[#aqua]>  DPEngineCoreProc: EngineCoreProc.run_engine_core() 为新进程目标执行例程\n创建DP进程-第1个
+    activate EngineCoreProc
+    CoreEngine -[#aqua]-> DPEngineCoreProc:...
+    CoreEngine -[#aqua]>  DPEngineCoreProc: 创建DP进程-第dp个
+    deactivate CoreEngine
+    deactivate EngineCoreProc
+
+    group DPEngineCoreProc.run_busy_loop() [while True:]
+      DPEngineCoreProc --> DPEngineCoreProc: <color red>**self._process_input_queue()**</color>\n实现等同EngineCoreProc._process_input_queue
+      DPEngineCoreProc o-> Scheduler: \tscheduler.has_unfinished_requests()->local_unfinished_reqs
+      activate Scheduler
+      alt local_unfinished_reqs
+        DPEngineCoreProc --> DPEngineCoreProc: <color red>**self._process_engine_step()**</color>\n实现等同EngineCoreProc._process_engine_step
+        DPEngineCoreProc o-> Scheduler: \tscheduler.has_unfinished_requests()->local_unfinished_reqs
+        deactivate Scheduler
+      else
+        alt scheduler.has_finished_requests()
+          DPEngineCoreProc --> DPEngineCoreProc: <color red>**self._process_engine_step()**</color>\n实现等同EngineCoreProc._process_engine_step
+          DPEngineCoreProc --> DPEngineCoreProc: if not self.engines_running continue
+          DPEngineCoreProc --> DPEngineCoreProc: self.execute_dummy_batch()
+        end
+      end
+
+      DPEngineCoreProc --> DPEngineCoreProc: self.engines_running = _has_global_unfinished_reqs()
+      deactivate DPEngineCoreProc
+
+    end
+
+else
+  CoreEngine -[#aqua]> EngineCoreProc: \tEngineCoreProc.run_engine_core() 为新进程目标执行例程（1个）
+  deactivate CoreEngine
+  group EngineCoreProc.run_busy_loop() [while True:]
+    group <color red>**self._process_input_queue()**</color> [只要输入队列有请求]
+    EngineCoreProc --> EngineCoreProc: req=<color blue>**self.input_queue.get()**</color>\nself.add_request()
+    EngineCoreProc o-> Scheduler: \tRequest.from_engine_core_request()-><color red>**Request**</color>\n\tscheduler.add_request()
+    activate Scheduler
+    Scheduler --> Scheduler: waiting.append()
+    end
+
+    group <color red>**self._process_engine_step()**</color>
+    EngineCoreProc --> EngineCoreProc: self.step_fn() [批量执行类似-见源码]
+    activate EngineCoreProc
+    EngineCoreProc o-> Scheduler: \tscheduler.schedule()->SchedulerOutput
+    activate MultiprocExecutor
+    hnote over WorkerProc #aqua: Woker执行子进程，执行器和Worker通过ZMQ Socket通信
+    activate WorkerProc #aqua
+
+    group WorkerProc.make_worker_process() [开启多个进程, 这里根据parallel_config.world_size可以起多个进程... 1..world_size, world_size=tp*pp]
+      MultiprocExecutor -[#aqua]> WorkerProc: progress 1\t
+      MultiprocExecutor -[#aqua]-> WorkerProc: ...
+      MultiprocExecutor -[#aqua]> WorkerProc: progress world_size
+    end
+
+    group context.Process(target=WorkerProc.**worker_main**)
+      WorkerProc --> WorkerProc: worker = WorkerProc(*args, **kwargs)
+      group WorkerProc子进程busy-loop\nworker.worker_busy_loop() [while True:]
+        WorkerProc o-> rpc_broadcast_mq: \t\t\t\t\t\tself.<color blue>**rpc_broadcast_mq.dequeue()**</color>
+        activate rpc_broadcast_mq #lightgreen
+        rpc_broadcast_mq --> WorkerProc: method, args, kwargs, rank0_only
+        WorkerProc --> WorkerProc: 这里method是execute_model\nself.worker.method(*args,**kwargs)->output
+        WorkerProc o-> WorkerBase: 对不同策略下的工作者-运行模型
+        alt not rank0_only or self.rank == 0
+          WorkerProc o-> worker_response_mq: \t\t\t\t\t\t\t\tself.<color darkblue>**worker_response_mq.enqueue(SUCCESS, output)**</color>
+          activate worker_response_mq #lightgreen
+        end
+      end
+
+    end
+
+    EngineCoreProc o-> MultiprocExecutor: \tmodel_executor.execute_model(SchedulerOutput)-><color red>**ModelRunnerOutput**</color>
+
+    group MultiprocExecutor发送方法并获取结果\ncollective_rpc("execute_model")->ModelRunnerOutput
+    MultiprocExecutor o-> rpc_broadcast_mq: \tself.<color blue>**rpc_broadcast_mq.enqueue("execute_model")**</color>
+    deactivate rpc_broadcast_mq
+    MultiprocExecutor o-> worker_response_mq: \trank0_reply_only=True\n\tself.workers[0].<color darkblue>**worker_response_mq.dequeue(timeout)**</color>->ModelRunnerOutput
+    worker_response_mq --> MultiprocExecutor: \t从worker_response_mq返回模型执行结果\n\tModelRunnerOutput:list[0]
+    deactivate worker_response_mq
+    end
+
+    EngineCoreProc o-> Scheduler: \tschedule.update_from_output(SchedulerOutput,ModelRunnerOutput)->EngineCoreOutputs
+    deactivate EngineCoreProc
+    EngineCoreProc --> EngineCoreProc: self.<color blue>**output_queue.put()**</color>
+    end
+  end
+
+
+end
+' alt dp > 1
+
+group EngineCoreProc.process_output_socket() [output_socket处理线程\nwhile True:]
+
+  DPEngineCoreProc --> DPEngineCoreProc: self.<color blue>**output_queue.get()**</color>
+  activate DPEngineCoreProc #aqua
+  DPEngineCoreProc --> output_socket: \tsocket[<color purple>**output_path**</color>].send_multipart()
+  activate output_socket #lightgreen
+  EngineCoreProc --> EngineCoreProc: self.<color blue>**output_queue.get()**</color>
+  activate output_socket
+  EngineCoreProc --> output_socket: \tsocket[<color purple>**output_path**</color>].send_multipart()
+end
+
+'AsyncMPClient.process_outputs_socket
+asyncio -[#orange]-> AsyncMPClient: return output_socket处理线程
+deactivate asyncio
+deactivate asyncio
+
+group AsyncMPClient.process_outputs_socket() [output_socket处理线程\nwhile True:]
+
+  {end} AsyncMPClient o-> output_socket:\t接收来自output_socket发送的消息\n\tout_socket[<color purple>**output_path**</color>].recv_multipart()
+  AsyncMPClient --> AsyncMPClient:output_queue.put()
+  deactivate output_socket
+
+  DPAsyncMPClient o-> output_socket:\t接收来自output_socket发送的消息\n\tout_socket[<color purple>**output_path**</color>].recv_multipart()
+  deactivate output_socket
+  activate DPAsyncMPClient #aqua
+  DPAsyncMPClient --> DPAsyncMPClient:output_queue.put()
+
+end
+
+
+AsyncLLM --> AsyncLLM: 返回结果 q: RequestOutputCollector
+deactivate AsyncLLM
+
+group _run_output_handler() [Background loop 输出处理线程]
+  activate asyncio
+  AsyncLLM o-> asyncio: \tasyncio.create_task(output_handler())->output_handle
+  group async output_handler() [while True:]
+    AsyncLLM o-> AsyncMPClient: \tawait engine_core.get_output_async()->EngineCoreOutputs
+    AsyncMPClient --> AsyncMPClient: await outputs_queue.get()
+    AsyncMPClient --> AsyncLLM: <color red>**EngineCoreOutputs**</color>
+
+    deactivate asyncio
+    loop output in EngineCoreOutputs.outputs
+    AsyncLLM --> AsyncLLM: output_processor.process_outputs(output)\n\t.request_outputs->list[RequestOutput]
+    end
+  end
+end
+
+group while not finished: [generate流式输出]
+  AsyncLLM --> AsyncLLM: out = q.get_nowait() or await q.get()\nfinished = out.finished
+  AsyncLLM -[#green]-> User: yield out:<color red>**RequestOutput**</color>
+end
+
+
+@enduml

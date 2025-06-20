@@ -1,0 +1,174 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+participant LLM
+participant LLMEngine
+participant SyncMPClient
+participant CoreEngine
+queue input_socket <<(M,orange) ZeroMQ>>
+queue output_socket <<(M,orange) ZeroMQ>>
+control EngineCoreProc
+participant DPEngineCoreProc
+participant Scheduler
+participant MultiprocExecutor
+queue worker_response_mq <<(M,orange) MessageQueue>ZeroMQ>>
+queue rpc_broadcast_mq <<(M,orange) MessageQueue>ZeroMQ>>
+control WorkerProc
+participant WorkerBase
+
+
+==离线推理 - 多进程同步==
+'actor User
+User -[#green]> LLM: <color red>**prompts**</color>: str[]\n提示词序列
+activate LLM
+LLM -[#blue]> LLM: generate()
+activate LLM #blue
+LLM --> LLM: _validate_and_add_requests()
+
+
+note over LLM
+Continuous batching of incoming requests
+end note
+
+hnote over SyncMPClient #aqua: 主进程（通过CoreEngine开启子进程-EngineCoreProc）
+
+
+loop i=1..len(prompts)
+LLM o-[#blue]> LLMEngine: \tllm_engine.add_request()
+activate LLMEngine
+
+LLMEngine --> LLMEngine: processor.process_inputs()-><color red>**EngineCoreRequest**</color>
+activate SyncMPClient #aqua
+LLMEngine o-> SyncMPClient: \tengine_core.add_request()
+
+activate EngineCoreProc #aqua
+hnote over EngineCoreProc #aqua: 子进程-与主进程通过ZeroMQ通信
+
+group SyncMPClient.add_request()
+SyncMPClient --> SyncMPClient:_send_input()
+activate input_socket
+SyncMPClient o-> input_socket: \tZMQ input_socket[<color purple>**input_path**</color>].send_multipart()
+end
+
+
+'activate EngineCoreProc #aqua
+
+group EngineCoreProc.process_input_socket() [input_socket处理线程\nwhile True:]
+  EngineCoreProc --> input_socket: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t接收input_socket发送的消息\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsocket[[<color purple>**input_path**</color>].recv_multipart()
+  EngineCoreProc --> EngineCoreProc: self.<color blue>**input_queue.put()**</color>
+end
+
+deactivate input_socket
+
+
+SyncMPClient o-[#aqua]> CoreEngine:\t通过CoreEngine开启新进程
+activate CoreEngine
+CoreEngine -[#aqua]> EngineCoreProc: \t\t\t\t\t\t\t\t\tEngineCoreProc.run_engine_core() 为新进程目标执行例程
+deactivate CoreEngine
+
+alt dp > 1
+    EngineCoreProc -> DPEngineCoreProc: TODO
+else
+  group self.run_busy_loop() [while True:]
+    group <color red>**self._process_input_queue()**</color> [只要输入队列有请求]
+    EngineCoreProc --> EngineCoreProc: req=<color blue>**self.input_queue.get()**</color>\nself.add_request()
+    EngineCoreProc o-> Scheduler: \tRequest.from_engine_core_request()-><color red>**Request**</color>\n\tscheduler.add_request()
+    activate Scheduler
+    Scheduler --> Scheduler: waiting.append()
+    end
+
+    group <color red>**self._process_engine_step()**</color>
+    EngineCoreProc --> EngineCoreProc: self.step_fn() [批量执行类似-见源码]
+    EngineCoreProc o-> Scheduler: \tscheduler.schedule()->SchedulerOutput
+    activate MultiprocExecutor
+    hnote over WorkerProc #aqua: Woker执行子进程，执行器和Worker通过ZMQ Socket通信
+    activate WorkerProc #aqua
+
+    group WorkerProc.make_worker_process() [开启多个进程, 这里根据parallel_config.world_size可以起多个进程... 1..world_size, world_size=tp*pp]
+      MultiprocExecutor -[#aqua]> WorkerProc: progress 1\t
+      MultiprocExecutor -[#aqua]> WorkerProc: ...
+      MultiprocExecutor -[#aqua]> WorkerProc: progress world_size
+    end
+
+    group context.Process(target=WorkerProc.**worker_main**)
+      WorkerProc --> WorkerProc: worker = WorkerProc(*args, **kwargs)
+      group WorkerProc子进程busy-loop\nworker.worker_busy_loop() [while True:]
+        WorkerProc o-> rpc_broadcast_mq: \t\t\t\t\t\tself.<color blue>**rpc_broadcast_mq.dequeue()**</color>
+        activate rpc_broadcast_mq
+        rpc_broadcast_mq --> WorkerProc: method, args, kwargs, rank0_only
+        WorkerProc --> WorkerProc: 这里method是execute_model\nself.worker.method(*args,**kwargs)->output
+        WorkerProc o-> WorkerBase: 对不同策略下的工作者-运行模型
+        alt not rank0_only or self.rank == 0
+          WorkerProc o-> worker_response_mq: \t\t\t\t\t\t\t\tself.<color darkblue>**worker_response_mq.enqueue(SUCCESS, output)**</color>
+          activate worker_response_mq
+        end
+      end
+
+    end
+
+    EngineCoreProc o-> MultiprocExecutor: \tmodel_executor.execute_model(SchedulerOutput)-><color red>**ModelRunnerOutput**</color>
+
+    group MultiprocExecutor发送方法并获取结果\ncollective_rpc("execute_model")->ModelRunnerOutput
+    MultiprocExecutor o-> rpc_broadcast_mq: \tself.<color blue>**rpc_broadcast_mq.enqueue("execute_model")**</color>
+    deactivate rpc_broadcast_mq
+    MultiprocExecutor o-> worker_response_mq: \trank0_reply_only=True\n\tself.workers[0].<color darkblue>**worker_response_mq.dequeue(timeout)**</color>->ModelRunnerOutput
+    worker_response_mq --> MultiprocExecutor: \t从worker_response_mq返回模型执行结果\n\tModelRunnerOutput:list[0]
+    deactivate worker_response_mq
+    end
+
+    EngineCoreProc o-> Scheduler: \tschedule.update_from_output(SchedulerOutput,ModelRunnerOutput)->EngineCoreOutputs
+    EngineCoreProc --> EngineCoreProc: self.<color blue>**output_queue.put()**</color>
+    end
+  end
+
+end
+' alt dp > 1
+
+group EngineCoreProc.process_output_socket() [output_socket处理线程\nwhile True:]
+  EngineCoreProc --> EngineCoreProc: self.<color blue>**output_queue.get()**</color>
+  activate output_socket
+  EngineCoreProc --> output_socket: \t\t\t\t\t\t\t\t\t\t\t\t\tsocket[<color purple>**output_path**</color>].send_multipart()
+end
+group SyncMPClient.process_outputs_socket() [output_socket处理线程\nwhile True:]
+  SyncMPClient o-> output_socket:\t接收来自output_socket发送的消息\n\tout_socket[<color purple>**output_path**</color>].recv_multipart()
+  SyncMPClient --> SyncMPClient:output_queue.put()
+
+end
+deactivate output_socket
+
+end
+' loop i=1..len(prompts)
+
+LLM --> LLM: _run_engine()
+loop llm_engine.has_unfinished_requests()
+LLM o-[#blue]> LLMEngine: \tllm_engine.step()->step_outputs
+LLMEngine o-> SyncMPClient: \tengine_core.get_output()->EngineCoreOutputs
+SyncMPClient --> SyncMPClient: output_queue.get()->EngineCoreOutputs
+SyncMPClient --> LLMEngine: \t<color red>**EngineCoreOutputs**</color>
+
+'activate UniProcExecutor
+'UniProcExecutor --> UniProcExecutor: collective_rpc("execute_model")
+'UniProcExecutor --> UniProcExecutor: run_method(self.driver_worker, "execute_model")\n->answer:ModelRunnerOutput
+'UniProcExecutor o-> WorkerWrapperBase: driver_worker.execute_model()
+'Scheduler --> LLMEngine: \t<color red>**EngineCoreOutputs**</color>
+
+LLMEngine --> LLMEngine: output_processor.process_outputs(EngineCoreOutputs.outputs)\n.request_outputs->\nstep_outputs:list[RequestOutput]
+LLMEngine --> LLM: \tstep_outputs
+
+loop output in step_outputs
+LLM --> LLM: outputs.append(output)
+end
+end
+LLM -[#green]-> User: return sorted(outputs): list[<color red>**RequestOutput**</color>]
+
+deactivate CoreEngine
+deactivate MultiprocExecutor
+deactivate Scheduler
+'deactivate EngineCore
+deactivate LLMEngine
+deactivate LLM
+
+@enduml
