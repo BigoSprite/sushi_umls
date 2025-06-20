@@ -1,0 +1,53 @@
+@startuml
+
+'!theme sketchy-outline
+
+autonumber
+hide footbox
+title **CalculatorGraph调用时序图拆解——初始化**
+
+actor "Client" as 客户端
+participant "CalculatorGraph" as 计算图
+participant "Scheduler" as 调度器
+participant "SchedulerQueue" as 调度队列 #orange
+participant "Executor" as 执行者基类
+participant "InputStream" as 输入流
+participant "CalculatorNode" as 计算节点
+
+== CalculatorGraph初始化流程 ==
+客户端 -> 计算图: Init
+activate 客户端
+note right of 客户端: CalculatorGraphConfig
+
+activate 计算图
+计算图 -> 计算图: InitializeExecutors
+deactivate 客户端
+计算图 -> 执行者基类: 实例化DelegatingExecutor或者ThreadPoolExecutor
+activate 执行者基类
+note right of 计算图: C++反射
+note right of 执行者基类: 派生类执行node中任务
+执行者基类 --> 计算图: executor
+deactivate 执行者基类
+计算图 -> 调度器: SetExecutor(executor)
+activate 调度器
+调度器 -> 调度队列: 透传
+deactivate 调度器
+activate 调度队列 #orange
+note right of 调度队列: 绑定Executor来执行node
+调度队列 -> 调度队列: executor_=executor
+deactivate 调度队列
+计算图 -> 计算图: InitializePacketGeneratorGraph
+计算图 -> 计算图: InitializeStreams
+计算图 -> 输入流: InputStream
+
+计算图 -> 计算图: InitializeCalculatorNodes
+计算图 -> 计算节点: 创建所有节点nodes_ = make_unique<FixedArray<CalculatorNode>>(validated_graph_->CalculatorInfos().size());
+activate 计算节点
+计算图 -> 计算节点: 初始化所有节点:validated_graph_,node_id,input/output_stream_managers_, output_side_packets_
+计算节点 -> 计算节点: Initialize
+计算节点 --> 计算图: max_queue_size_, profiler_
+deactivate 计算节点
+deactivate 计算图
+...
+
+@enduml

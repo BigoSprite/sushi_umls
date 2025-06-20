@@ -1,0 +1,252 @@
+@startuml tnn-model-Interpreter
+'https://plantuml.com/class-diagram 
+
+' !theme mono
+' !theme plain
+' !theme mars
+' !theme crt-amber
+'!theme crt-green
+'!theme hacker
+'!theme silver
+'!theme sketchy
+'!theme sketchy-outline
+'!theme sunlust
+'!theme carbon-gray
+' !theme reddress-darkgreen
+
+
+class ModelConfig <<(S,#ADD1B2)>> {
+    +ModelType model_type = MODEL_TYPE_TNN;
+    // tnn model need two params: order is proto content, model content.
+    // ncnn need two: params: order is param, weights.
+    // openvino model need two params: order is xml content, model path.
+    // coreml model need one param: coreml model dir.
+    // snpe model need one param: dlc model dir.
+    // hiai model need two params: order is model name, model_file_path.
+    // atlas model need one param: config string.
+    +std::vector<std::string> params = {};
+    // params can also add extra config for specific layer
+    // tnn model use [layer_name:string] as key-value pair,
+    // to add extra config for some layer.
+    // for example: "ExtraConfig:Conv_0:arm_fp16_winograd_unit2,arm_fp32_gemm;Conv_1:arm_fp32_gemm"
+    // set Conv_0 layer to run winograd_unit2 conv if precision is fp16
+    // set Conv_1 layer to run gemm conv if precision is fp32
+    // the config format is: device_type + precision + option
+    // in OpenCL, if you want the specified layer to use fp32 inference, you can use the following config,
+    // "ExtraConfig:Conv_0:opencl_force_fp32;Conv_1:opencl_force_fp32;"
+    // set Conv_0 layer to use fp32 inference
+    // set Conv_1 layer to use fp32 inference
+    // in OpenCL, the result of conv is incorrect on some chips, you can use the unoptimized conv with following config,
+    // "ExtraConfig:Conv_0:opencl_use_unoptimized_conv;"
+}
+
+ModelConfig .left. AbstractModelInterpreter: association \n 1. mode_type as the map key \n 2. param for model info
+
+class NetResource <<(S,#ADD1B2)>> {
+  +std::map<std::string, std::shared_ptr<LayerResource>> resource_map;
+  +ConstantResource constant_map;
+  // data flag of constant blobs
+  +ConstantResourceFlag constant_blob_flags;
+  // names of constant layer whose output blob data flag is
+  // DATA_FLAG_CHANGE_NEVER or DATA_FLAG_CHANGE_IF_SHAPE_DIFFER
+  +std::set<std::string> constant_layers;
+  // names of constant layer whose output blob data flag is
+  // DATA_FLAG_CHANGE_IF_SHAPE_DIFFER
+  +std::set<std::string> shape_differ_layers;
+  //default shape map, also it is max shape map corresponding to
+  // max_inputs_shape in Instance.Init
+  +BlobShapesMap blob_shapes_map;
+  // min shape map, corresponding to min_inputs_shape
+  // in Instance.Init
+  +BlobShapesMap min_blob_shapes_map;
+  //data type for input and output blobs
+  +BlobDataTypeMap blob_datatype_map;
+}
+
+abstract class AbstractModelInterpreter {
+  +{abstract}virtual Status Interpret(std::vector<std::string>& params) = 0;
+  +virtual Status InterpretConfig(std::map<std::string, std::string>& config_map);
+  +virtual std::shared_ptr<AbstractModelInterpreter> Copy();
+}
+abstract class DefaultModelInterpreter {
+  -NetStructure *net_structure_; // network build info
+  -NetResource *net_resource_; // weights data
+  +{abstract}virtual Status Interpret(std::vector<std::string> &params) = 0;
+  +virtual NetStructure *GetNetStructure();
+  +virtual NetResource *GetNetResource();
+}
+class ModelInterpreter {
+  +virtual Status Interpret(std::vector<std::string>& params);
+  +virtual Status InterpretConfig(std::map<std::string, std::string>& config_map);
+  +virtual std::shared_ptr<AbstractModelInterpreter> Copy();
+  +{static}static Status RegisterLayerInterpreter(LayerType type, AbstractLayerInterpreter* creator);
+  +{static}static const safe_map<LayerType, shared_ptr<AbstractLayerInterpreter>>& GetLayerInterpreterMap();
+}
+
+class NCNNModelInterpreter
+
+abstract class ModelInterpreterCreator {
+  +{abstract} virtual AbstractModelInterpreter* CreateModelInterpreter() = 0;
+}
+abstract class TypeModelInterpreterCreator <? T> {
+  +virtual AbstractModelInterpreter* CreateModelInterpreter();
+}
+abstract class TypeModelInterpreterRegister <? T> {
+  +explicit TypeModelInterpreterRegister(ModelType type);
+}
+
+ModelInterpreterCreator <|.. TypeModelInterpreterCreator
+TypeModelInterpreterRegister .up.> TypeModelInterpreterCreator: < new & register creator to map \n GetGlobalModelInterpreterCreatorMap()[type] = std::shared_ptr<T>(new T());
+TypeModelInterpreterRegister .right.> AbstractModelInterpreter: 2. AbstractModelInterpreter* CreateModelInterpreter(ModelType type);
+TypeModelInterpreterRegister .right.> AbstractModelInterpreter: 1. REGISTER AbstractModelInterpreter subclass to static map \n subclass as T of TypeModelInterpreterCreator
+
+AbstractModelInterpreter <|.. RknpuModelInterpreter
+AbstractModelInterpreter <|.. DefaultModelInterpreter
+DefaultModelInterpreter <|.. ModelInterpreter
+DefaultModelInterpreter <|.. NCNNModelInterpreter
+
+DefaultModelInterpreter "1" *---> "1" NetResource: contains
+DefaultModelInterpreter "1" *--right-> "1" NetStructure: contains
+
+
+abstract class AbstractLayerInterpreter {
+  +{abstract}virtual Status InterpretProto(str_arr layer_cfg_arr, int start_index, LayerParam **param) = 0;
+  +{abstract}virtual Status InterpretResource(Deserializer &deserializer, LayerResource **resource) = 0;
+  +{abstract}virtual Status SaveProto(std::ofstream &output_stream, LayerParam *param) = 0;
+  +{abstract}virtual Status SaveResource(Serializer &serializer, LayerParam *param, LayerResource *resource) = 0;
+}
+
+AbstractLayerInterpreter <|.. Pooling1DLayerInterpreter
+AbstractLayerInterpreter <|.. BatchNormLayerInterpreter
+AbstractLayerInterpreter <|.. xxxLayerInterpreter
+
+class TypeLayerInterpreterRegister <? T> {
+  +explicit TypeLayerInterpreterRegister(LayerType type);
+}
+
+TypeLayerInterpreterRegister .right.> AbstractLayerInterpreter: REGISTER_LAYER_INTERPRETER \n subclass as T of TypeLayerInterpreterCreator
+TypeLayerInterpreterRegister .up.> ModelInterpreter: "call ModelInterpreter::RegisterLayerInterpreter \n register subclass instance of AbstractLayerInterpreter to map"
+
+AbstractLayerInterpreter -> LayerParam: New subclass of LayerParam \n according to LayerType \n LayerParam saved to NetStructure
+
+
+' ###################################################################################################
+
+class LayerInfo <<(S,#ADD1B2)>> {
+  +LayerType type;
+  +string type_str;
+  +string name;
+  +vector<string> inputs;
+  +vector<string> outputs;
+  +shared_ptr<LayerParam> param = nullptr;
+  +shared_ptr<LayerInfo> Copy();
+}
+
+class NetStructure <<(S,#ADD1B2)>> {
+  +InputShapesMap inputs_shape_map;
+  +InputDataTypeMap input_data_type_map;
+  +set<string> outputs;
+  +vector<shared_ptr<LayerInfo>> layers;
+  +set<string> blobs;
+  +ModelType source_model_type = MODEL_TYPE_TNN;
+  +shared_ptr<NetStructure> Copy();
+  +NetStructure* CreateNew();
+}
+
+NetResource "1" --> "0..n" LayerResource
+NetStructure "1" *-left-> "0..n" LayerInfo: contains \n pointer to
+LayerInfo "1" o-left-> "1" LayerParam: pointer to
+
+class LayerParam <<(S,#ADD1B2)>> {
+  +virtual ~LayerParam() {}
+  +string type;
+  +string name;
+  +bool quantized = false;
+  +bool dynamic_range_quantized = false;
+  +size_t weight_data_size = 0;
+  +set<string> extra_config;
+  +PARAM_COPY(LayerParam)
+}
+
+class PoolingLayerParam <<(S,#ADD1B2)>> {
+  +int pool_type = 0;
+  //-1:caffe type default 0:SAME 1:VALID
+  +int pad_type  = -1;
+  +int ceil_mode = 1;
+  //[w_begin w_end h_begin h_end d_begin d_end]
+  +vector<int> pads;
+  // order [w h d]
+  +vector<int> kernels;
+  +vector<int> kernels_params;
+  // order [w h d]
+  +vector<int> strides;
+  // order [w h d] for adaptive pool
+  +vector<int> kernel_indexs;
+  +int is_adaptive_pool = 0;
+  +int is_global_pool   = 0;
+  // order [w h d]
+  +vector<int> output_shape;
+  +PARAM_COPY(PoolingLayerParam)
+}
+
+class BatchNormLayerParam <<(S,#ADD1B2)>> {
+  +int channels = 0;
+  +float eps = 1e-5f;
+  +int is_instance_norm = 0;
+  +PARAM_COPY(BatchNormLayerParam)
+}
+
+LayerParam <|-- PoolingLayerParam
+LayerParam <|-- BatchNormLayerParam
+LayerParam <|-- xxxLayerParam
+
+class LayerResource <<(S,#ADD1B2)>> {
+  +string name = "";
+}
+
+class BatchNormLayerResource <<(S,#ADD1B2)>> {
+  +// bn k buffer
+  +RawBuffer scale_handle;
+  +// bn b buffer
+  +RawBuffer bias_handle;
+}
+
+class BiasAddLayerResource <<(S,#ADD1B2)>> {
+  +RawBuffer bias_handle;
+}
+
+LayerResource <|-- BatchNormLayerResource
+LayerResource <|-- BiasAddLayerResource
+LayerResource <|-- xxxLayerResource
+
+class RawBuffer {
+  -shared_ptr<char> buff_ = nullptr;
+  -int bytes_size_ = 0;
+  -DataType data_type_ = DATA_TYPE_FLOAT;
+  -DimsVector dims_ = {};
+}
+
+LayerResource "1" *-left-> "0..n" RawBuffer: contains in subclass
+
+class LayerResourceGenerator {
+  +virtual Status GenLayerResource(LayerParam* param,
+    LayerResource** resource, vector<Blob*>& inputs);
+  +virtual Status GenLayerConstantResource(LayerParam* param,
+    LayerResource** resource, vector<Blob*>& inputs, ConstantResource* consts);
+  +virtual Status ConvertHalfLayerResource(LayerResource* src_res,
+    LayerResource** dst_res);
+}
+
+LayerResourceGenerator <|-- ConvolutionLayerResourceGenerator
+LayerResourceGenerator <|-- BatchnormLayerResourceGenerator
+LayerResourceGenerator <|-- xxxLayerResourceGenerator
+
+class TypeLayerResourceRegister <? T> {
+  +explicit TypeLayerResourceRegister(LayerType type)
+      { GetGlobalLayerResourceGeneratorMap()[type] = shared_ptr<T>(new T); }
+}
+
+TypeLayerResourceRegister --> LayerResourceGenerator: REGISTER_LAYER_RESOURCE
+LayerResourceGenerator .left.> LayerResource: make LayerResource subclass object \n from subclass of LayerParam
+
+@enduml

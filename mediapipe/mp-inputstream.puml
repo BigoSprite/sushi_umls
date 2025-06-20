@@ -1,0 +1,200 @@
+
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+!theme sketchy-outline
+' !theme cerulean-outline
+
+' ==============================================================
+
+abstract class InputStreamHandler {
+  #**CalculatorContextManager* const calculator_context_manager_**;
+  #MediaPipeOptions options_;
+  #const bool calculator_run_in_parallel_;
+  #typedef Collection<InputStreamManager*> InputStreamManagerSet;
+  #**InputStreamManagerSet input_stream_managers_**;
+  #bool prepared_context_for_close_;
+  -int batch_size_ = 1;
+  -**std::function<void()> headers_ready_callback_**;
+  #**std::function<void()> notification_**;
+  #**std::function<void(CalculatorContext*)> schedule_callback_**;
+  #**std::function<void(absl::Status)> error_callback_**;
+  -bool late_preparation_ = false;
+  -bool process_timestamps_ = false;
+  -std::atomic<int> unset_header_count_{0};
+  --
+  +InputStreamHandler(shared_ptr<TagMap>, CalculatorContextManager*, const MediaPipeOptions&, bool calculator_run_in_parallel);
+  +virtual ~InputStreamHandler() = default;
+  +absl::Status InitializeInputStreamManagers(InputStreamManager* flat_input_stream_managers);
+  +InputStreamManager* GetInputStreamManager(CollectionItemId id);
+  +absl::Status SetupInputShards(InputStreamShardSet* input_shards);
+  +std::vector<std::tuple<std::string, int, int, Timestamp>> GetMonitoringInfo();
+  +virtual void PrepareForRun(std::function<void()> headers_ready_callback, notification_callback,
+      std::function<void(CalculatorContext*)> schedule_callback,\
+      std::function<void(absl::Status)> error_callback);
+  +int NumInputStreams() const;
+  +const std::shared_ptr<tool::TagMap>& InputTagMap() const;
+  +void SetHeader(CollectionItemId id, const Packet& header);
+  +void UpdateInputShardHeaders(InputStreamShardSet* input_shards);
+  +void SetMaxQueueSize(int max_queue_size);
+  +void SetMaxQueueSize(CollectionItemId id, int max_queue_size);
+  +void SetQueueSizeCallbacks(InputStreamManager::QueueSizeCallback becomes_full_callback, becomes_not_full_callback);
+  +virtual void AddPackets(CollectionItemId id, const std::list<Packet>& packets);
+  +virtual void MovePackets(CollectionItemId id, std::list<Packet>* packets);
+  +void SetNextTimestampBound(CollectionItemId id, Timestamp bound);
+  +void ClearCurrentInputs(CalculatorContext* calculator_context);
+  +void Close();
+  +std::string DebugStreamNames() const;
+  +bool ScheduleInvocations(int max_allowance, Timestamp* input_bound);
+  +void FinalizeInputSet(Timestamp timestamp, InputStreamShardSet* input_set);
+  +int UnsetHeaderCount() const;
+  +void SetProcessTimestampBounds(bool process_ts);
+  +bool ProcessTimestampBounds();
+  +virtual int SyncSetCount() { return 1; }
+  #**{abstract}virtual NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) = 0**;
+  #**{abstract}virtual void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) = 0**;
+  #const MediaPipeOptions& options() const;
+  #void SetBatchSize(int batch_size);
+  #void SetLatePreparation(bool late_preparation);
+  #void AddPacketToShard(InputStreamShard* shard, Packet&& value, bool is_done);
+}
+
+InputStreamHandler "1" o-right-> "0..n" InputStreamManager : aggregation \n <<handler提供操作manager的接口>>
+InputStreamHandler "1" o-left- "1" CalculatorContextManager: aggregation \n
+
+' push packet from InputStreamManager  to InputStreamShard
+' all streams are done or 
+class DefaultInputStreamHandler <<**推送InputStreamManager中的Packet到InputStreamShard**>> {
+  +DefaultInputStreamHandler() = delete;
+  +DefaultInputStreamHandler(shared_ptr<TagMap>, CalculatorContextManager*, 
+                             const MediaPipeOptions&, bool);
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) override;
+}
+' Implementation of an input stream handler that considers a node as ready for
+' Close() if **any** input stream is done.
+class EarlyCloseInputStreamHandler {
+  +EarlyCloseInputStreamHandler() = delete;
+  +EarlyCloseInputStreamHandler(shared_ptr<TagMap>, CalculatorContextManager*, 
+                                const MediaPipeOptions&, bool);
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) override;
+}
+class ImmediateInputStreamHandler {
+  +ImmediateInputStreamHandler() = delete;
+  +ImmediateInputStreamHandler(shared_ptr<TagMap>, CalculatorContextManager*, 
+                               const MediaPipeOptions&, bool);
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) override;
+}
+InputStreamHandler <|.. DefaultInputStreamHandler
+InputStreamHandler <|.. EarlyCloseInputStreamHandler
+InputStreamHandler <|.. ImmediateInputStreamHandler
+
+' ==============================================================
+
+class InputStreamManager <<与输入流Shard均持有Packet队列,不操作输入流Shard,操作自己的queue_>> {
+  -**std::deque<Packet> queue_**;
+  -int64_t num_packets_added_;
+  -int max_queue_size_ = -1;
+  -Timestamp next_timestamp_bound_;
+  -Timestamp last_select_timestamp_;
+  -bool closed_;
+  -bool enable_timestamps_ = true;
+  -std::string name_;
+  -const PacketType* packet_type_;
+  -bool back_edge_;
+  -Packet header_;
+  +typedef std::function<void(InputStreamManager*, bool*)> QueueSizeCallback;
+  -QueueSizeCallback becomes_full_callback_;
+  -QueueSizeCallback becomes_not_full_callback_;
+  -bool last_reported_stream_full_ = false;
+  -mutable absl::Mutex stream_mutex_;
+  --
+  +absl::Status Initialize(const std::string& name, const PacketType* packet_type, bool back_edge);
+  +const std::string& Name() const;
+  +bool BackEdge() const { return back_edge_; }
+  +absl::Status SetHeader(const Packet& header) { header_ = header; return ok; }
+  +const Packet& Header() const { return header_; }
+  +void PrepareForRun();
+  +absl::Status AddPackets(const std::list<Packet>& container, bool* notify);
+  +absl::Status MovePackets(std::list<Packet>* container, bool* notify);
+  +void Close();
+  +absl::Status SetNextTimestampBound(Timestamp bound, bool* notify);
+  +Timestamp MinTimestampOrBound(bool* is_empty) const;
+  +void DisableTimestamps();
+  +bool IsEmpty() const;
+  +Packet QueueHead() const;
+  +Packet PopPacketAtTimestamp(Timestamp timestamp, int* num_packets_dropped, bool* stream_is_done);
+  +Packet PopQueueHead(bool* stream_is_done);
+  +int NumPacketsAdded() const;
+  +int QueueSize() const;
+  +bool IsFull() const;
+  +int MaxQueueSize() const;
+  +void SetMaxQueueSize(int max_queue_size);
+  +Timestamp GetMinTimestampAmongNLatest(int n) const;
+  +void ErasePacketsEarlierThan(Timestamp timestamp);
+  +void SetQueueSizeCallbacks(QueueSizeCallback becomes_full_callback, becomes_not_full_callback);
+}
+InputStreamManager "1" *--> "1,0..n" Packet: contains \n <<Packet队列-FIFO>> >
+
+
+class InputSidePacketHandler <<组合PacketSet,通过索引或名字访问Packet>> {
+  +**typedef Collection<Packet> PacketSet**;
+  -const PacketTypeSet* input_side_packet_types_;
+  -**std::unique_ptr<PacketSet> input_side_packets_**;
+  -**std::unique_ptr<PacketSet> prev_input_side_packets_**;
+  -std::atomic<int> missing_input_side_packet_count_{0};
+  -std::function<void()> input_side_packets_ready_callback_;
+  -std::function<void(absl::Status)> error_callback_;
+  --
+  +InputSidePacketHandler() = default;
+  +~InputSidePacketHandler() = default;
+  +absl::Status PrepareForRun(const PacketTypeSet* input_side_packet_types,
+                              const std::map<std::string, Packet>& all_side_packets,
+                              std::function<void()> input_side_packets_ready_callback,
+                              std::function<void(absl::Status)> error_callback);
+  +void Set(CollectionItemId id, const Packet& packet);
+  +const PacketSet& InputSidePackets() const;
+  +bool InputSidePacketsChanged();
+  +int MissingInputSidePacketCount() const;
+}
+
+InputSidePacketHandler -[hidden]-> InputStreamHandler
+
+abstract class InputStream {
+  #**Packet header_**;
+  #InputStream() = default;
+  #virtual ~InputStream() = default;
+  +{abstract}virtual const Packet& Value() const = 0;
+  +{abstract}virtual Packet& Value() = 0;
+  +{abstract}virtual bool IsDone() const = 0;
+  +const T& Get() const { return Value().Get<T>(); }
+  +bool IsEmpty() const { return Value().IsEmpty(); }
+  +const Packet& Header() const { return header_; }
+}
+
+class InputStreamShard <<持有数据包Packet队列>> {
+  -Packet empty_packet_; // Packet storage for
+  -**std::queue<Packet> packet_queue_**; // **batch processing**
+  -const std::string* name_;
+  -bool is_done_ = false;
+  --
+  +InputStreamShard();
+  +const Packet& Value() const override;
+  +Packet& Value() override;
+  +const std::string& Name() const { return *name_; }
+  +bool IsDone() const override { return is_done_; }
+  ..
+  -friend class InputStreamHandler;
+  -void SetHeader(const Packet& header) { header_ = header; }
+  -void AddPacket(Packet&& value, bool is_done);
+}
+InputStreamShard "1" *--> "2,0..n" Packet: contains \n <<Packet队列-FIFO>> >
+InputStream <|.. InputStreamShard
+
+@enduml

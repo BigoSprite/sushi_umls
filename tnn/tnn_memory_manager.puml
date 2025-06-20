@@ -1,0 +1,284 @@
+@startuml
+'https://plantuml.com/class-diagram 
+
+'https://plantuml.com/class-diagram
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+'!theme sketchy-outline
+' !theme cerulean-outline
+
+package (Blob内存池) <<Frame>> {
+
+    abstract class BlobMemory {
+        +BlobMemory(AbstractDevice *device, BlobMemorySizeInfo &size_info, int use_count = 0);
+        +virtual ~BlobMemory();
+        +{abstract}virtual void UpdateBlobMemorySizeInfo(BlobMemorySizeInfo info) = 0;
+        +BlobMemorySizeInfo GetBlobMemorySizeInfo() const;
+        +void SetUseCount(int use_count);
+        +int GetUseCount() const;
+        +bool DecrementUseCount();
+        +<color red>Status AllocateHandle();</color>
+        +<color red>void SetHandleFromExternal(BlobHandle handle);</color>
+        +BlobHandle GetHandle();
+        #BlobMemorySizeInfo size_info_;
+        -bool need_release_memory_;
+        -<color red>AbstractDevice *device_;</color>
+        -<color red>BlobHandle handle_; // allocated by device_</color>
+        -<color red>int use_count_;</color>
+    }
+
+    class Blob1DMemory {
+        +explicit Blob1DMemory(AbstractDevice *device,
+            BlobMemorySizeInfo &size_info, int use_count = 0);
+        +virtual ~Blob1DMemory();
+        +virtual void UpdateBlobMemorySizeInfo(BlobMemorySizeInfo info);
+    }
+    class Blob2DMemory {
+        +explicit Blob2DMemory(AbstractDevice *device,
+            BlobMemorySizeInfo &size_info, int use_count = 0);
+        +virtual ~Blob2DMemory();
+        +virtual void UpdateBlobMemorySizeInfo(BlobMemorySizeInfo info);
+    }
+
+    abstract class BlobMemoryPool {
+        +explicit BlobMemoryPool(AbstractDevice *device);
+        +virtual ~BlobMemoryPool();
+        +BlobMemory *BorrowBlobMemory(int use_count, BlobMemorySizeInfo &size_info, bool use_new_memory = false);
+        +void RefundBlobMemory(BlobMemory *blob_memory);
+        +int GetAllBlobMemorySize();
+        +Status AssignAllBlobMemory(MemoryAssignStrategy &strategy);
+        +virtual void ClearBlobMemoryPool();
+        +AbstractDevice *GetDevice();
+        #void ReleaseBlobMemoryNodeList(BlobMemoryNode *list_header);
+        -{abstract}virtual BlobMemory *CreateBlobMemory(int use_count, BlobMemorySizeInfo &size_info)              = 0;
+        -{abstract}virtual BlobMemoryNode *GetBlobMemoryNodeListHeader(DataType data_type)                         = 0;
+        -{abstract}virtual void SetBlobMemoryNodeListHeader(DataType data_type, BlobMemoryNode *new_header)        = 0;
+        -{abstract}virtual int64_t ResolveBlobMemoryNodeBytesDiff(BlobMemorySizeInfo &size_info, BlobMemoryNode *node) = 0;
+        -{abstract}void CalculateAllBlobMemorySize();
+        -virtual BlobMemoryNode *ExtractNearestBlobMemoryNode(BlobMemorySizeInfo &size_info);
+        #AbstractDevice *device_ = nullptr;
+        -int all_blob_memory_size_ = 0;
+        -std::set<BlobMemory*> blob_memory_library_ = {};
+    }
+
+    class Blob1DMemoryPool
+    class Blob2DMemoryPool
+
+    class BlobMemoryPoolFactory {
+    +{static} BlobMemoryPool* CreateBlobMemoryPool(AbstractDevice* device, int dimensions = 1);
+    }
+
+    BlobMemoryPoolFactory ..> BlobMemoryPool: Create 1D or 2D subclass instance
+    BlobMemoryPool <|.. Blob1DMemoryPool
+    BlobMemoryPool <|.. Blob2DMemoryPool
+    BlobMemoryPool "1" *-right-> "n" BlobMemory: aggregation <<BlobMemory set>>
+
+}
+
+package ("内存状态") <<frame>> {
+    
+    abstract class MemoryModeState {
+        +virtual ~MemoryModeState();
+        +{abstract}virtual Status GetStatus() = 0;
+        +void SetMemoryAllocatedFlag();
+        -bool memory_allocated;
+    }
+
+    class OthersMemoryModeState {
+        +virtual Status GetStatus();
+    }
+
+    class ShareOneThreadMemoryModeState  {
+        +ShareOneThreadMemoryModeState();
+        +virtual Status GetStatus();
+        -std::thread::id init_thread_id_;
+    }
+
+    class MemoryModeStateFactory {
+        +{static} MemoryModeState* CreateMemoryModeState(ShareMemoryMode mode);
+    }
+
+    MemoryModeState <|.. OthersMemoryModeState
+    MemoryModeState <|.. ShareOneThreadMemoryModeState
+    MemoryModeStateFactory -right-> MemoryModeState: "Create subclass instance"
+
+}
+
+package ("内存赋值策略：UNIFYorSEPERATE") <<frame>> {
+
+    abstract class MemoryAssignStrategy {
+        +{abstract}virtual Status AssignAllBlobMemory(std::set<BlobMemory*>& blob_memory_library) = 0;
+    }
+
+    enum MemoryAssignStragegyType {
+      +UNIFY = 0
+      +SEPERATE = 1
+    }
+
+    class MemorySeperateAssignStrategy {
+        +virtual Status AssignAllBlobMemory(std::set<BlobMemory*>& blob_memory_library);
+    }
+
+    class MemoryUnifyAssignStrategy {
+        +explicit MemoryUnifyAssignStrategy(void* data);
+        +virtual Status AssignAllBlobMemory(std::set<BlobMemory*>& blob_memory_library);
+        -void* all_blob_memory_data_;
+    }
+
+    MemoryAssignStrategy <|.. MemorySeperateAssignStrategy
+    MemoryAssignStrategy <|.. MemoryUnifyAssignStrategy
+}
+
+abstract class ISharedMemoryChangeListener {
+    +{abstract}virtual void OnSharedForwardMemoryChanged(void *memory) = 0;
+}
+
+class SharedMemory <<(S,#ADD1B2)>> {
+    +int shared_memory_size      = 0;
+    +void *shared_memory_data    = NULL;
+    +int shared_memory_ref_count = 0;
+}
+
+class SharedMemoryId <<(S,#ADD1B2)>> {
+    +std::thread::id thread_id;
+    +DeviceType device_type;
+    +int device_id;
+}
+
+class SharedMemoryManager {
+    -{static} std::map<SharedMemoryId, SharedMemory> s_shared_forward_memory;
+    -{static} std::map<SharedMemoryId, std::vector<ISharedMemoryChangeListener*>>
+      s_shared_memory_instances;
+    ---
+    // @params
+    // int forward_memory_size, std::thread::id thread_id, AbstractDevice *device,
+    // int device_id, ISharedMemoryChangeListener *listener, Status &status
+    +{static} SharedMemory GetSharedMemory(...);
+    // @params
+    // std::thread::id thread_id, AbstractDevice *device, int device_id,
+    // ISharedMemoryChangeListener *listener
+    +{static} void ReleaseSharedMemory(...));
+}
+
+package ("Blob模块保存平台相关的内存") <<frame>> {
+
+    class BlobDesc <<(S,#ADD1B2)>> {
+        // device_type describes device cpu, gpu, ...
+        +DeviceType device_type = DEVICE_NAIVE;
+        // data_type describes data precision fp32, in8, ...
+        +DataType data_type = DATA_TYPE_FLOAT;
+        // data_format describes data order nchw, nhwc, ...
+        +DataFormat data_format = DATA_FORMAT_AUTO;
+        // DimsVector describes data dims
+        +DimsVector dims;
+        // name describes the blob name
+        +std::string name = "";
+        +std::string description(bool all_message = false);
+    }
+
+    class BlobHandle <<(S,#ADD1B2)>> {
+        +void *base = NULL;
+        +uint64_t bytes_offset = 0;
+    }
+
+    class Blob {
+        +explicit Blob(BlobDesc desc);
+        +Blob(BlobDesc desc, bool alloc_memory);
+        +Blob(BlobDesc desc, BlobHandle handle);
+        +virtual ~Blob();
+        +BlobDesc &GetBlobDesc();
+        +void SetBlobDesc(BlobDesc desc);
+        +BlobHandle GetHandle();
+        +void SetHandle(BlobHandle handle);
+        +bool NeedAllocateInForward();
+        +bool IsConstant();
+        +int GetFlag();
+        +void SetFlag(int flag);
+        -BlobImpl* impl_;
+    }
+
+    class BlobImpl {
+        -BlobDesc desc_;
+        -BlobHandle handle_;
+        -bool alloc_memory_;
+        -int flag_ = DATA_FLAG_CHANGE_ALWAYS;
+        ---
+        +explicit BlobImpl(BlobDesc desc);
+        +BlobImpl(BlobDesc desc, bool alloc_memory);
+        +BlobImpl(BlobDesc desc, BlobHandle handle);
+        +virtual ~BlobImpl();
+        +//... Blob同名函数,此处省略
+    }
+
+    class BlobInt8 {
+        +explicit BlobInt8(BlobDesc desc);
+        +BlobInt8(BlobDesc desc, BlobHandle handle);
+        +IntScaleResource *GetIntResource();
+        +void SetIntResource(IntScaleResource *resource);
+        -IntScaleResource *resource_ = nullptr;
+    }
+
+    class ForeignBlob
+
+}
+
+
+class BlobManager {
+    #NetworkConfig config_;
+    #NetStructure *net_structure_;
+    #std::map<int, BlobMemoryPool *> blob_memory_pool_map_;
+    #AbstractDevice *device_;
+    #BlobMap input_blobs_;
+    #BlobMap output_blobs_;
+    #std::shared_ptr<MemoryAssignStrategy> strategy_;
+    #std::map<std::string, Blob *> blobs_;
+    #std::map<Blob *, BlobMemory *> blob_memory_mapping_;
+    #bool shared_memor
+    #std::thread::id init_thread_id_;
+    #MemoryModeState *memory_mode_state_;
+    ---
+    +explicit BlobManager(AbstractDevice *device);
+    +~BlobManager();
+    +virtual Status Init(NetworkConfig &config, NetStructure *net_structure,
+        InputShapesMap inputs_shape_map, DataType input_data_type);
+    +Status DeInit();
+    +Blob *GetBlob(std::string name);
+    +Status CheckBlobMemoryState();
+    +virtual Status SetForwardMemory(void *memory);
+    +virtual Status GetAllInputBlobs(BlobMap &blobs);
+    +virtual Status GetAllOutputBlobs(BlobMap &blobs);
+    +virtual Status AllocateBlobMemory(int flag = DATA_FLAG_CHANGE_ALWAYS);
+    +virtual void OnSharedForwardMemoryChanged(void *memory);
+    +int GetAllBlobMemorySize();
+    +void ReplaceBlob(std::string name, Blob *new_blob);
+    #void BindBlobMemory();
+    #int GetBlobUseCount(int layer_index, std::string current_blob_name);
+}
+
+BlobMemory <|.. Blob1DMemory
+BlobMemory <|.. Blob2DMemory
+
+ISharedMemoryChangeListener <|.down.. BlobManager
+ISharedMemoryChangeListener <|.right. TensorRTNetwork_
+BlobManager <|.. TensorRTBlobManager
+
+SharedMemoryManager .up.> SharedMemoryId
+
+SharedMemoryManager "1" o-right-> "0..n" ISharedMemoryChangeListener: aggregation <<Id2VecPtr by map>>
+SharedMemoryManager "1" *-left-> "0..n" SharedMemory: aggregation <<Id2Instance by map>>
+SharedMemoryManager ..> AbstractDevice: association 分配和释放device内存
+
+Blob <|-- BlobInt8
+Blob <|-- ForeignBlob
+BlobImpl "1" *-left-> "1" BlobHandle: contains
+BlobImpl "1" *-up-> "1" BlobDesc: contains
+Blob *-right-> BlobImpl: IMPL Idiom
+
+BlobManager "1" *-right-> "2" BlobMemoryPool: contains <<1D+opencl 2D by map>>
+BlobManager "1" *--> "n" Blob: contains <<Name2BlobPtr by map>>
+BlobManager "1" *-----> "1" MemoryModeState: contains
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+autonumber
+hide footbox
+title **CalculatorGraph调用时序图拆解——输入Paket分析**
+
+actor "Client" as 客户端
+participant "CalculatorGraph" as 计算图
+participant "GraphInputStream" as 计算图输入流
+participant "OutputStreamShard" as 输出流碎片
+participant "OutputStreamManager" as 输出流管理器
+participant "Scheduler" as 调度器
+
+== 输入Packet流程 ==
+客户端 -> 计算图: AddPacketToInputStream
+activate 客户端
+note right of 客户端: [stream_name, packet]
+activate 计算图
+计算图 -> 计算图: AddPacketToInputStreamInternal
+deactivate 客户端
+计算图 -> 计算图: 从graph_input_streams_字典中获取输入流对象
+计算图 -> 计算图输入流: AddPacket(forward<T>(packet))
+activate 计算图输入流
+计算图输入流 -> 输出流碎片: **透传**
+activate 输出流碎片
+输出流碎片 -> 输出流碎片: 入队列output_queue_:list<Packet>
+deactivate 输出流碎片
+计算图 -> 计算图输入流: PropagateUpdatesToMirrors
+计算图输入流 -> 输出流管理器: 透传shard_&&next_timestamp_bound
+输出流管理器 -> 输出流管理器: **<color blue>广播到Mirrors</color>**
+activate 输出流管理器
+deactivate 计算图输入流
+note right of 计算图: 数据驱动
+计算图 -> 调度器: 通知调度：AddedPacketToGraphInputStream
+activate 调度器
+调度器 -> 调度器: HandleIdle
+deactivate 计算图
+deactivate 调度器
+...
+
+@enduml

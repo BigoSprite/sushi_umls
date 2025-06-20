@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+' !theme sketchy-outline
+' !theme cerulean-outline
+
+
+abstract class CounterFactory {
+  +{abstract} virtual ~CounterFactory() {}
+  +{abstract} virtual Counter* GetCounter(const std::string& name) = 0;
+  +CounterSet* GetCounterSet() { return &counter_set_; }
+  #CounterSet counter_set_;
+}
+
+class BasicCounterFactory {
+  +~BasicCounterFactory() override {}
+  +Counter* GetCounter(const std::string& name) override;
+}
+
+abstract class Counter {
+  +{abstract}virtual ~Counter() {}
+  +{abstract}virtual void Increment() = 0;
+  +{abstract}virtual void IncrementBy(int amount) = 0;
+  +{abstract}virtual int64 Get() = 0;
+}
+
+class BasicCounter {
+  +explicit BasicCounter(const std::string& name) : value_(0) {}
+  +void Increment() override;
+  +void IncrementBy(int amount) override;
+  +int64 Get() override;
+  -absl::Mutex mu_;
+  -int64 value_;
+}
+
+class CounterSet {
+  +CounterSet();
+  +~CounterSet();
+  +void PrintCounters();
+  +void PublishCounters();
+  +Counter* Get(const std::string& name);
+  +std::map<std::string, int64> GetCountersValues();
+  -absl::Mutex mu_;
+  -std::map<std::string, std::unique_ptr<Counter>> counters_;
+}
+
+CounterFactory <|.right. BasicCounterFactory
+
+Counter <|. BasicCounter
+CounterSet "1" *--> "n" Counter: contains
+CounterFactory "1" *--> "1" CounterSet: contains
+
+@enduml

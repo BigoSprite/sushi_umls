@@ -1,0 +1,1147 @@
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+' !theme crt-green
+
+' ==============================================================
+
+class PacketType<? with generic method> {
+  -bool initialized_;
+  -bool no_packets_allowed_;
+  -typedef Status(Packet::*ValidateMethodType)() const;
+  -ValidateMethodType validate_method_;
+  -std::string type_name_;
+  -const std::string* registered_type_name_ptr_ = nullptr;
+  -const PacketType* same_as_;
+  -bool optional_ = false;
+  --
+  +PacketType();
+  +template <typename T> PacketType& Set();
+  +PacketType& SetAny();
+  +PacketType& SetNone();
+  +PacketType& SetSameAs(const PacketType* type);
+  +PacketType& Optional();
+  ..getter..
+  +bool IsInitialized() const;
+  +const PacketType* GetSameAs() const;
+  +PacketType* GetSameAs();
+  +bool IsAny() const;
+  +bool IsNone() const;
+  +bool IsOptional() const;
+  +bool IsConsistentWith(const PacketType& other) const;
+  +Status Validate(const Packet& packet) const;
+  +const std::string* RegisteredTypeName() const;
+  +const std::string DebugTypeName() const;
+}
+
+abstract class HolderBase<? with generic method> {
+  +HolderBase() {}
+  +HolderBase(const HolderBase&) = delete;
+  +HolderBase& operator=(const HolderBase&) = delete;
+  +virtual ~HolderBase();
+  +size_t GetHolderTypeId() const;
+  +void SetHolderTypeId() { type_id_ = tool::GetTypeHash<T>();}
+  +bool HolderIsOfType() const { return type_id_ == tool::GetTypeHash<T>(); }
+  +Holder<T>* As();
+  +const Holder<T>* As() const;
+  +{abstract}virtual const std::string DebugTypeName() const = 0;
+  +{abstract}virtual const std::string RegisteredTypeName() const = 0;
+  +{abstract}virtual size_t GetTypeId() const = 0;
+  +{abstract}virtual const MessageLite* GetProtoMessageLite() = 0;
+  +{abstract}virtual StatusOr<std::vector<const MessageLite*>>  GetVectorOfProtoMessageLite() = 0;
+  -size_t type_id_;
+}
+
+class Holder<? typename T>  {
+  +explicit Holder(const T* ptr);
+  +~Holder() override;
+  +const T& data() const { return *ptr_; }       // raw data
+  +StatusOr<std::unique_ptr<T>> Release(); // transfer ownership
+  +size_t GetTypeId() const final { return tool::GetTypeHash<T>(); }
+  +const std::string DebugTypeName() const final;
+  +const std::string RegisteredTypeName() const final;
+  #const T* ptr_;
+  #const proto_ns::MessageLite* GetProtoMessageLite() override;
+  #StatusOr<std::vector<const proto_ns::MessageLite*>> GetVectorOfProtoMessageLite() override;
+}
+class ForeignHolder<? typename T> 
+HolderBase <|.. Holder
+HolderBase <|.. ForeignHolder: ownNilData
+Packet "1" *--> "1" HolderBase : aggregatoinBySptr
+Holder "1" o--> "1" ptr_ : aggregatoinByCtorParamPass
+
+
+class Packet<? with generic method> {
+  -friend Packet pi::Create(pi::HolderBase* holder);
+  -friend Packet pi::Create(pi::HolderBase* holder, class Timestamp timestamp);
+  -friend const pi::HolderBase* pi::GetHolder(const Packet& packet);
+  -std::shared_ptr<pi::HolderBase> holder_;
+  -class Timestamp timestamp_;
+  --
+  +Packet() = default;
+  ..special member methods..
+  +Packet(const Packet&);
+  +Packet& operator=(const Packet&);
+  +Packet(Packet&&);
+  +Packet& operator=(Packet&&);
+  ..access rawData member methods..
+  +bool IsEmpty() const;
+  +Packet At(class Timestamp timestamp) const&;
+  +Packet At(class Timestamp timestamp) &&;
+  +const T& Get() const;
+  ..ownership management..
+  +StatusOr<std::unique_ptr<T>> Consume();
+  +StatusOr<std::unique_ptr<T>> ConsumeOrCopy(bool* was_copied = nullptr, enable_if..);
+  ..helper member methods..
+  +const proto_ns::MessageLite& GetProtoMessageLite() const;
+  +StatusOr<std::vector<const proto_ns::MessageLite*>> GetVectorOfProtoMessageLitePtrs();
+  +Status ValidateAsType() const;
+  +Status ValidateAsProtoMessageLite() const;
+  +size_t GetTypeId() const;
+  +class Timestamp Timestamp() const;
+  +std::string DebugString() const;
+  +friend std::ostream& operator<<(std::ostream& stream, const Packet& p);
+  +std::string RegisteredTypeName() const;
+  +std::string DebugTypeName() const;
+}
+
+' ==============================================================
+
+package OutputSidePacket {
+
+abstract class OutputSidePacket {
+  +OutputSidePacket() = default;
+  +virtual ~OutputSidePacket() = default;
+  +{abstract}virtual void Set(const Packet& packet) = 0;
+}
+
+OutputSidePacket <|.. OutputSidePacketImpl
+
+class OutputSidePacketImpl::Mirror <<(S,#ADD1B2)>> {
+  +Mirror(InputSidePacketHandler*, const CollectionItemId&);
+  +InputSidePacketHandler* const input_side_packet_handler;
+  +const CollectionItemId id;
+}
+
+class OutputSidePacketImpl {
+  -std::string name_;
+  -const PacketType* packet_type_;
+  -std::function<void(Status)> error_callback_;
+  -Packet packet_;
+  -bool initialized_ = false;
+  -std::vector<OutputSidePacketImpl::Mirror> mirrors_;
+  +OutputSidePacketImpl() = default;
+  +~OutputSidePacketImpl() override = default;
+  +Status Initialize(const std::string& name, const PacketType* packet_type);
+  +void PrepareForRun(std::function<void(Status)> error_callback);
+  +Packet GetPacket();
+  +void Set(const Packet& packet) override;
+  +void AddMirror(InputSidePacketHandler*, CollectionItemId);
+}
+
+OutputSidePacketImpl "1" *--> "1" Packet: constains
+OutputSidePacketImpl "1" *--> "0..n" OutputSidePacketImpl::Mirror: constainsByVector
+OutputSidePacketImpl::Mirror "1" *--> "1" InputSidePacketHandler: aggregation
+
+}
+
+' ==============================================================
+package OutputSidePacket {
+
+abstract class OutputStream {
+  #virtual ~OutputStream() {}
+  +{abstract}virtual const std::string& Name() const = 0;
+  +{abstract}virtual void AddPacket(const Packet& packet) = 0;
+  +{abstract}virtual void AddPacket(Packet&& packet) = 0;
+  +void Add(T* ptr, Timestamp timestamp) { AddPacket(Adopt(ptr).At(timestamp)); }
+  +{abstract}virtual void SetHeader(const Packet& packet) = 0;
+  +{abstract}virtual const Packet& Header() const = 0;
+  +{abstract}virtual void SetNextTimestampBound(Timestamp timestamp) = 0;
+  +{abstract}virtual Timestamp NextTimestampBound() const = 0;
+  +{abstract}virtual void Close() = 0;
+  +{abstract}virtual bool IsClosed() const = 0;
+  +{abstract}virtual void SetOffset(TimestampDiff offset) = 0;
+  +{abstract}virtual bool OffsetEnabled() const = 0;
+  +{abstract}virtual TimestampDiff Offset() const = 0;
+}
+
+struct OutputStreamSpec  {
+  +Packet header;
+  +std::string name;
+  +const PacketType* packet_type;
+  +std::function<void(Status)> error_callback;
+  +bool locked_intro_data;
+  +bool offset_enabled;
+  +TimestampDiff offset;
+  --
+  +void TriggerErrorCallback(const Status& status) const;
+}
+
+class OutputStreamShard {
+  -OutputStreamSpec* output_stream_spec_;
+  -std::list<Packet> output_queue_;
+  -bool closed_;
+  -Timestamp next_timestamp_bound_;
+  --
+  +OutputStreamShard();
+  +~OutputStreamShard();
+  +void SetSpec(OutputStreamSpec* oss);
+  +const std::string& Name() const final;
+  +void SetNextTimestampBound(Timestamp timestamp) final;
+  +Timestamp NextTimestampBound() const final;
+  +void Close() final();
+  +bool IsClosed() const final;
+  +void SetOffset(TimestampDiff offset) final;
+  +bool OffsetEnabled() const final;
+  +void SetHeader(const Packet& packet) final;
+  +const Packet& Header() const final;
+  +void AddPacket(const Packet& packet) final;
+  +void AddPacket(Packet&& packet) final;
+  +bool IsEmpty() const;
+  +Timestamp LastAddedPacketTimestamp() const;
+  ..
+  -friend class GraphProfiler;
+  -friend class GraphTracer;
+  -friend class OutputStreamManager;
+  -std::list<Packet>* OutputQueue();
+  -const std::list<Packet>* OutputQueue() const;
+  -void Reset(Timestamp next_timestamp_bound, bool close);
+}
+
+OutputStreamShard "1" o--> "1" OutputStreamSpec: aggregation \n <<输出流基本信息未保存在其Shard中>>
+OutputStream <|.. OutputStreamShard
+OutputStreamShard "1" *--> "1" Packet: containsByListAsOutQueue
+
+interface OutputStreamPoller {
+  -std::weak_ptr<OutputStreamPollerImpl> internal_poller_impl_;
+  -friend class CalculatorGraph;
+  -OutputStreamPoller(std::shared_ptr<OutputStreamPollerImpl>);
+  +void Reset();
+  +ABSL_MUST_USE_RESULT bool Next(Packet* packet);
+  +void SetMaxQueueSize(int queue_size);
+  +int QueueSize();
+}
+
+OutputStreamPoller "1" --> "1" OutputStreamPollerImpl : weak_ptr >
+CalculatorGraph .. OutputStreamPoller: friend >
+
+class GraphOutputStreamHandler {
+  +GraphOutputStreamHandler(std::shared_ptr<tool::TagMap>, CalculatorContextManager*, const MediaPipeOptions&, bool)
+  ..NeverBeCalled..
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp,InputStreamShardSet* input_set) override;
+}
+
+InputStreamHandler <|.. GraphOutputStreamHandler
+
+abstract class GraphOutputStream {
+  #std::unique_ptr<InputStreamHandler> input_stream_handler_;
+  #std::unique_ptr<InputStreamManager> input_stream_;
+  +virtual ~GraphOutputStream() {}
+  +Status Initialize(const std::string& stream_name, const PacketType*, OutputStreamManager*);
+  +virtual void PrepareForRun(std::function<void()> notify_callback, std::function<void(Status)> err_callback);
+  +{abstract}virtual Status Notify() = 0;
+  +{abstract}virtual void NotifyError() = 0;
+  +InputStreamManager* input_stream();
+}
+
+GraphOutputStream <|-- OutputStreamObserver
+GraphOutputStream <|-- OutputStreamPollerImpl
+GraphOutputStream "1" *--> "1" InputStreamHandler : constains
+GraphOutputStream "1" *--> "1" InputStreamManager : constains
+
+class OutputStreamObserver{
+  +virtual ~OutputStreamObserver() {}
+  +Status Initialize(const std::string&, const PacketType*, std::function<Status(const Packet&)>, OutputStreamManager*);
+  +Status Notify() override;
+  +void NotifyError() override {}
+  -std::function<Status(const Packet&)> packet_callback_;
+}
+
+class OutputStreamPollerImpl {
+  +virtual ~OutputStreamPollerImpl() {}
+  +Status Initialize(const std::string&, const PacketType*, std::function<Status(const Packet&)>, OutputStreamManager*);
+  +void PrepareForRun(std::function<void()> notify_callback, std::function<void(Status)> err_callback) override;
+  +void Reset();
+  +void SetMaxQueueSize(int queue_size);
+  +int QueueSize();
+  +Status Notify() override;
+  +void NotifyError() override;
+  +ABSL_MUST_USE_RESULT bool Next(Packet* packet);
+  -absl::Mutex mutex_;
+  -absl::CondVar handler_condvar_;
+  -bool graph_has_error_;
+}
+
+' The necessary information to locate an InputStreamImpl.
+class Mirror <<(S,#ADD1B2)>> {
+  +Mirror(InputStreamHandler* input_stream_handler, const CollectionItemId& id);
+  +InputStreamHandler* const input_stream_handler;
+  +const CollectionItemId id;
+}
+
+' Each output stream has an OutputStreamManager object, which manages the input
+' stream mirrors, the error callback, and some other metadata of the output
+' stream
+class OutputStreamManager {
+  -OutputStreamSpec output_stream_spec_;
+  -std::vector<Mirror> mirrors_;
+  -mutable absl::Mutex stream_mutex_;
+  -Timestamp next_timestamp_bound_;
+  -bool closed_;
+  +OutputStreamManager() = default;
+  ..operate OutputStreamSpec..
+  +Status Initialize(const std::string& name, const PacketType* packet_type);
+  +void PrepareForRun(std::function<void(Status)> error_callback);
+  +const std::string& Name() const;
+  +void Close();
+  +bool IsClosed() const;
+  +bool OffsetEnabled() const;
+  +TimestampDiff Offset() const;
+  +const Packet& Header() const;
+  +void PropagateHeader();
+  +void LockIntroData();
+  ..operate Mirrors..
+  +void AddMirror(InputStreamHandler* input_stream_handler, CollectionItemId id);
+  +void SetMaxQueueSize(int max_queue_size);
+  ..
+  +Timestamp NextTimestampBound() const;
+  +Timestamp ComputeOutputTimestampBound(const OutputStreamShard&, Timestamp) const;
+  +void PropagateUpdatesToMirrors(Timestamp next_timestamp_bound, OutputStreamShard* oss);
+  +void ResetShard(OutputStreamShard* output_stream_shard);
+  +OutputStreamSpec* Spec();
+}
+OutputStreamManager "1" *--> "1" OutputStreamSpec : contains
+OutputStreamManager "1" *--> "0..n" Mirror : containsByVector
+Mirror "1" o--> "1" InputStreamHandler : aggregationByPtr
+
+}
+
+' ==============================================================
+package InputStream {
+
+class InputSidePacketHandler {
+  +InputSidePacketHandler() = default;
+  +~InputSidePacketHandler() = default;
+  +absl::Status PrepareForRun(const PacketTypeSet* input_side_packet_types,\
+           const std::map<std::string, Packet>& all_side_packets,
+           std::function<void()> input_side_packets_ready_callback, \
+           std::function<void(absl::Status)> error_callback);
+  +void Set(CollectionItemId id, const Packet& packet);
+  +const PacketSet& InputSidePackets() const;
+  +bool InputSidePacketsChanged();
+  +int MissingInputSidePacketCount() const;
+  -const PacketTypeSet* input_side_packet_types_;
+  -std::unique_ptr<PacketSet> input_side_packets_;
+  -std::unique_ptr<PacketSet> prev_input_side_packets_;
+  -std::atomic<int> missing_input_side_packet_count_{0};
+  -std::function<void()> input_side_packets_ready_callback_;
+  -std::function<void(absl::Status)> error_callback_;
+}
+
+abstract class InputStream {
+  +{abstract}virtual const Packet& Value() const = 0;
+  +{abstract}virtual Packet& Value() = 0;
+  +{abstract}virtual bool IsDone() const = 0;
+  +const T& Get() const { return Value().Get<T>(); }
+  +bool IsEmpty() const { return Value().IsEmpty(); }
+  +const Packet& Header() const { return header_; }
+  #InputStream() = default;
+  #virtual ~InputStream() = default;
+  #Packet header_;
+}
+
+class InputStreamShard {
+  +InputStreamShard();
+  +const Packet& Value() const override;
+  +Packet& Value() override;
+  +const std::string& Name() const { return *name_; }
+  +bool IsDone() const override { return is_done_; }
+  -std::queue<Packet> packet_queue_;
+  -Packet empty_packet_;
+  -const std::string* name_;
+  -bool is_done_ = false;
+  -friend class InputStreamHandler;
+  -void SetHeader(const Packet& header) { header_ = header; }
+  -void AddPacket(Packet&& value, bool is_done);
+}
+InputStreamShard "1" *--> "0..n" Packet: containsByQueue)
+InputStream <|.. InputStreamShard
+
+class InputStreamManager {
+  +typedef std::function<void(InputStreamManager*, bool*)> QueueSizeCallback;
+  +absl::Status Initialize(const std::string& name, const PacketType* packet_type, bool back_edge);
+  +const std::string& Name() const;
+  +bool BackEdge() const { return back_edge_; }
+  +absl::Status SetHeader(const Packet& header);
+  +const Packet& Header() const { return header_; }
+  +void PrepareForRun();
+  +absl::Status AddPackets(const std::list<Packet>& container, bool* notify);
+  +absl::Status MovePackets(std::list<Packet>* container, bool* notify);
+  +void Close();
+  +absl::Status SetNextTimestampBound(Timestamp bound, bool* notify);
+  +Timestamp MinTimestampOrBound(bool* is_empty) const;
+  +void DisableTimestamps();
+  +bool IsEmpty() const;
+  +Packet QueueHead() const;
+  +Packet PopPacketAtTimestamp(Timestamp timestamp, int* num_packets_dropped,bool* stream_is_done);
+  +Packet PopQueueHead(bool* stream_is_done);
+  +int NumPacketsAdded() const;
+  +int QueueSize() const;
+  +bool IsFull() const;
+  +int MaxQueueSize() const;
+  +void SetMaxQueueSize(int max_queue_size);
+  +Timestamp GetMinTimestampAmongNLatest(int n) const;
+  +void ErasePacketsEarlierThan(Timestamp timestamp);
+  +void SetQueueSizeCallbacks(QueueSizeCallback becomes_full_callback, QueueSizeCallback becomes_not_full_callback);
+  -mutable absl::Mutex stream_mutex_;
+  -std::deque<Packet> queue_;
+  -int64_t num_packets_added_;
+  -Timestamp next_timestamp_bound_;
+  -Timestamp last_select_timestamp_;
+  -bool closed_;
+  -bool enable_timestamps_ = true;
+  -std::string name_;
+  -const PacketType* packet_type_;
+  -bool back_edge_;
+  -Packet header_;
+  -int max_queue_size_ = -1;
+  -QueueSizeCallback becomes_full_callback_;
+  -QueueSizeCallback becomes_not_full_callback_;
+  -bool last_reported_stream_full_ = false;
+}
+InputStreamManager "1" *--> "0..n" Packet: contains
+
+abstract class InputStreamHandler {
+  #typedef Collection<InputStreamManager*> InputStreamManagerSet;
+  #InputStreamManagerSet input_stream_managers_;
+  #CalculatorContextManager* const calculator_context_manager_;
+  #MediaPipeOptions options_;
+  #const bool calculator_run_in_parallel_;
+  #bool prepared_context_for_close_;
+  #std::function<void()> notification_;
+  #std::function<void(CalculatorContext*)> schedule_callback_;
+  #std::function<void(absl::Status)> error_callback_;
+  -bool late_preparation_ = false;
+  -int batch_size_ = 1;
+  -bool process_timestamps_ = false;
+  -std::function<void()> headers_ready_callback_;
+  -std::atomic<int> unset_header_count_{0};
+  +InputStreamHandler(std::shared_ptr<tool::TagMap> tag_map,\
+                     CalculatorContextManager* ccm,\
+                     const MediaPipeOptions& options, bool calculator_run_in_parallel);
+  +virtual ~InputStreamHandler() = default;
+  +absl::Status InitializeInputStreamManagers(InputStreamManager* flat_input_stream_managers);
+  +InputStreamManager* GetInputStreamManager(CollectionItemId id);
+  +absl::Status SetupInputShards(InputStreamShardSet* input_shards);
+  +std::vector<std::tuple<std::string, int, int, Timestamp>> GetMonitoringInfo();
+  +virtual void PrepareForRun(
+      std::function<void()> headers_ready_callback,\
+      std::function<void()> notification_callback,\
+      std::function<void(CalculatorContext*)> schedule_callback,\
+      std::function<void(absl::Status)> error_callback);
+  +int NumInputStreams() const;
+  +const std::shared_ptr<tool::TagMap>& InputTagMap() const;
+  +void SetHeader(CollectionItemId id, const Packet& header);
+  +void UpdateInputShardHeaders(InputStreamShardSet* input_shards);
+  +void SetMaxQueueSize(int max_queue_size);
+  +void SetMaxQueueSize(CollectionItemId id, int max_queue_size);
+  +void SetQueueSizeCallbacks(InputStreamManager::QueueSizeCallback becomes_full_callback,\
+      InputStreamManager::QueueSizeCallback becomes_not_full_callback);
+  +virtual void AddPackets(CollectionItemId id, const std::list<Packet>& packets);
+  +virtual void MovePackets(CollectionItemId id, std::list<Packet>* packets);
+  +void SetNextTimestampBound(CollectionItemId id, Timestamp bound);
+  +void ClearCurrentInputs(CalculatorContext* calculator_context);
+  +void Close();
+  +std::string DebugStreamNames() const;
+  +bool ScheduleInvocations(int max_allowance, Timestamp* input_bound);
+  +void FinalizeInputSet(Timestamp timestamp, InputStreamShardSet* input_set);
+  +int UnsetHeaderCount() const;
+  +void SetProcessTimestampBounds(bool process_ts);
+  +bool ProcessTimestampBounds();
+  +virtual int SyncSetCount() { return 1; }
+  #{abstract}virtual NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) = 0;
+  #{abstract}virtual void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) = 0;
+  #const MediaPipeOptions& options() const;
+  #void SetBatchSize(int batch_size);
+  #void SetLatePreparation(bool late_preparation);
+  #void AddPacketToShard(InputStreamShard* shard, Packet&& value, bool is_done);
+}
+
+InputStreamHandler "1" *--> "0..n" InputStreamManager : containsByCollection
+
+' push packet from InputStreamManager  to InputStreamShard
+' all streams are done or 
+class DefaultInputStreamHandler {
+  +DefaultInputStreamHandler() = delete;
+  +DefaultInputStreamHandler(std::shared_ptr<tool::TagMap>, CalculatorContextManager*,\
+                            const MediaPipeOptions&, bool);
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) override;
+}
+' Implementation of an input stream handler that considers a node as ready for
+' Close() if **any** input stream is done.
+class EarlyCloseInputStreamHandler {
+  +EarlyCloseInputStreamHandler() = delete;
+  +EarlyCloseInputStreamHandler(std::shared_ptr<tool::TagMap>, CalculatorContextManager*,\
+                            const MediaPipeOptions&, bool);
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) override;
+}
+class ImmediateInputStreamHandler {
+  +ImmediateInputStreamHandler() = delete;
+  +ImmediateInputStreamHandler(std::shared_ptr<tool::TagMap>, CalculatorContextManager*,\
+                            const MediaPipeOptions&, bool);
+  #NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override;
+  #void FillInputSet(Timestamp input_timestamp, InputStreamShardSet* input_set) override;
+}
+InputStreamHandler <|.. DefaultInputStreamHandler
+InputStreamHandler <|.. EarlyCloseInputStreamHandler
+InputStreamHandler <|.. ImmediateInputStreamHandler
+
+}
+
+' ==============================================================
+
+class CalculatorRunnerSourceCalculator {
+  +{static} absl::Status GetContract(CalculatorContract* cc);
+  +absl::Status Open(CalculatorContext* cc) override;
+  +absl::Status Process(CalculatorContext* cc) override;
+}
+CalculatorBase <|-- CalculatorRunnerSourceCalculator
+
+class CalculatorRunnerSinkCalculator {
+  +{static} absl::Status GetContract(CalculatorContract* cc);
+  +absl::Status Open(CalculatorContext* cc) override;
+  +absl::Status Process(CalculatorContext* cc) override;
+  -CalculatorRunner::StreamContents* contents_ = nullptr;
+}
+CalculatorBase <|-- CalculatorRunnerSinkCalculator
+
+class CalculatorRunner::StreamContents <<(S,#ADD1B2)>>{
+  +std::vector<Packet> packets;
+  +Packet header;
+}
+
+class CalculatorRunner {
+  +typedef Collection<StreamContents> StreamContentsSet;
+  +explicit CalculatorRunner(const CalculatorGraphConfig::Node& node_config);
+  +~CalculatorRunner();
+  +StreamContentsSet* MutableInputs() { return inputs_.get(); }
+  +PacketSet* MutableSidePackets() { return input_side_packets_.get(); }
+  +absl::Status Run();
+  +const StreamContentsSet& Outputs() const { return *outputs_; }
+  +const PacketSet& OutputSidePackets() { return *output_side_packets_; }
+  +mediapipe::Counter* GetCounter(const std::string& name);
+  +std::map<std::string, int64_t> GetCountersValues();
+  -absl::Status BuildGraph();
+  -CalculatorGraphConfig::Node node_config_;
+  -bool log_calculator_proto_ = false;
+  -std::unique_ptr<StreamContentsSet> inputs_;
+  -std::unique_ptr<StreamContentsSet> outputs_;
+  -std::unique_ptr<PacketSet> input_side_packets_;
+  -std::unique_ptr<PacketSet> output_side_packets_;
+  -std::unique_ptr<CalculatorGraph> graph_;
+}
+
+CalculatorRunner --> CalculatorRunner::StreamContents : defines
+CalculatorRunner "1" *--> "0...n" Packet : contains
+CalculatorRunner "1" *--> "1" CalculatorGraph : contains
+CalculatorRunner::BuildGraph ..> CalculatorRunnerSourceCalculator: setCalculatorToNode
+CalculatorRunner::BuildGraph ..> CalculatorRunnerSinkCalculator: setCalculatorToNode
+
+class CalculatorContract {
+  +absl::Status Initialize(const CalculatorGraphConfig::Node& node);
+  +absl::Status Initialize(const PacketGeneratorConfig& node, const std::string& package);
+  +absl::Status Initialize(const StatusHandlerConfig& node);
+  +void SetNodeName(const std::string& node_name);
+  +const std::string& GetNodeName() const;
+  +const CalculatorOptions& Options() const;
+  +template <class T> const T& Options() const;
+  +template <class T> bool HasOptions() const;
+  +PacketTypeSet& Inputs();
+  +PacketTypeSet& Outputs();
+  +PacketTypeSet& InputSidePackets();
+  +PacketTypeSet& OutputSidePackets();
+  +void SetInputStreamHandler(const std::string& name);
+  +void SetInputStreamHandlerOptions(const MediaPipeOptions& options);
+  +std::string GetInputStreamHandler() const;
+  +MediaPipeOptions GetInputStreamHandlerOptions() const;
+  +void SetProcessTimestampBounds(bool process_timestamps);
+  +bool GetProcessTimestampBounds() const;
+  +void SetTimestampOffset(TimestampDiff offset);
+  +TimestampDiff GetTimestampOffset() const;
+  -template <class T> void GetNodeOptions(T* result) const;
+  -const CalculatorGraphConfig::Node& GetWrapperConfig();
+  -const CalculatorGraphConfig::Node* node_config_ = nullptr;
+  -std::unique_ptr<CalculatorGraphConfig::Node> wrapper_config_;
+  -tool::OptionsMap options_;
+  -std::unique_ptr<PacketTypeSet> inputs_;
+  -std::unique_ptr<PacketTypeSet> outputs_;
+  -std::unique_ptr<PacketTypeSet> input_side_packets_;
+  -std::unique_ptr<PacketTypeSet> output_side_packets_;
+  -std::string input_stream_handler_;
+  -MediaPipeOptions input_stream_handler_options_;
+  -std::string node_name_;
+  -ServiceReqMap service_requests_;
+  -bool process_timestamps_ = false;
+  -TimestampDiff timestamp_offset_ = TimestampDiff::Unset();
+  -friend class CalculatorNode;
+}
+
+class CalculatorGraph {
+  -bool initialized_ = false;
+  -PacketType any_packet_type_;
+  -std::unique_ptr<ValidatedGraphConfig> validated_graph_;
+  -PacketGeneratorGraph packet_generator_graph_;
+  -bool has_sources_ = false;
+  -std::unique_ptr<InputStreamManager[]> input_stream_managers_;
+  -std::unique_ptr<OutputStreamManager[]> output_stream_managers_;
+  -std::unique_ptr<OutputSidePacketImpl[]> output_side_packets_;
+  -std::unique_ptr<absl::FixedArray<CalculatorNode>> nodes_;
+  -std::vector<std::shared_ptr<GraphOutputStream>> graph_output_streams_;
+  -int max_queue_size_ = -1;
+  -GraphInputStreamAddMode graph_input_stream_add_mode_;
+  -std::vector<absl::flat_hash_set<InputStreamManager*>> full_input_streams_
+  -absl::flat_hash_map<std::string, std::unique_ptr<GraphInputStream>> graph_input_streams_;
+  -absl::flat_hash_map<std::string, int> graph_input_stream_node_ids_;
+  -absl::flat_hash_map<std::string, int> graph_input_stream_max_queue_size_;
+  -std::unique_ptr<CounterFactory> counter_factory_;
+  -std::map<std::string, std::shared_ptr<Executor>> executors_;
+  -std::map<std::string, Packet> current_run_side_packets_;
+  -std::map<std::string, Packet> service_packets_;
+  -std::vector<Status> errors_;
+  -bool use_application_thread_ = false;
+  -absl::CondVar wait_to_add_packet_cond_var_;
+  -absl::Mutex error_mutex_;
+  -std::atomic<bool> has_error_;
+  -mutable absl::Mutex full_input_streams_mutex_;
+  -std::atomic<unsigned int> num_closed_graph_input_streams_;
+  -std::shared_ptr<ProfilingContext> profiler_;
+  -Scheduler scheduler_;
+  +CalculatorGraph();
+  +explicit CalculatorGraph(const CalculatorGraphConfig& config);
+  +virtual ~CalculatorGraph();
+  +Status Initialize(const CalculatorGraphConfig& config, const std::map<std::string, Packet>& side_packets);
+  +Status Initialize(const CalculatorGraphConfig& config);
+  +Status Initialize(
+  +    const std::vector<CalculatorGraphConfig>& configs,
+  +    const std::vector<CalculatorGraphTemplate>& templates,
+  +    const std::map<std::string, Packet>& side_packets = {},
+  +    const std::string& graph_type = "",
+  +    const Subgraph::SubgraphOptions* options = nullptr);
+  +const CalculatorGraphConfig& Config();
+  +Status ObserveOutputStream(const std::string& stream_name, std::function<Status(const Packet&)> packet_callback);
+  +StatusOrPoller AddOutputStreamPoller(const std::string& stream_name);
+  +StatusOr<Packet> GetOutputSidePacket(const std::string& packet_name);
+  +virtual Status Run(const std::map<std::string, Packet>& extra_side_packets);
+  +Status Run() { return Run({}); }
+  +Status StartRun(const std::map<std::string, Packet>& extra_side_packets);
+  +Status StartRun(const std::map<std::string, Packet>& extra_side_packets, const std::map<std::string, Packet>& stream_headers);
+  +Status WaitUntilDone();
+  +Status WaitUntilIdle();
+  +Status WaitForObservedOutput();
+  +bool HasError() const;
+  +Status AddPacketToInputStream(const std::string& stream_name, const Packet& packet);
+  +Status AddPacketToInputStream(const std::string& stream_name, Packet&& packet);
+  +Status SetInputStreamMaxQueueSize(const std::string& stream_name, int max_queue_size);
+  +bool HasInputStream(const std::string& name);
+  +Status CloseInputStream(const std::string& stream_name);
+  +Status CloseAllInputStreams();
+  +Status CloseAllPacketSources();
+  +ProfilingContext* profiler();
+  +void SetCounterFactory(CounterFactory* factory);
+  +CounterFactory* GetCounterFactory();
+  +void RecordError(const Status& error);
+  +int GetMaxInputStreamQueueSize();
+  +GraphInputStreamAddMode GetGraphInputStreamAddMode() const;
+  +void SetGraphInputStreamAddMode(GraphInputStreamAddMode mode);
+  +void Cancel();
+  +Status SetExecutor(const std::string& name, std::shared_ptr<Executor> executor);
+  +bool GraphInputStreamsClosed();
+  +bool IsNodeThrottled(int node_id);
+  +bool UnthrottleSources();
+  +SchedulerTimes GetSchedulerTimes();
+  -Status Initialize(std::unique_ptr<ValidatedGraphConfig> validated_graph, const std::map<std::string, Packet>& side_packets);
+  -Status AddPacketToInputStreamInternal(const std::string& stream_name, T&& packet);
+  -Status SetExecutorInternal(const std::string& name, std::shared_ptr<Executor> executor);
+  -Status InitializeDefaultExecutor(const ThreadPoolExecutorOptions& default_executor_options, bool use_application_thread);
+  -Status CreateDefaultThreadPool(const ThreadPoolExecutorOptions& default_executor_options, int num_threads);
+  -static bool IsReservedExecutorName(const std::string& name);
+  -Status InitializeExecutors();
+  -Status InitializePacketGeneratorGraph(const std::map<std::string, Packet>& side_packets);
+  -Status InitializeStreams();
+  -Status InitializeProfiler();
+  -Status InitializeCalculatorNodes();
+  -void ScheduleAllOpenableNodes();
+  -Status PrepareForRun(const std::map<std::string, Packet>& extra_side_packets, const std::map<std::string, Packet>& stream_headers);
+  -Status FinishRun();
+  -void CleanupAfterRun(Status* status);
+  -bool GetCombinedErrors(const std::string& error_prefix, Status* error_status);
+  -bool GetCombinedErrors(Status* error_status);
+  -void CallStatusHandlers(GraphRunState graph_run_state, const Status& status);
+  -void UpdateThrottledNodes(InputStreamManager* stream, bool* stream_was_full);
+}
+
+abstract class CalculatorNode {
+  -std::unique_ptr<CalculatorBase> calculator_;
+  -std::unique_ptr<CalculatorState> calculator_state_;
+  -int node_id_ = -1;
+  -std::string name_;
+  -std::string executor_;
+  -int source_layer_ = 0;
+  -NodeStatus status_;
+  -int max_in_flight_ = 1;
+  -int current_in_flight_ = 0;
+  -SchedulingState scheduling_state_ = kIdle;
+  -std::function<void()> ready_for_open_callback_;
+  -std::function<void()> source_node_opened_callback_;
+  -bool input_stream_headers_ready_called_ = false;
+  -bool input_side_packets_ready_called_ = false;
+  -bool input_stream_headers_ready_ = false;
+  -bool input_side_packets_ready_ = false;
+  -CalculatorContextManager calculator_context_manager_;
+  -std::shared_ptr<ProfilingContext> profiling_context_;
+  -mutable absl::Mutex status_mutex_;
+  -InputSidePacketHandler input_side_packet_handler_;
+  -std::unique_ptr<OutputSidePacketSet> output_side_packets_;
+  -std::unique_ptr<InputStreamHandler> input_stream_handler_;
+  -std::unique_ptr<OutputStreamHandler> output_stream_handler_;
+  -bool uses_gpu_ = false;
+  -bool needs_to_close_ = false;
+  -schedulerQueue* scheduler_queue_ = nullptr;
+  -const ValidatedGraphConfig* validated_graph_ = nullptr;
+  +typedef std::unordered_map<std::string, std::unordered_set<int>> OutputStreamToSourcesMap;
+  --
+  +CalculatorNode();
+  +Timestamp SourceProcessOrder(const CalculatorContext* cc) const;
+  +Status ProcessNode(CalculatorContext* cc);
+  +Status Initialize(
+  +    const ValidatedGraphConfig* validated_graph, int node_id,
+  +    InputStreamManager* input_stream_managers,
+  +    OutputStreamManager* output_stream_managers,
+  +    OutputSidePacketImpl* output_side_packets, int* buffer_size_hint,
+  +    std::shared_ptr<ProfilingContext> profiling_context);
+  +Status PrepareForRun(
+  +    const std::map<std::string, Packet>& all_side_packets,
+  +    const std::map<std::string, Packet>& service_packets,
+  +    std::function<void()> ready_for_open_callback,
+  +    std::function<void()> source_node_opened_callback,
+  +    std::function<void(CalculatorContext*)> schedule_callback,
+  +    std::function<void(Status)> error_callback,
+  +    CounterFactory* counter_factory);
+  +Status OpenNode();
+  +void ActivateNode();
+  +void CleanupAfterRun(const Status& graph_status);
+  ..getter and setter..
+  +int Id();
+  +std::string DebugName() const;
+  +const std::string& Executor() const { return executor_; }
+  +void SetExecutor(const std::string& executor);
+  +bool Prepared() const;
+  +bool Opened() const;
+  +bool Active() const;
+  +bool Closed() const;
+  +bool IsSource() const;
+  +int source_layer() const;
+  +bool TryToBeginScheduling();
+  +void EndScheduling();
+  +bool ReadyForOpen() const;
+  +void InputStreamHeadersReady();
+  +void InputSidePacketsReady();
+  +void CheckIfBecameReady();
+  +void NodeOpened();
+  +bool UsesGpu() const;
+  +SchedulerQueue* GetSchedulerQueue() const;
+  +void SetSchedulerQueue(schedulerQueue* queue);
+  +void SetQueueSizeCallbacks(
+  +    InputStreamManager::QueueSizeCallback becomes_full_callback,
+  +    InputStreamManager::QueueSizeCallback becomes_not_full_callback);
+  +void SetMaxInputStreamQueueSize(int max_queue_size);
+  +Status CloseNode(const Status& graph_status, bool graph_run_ended);
+  +CalculatorContext* GetDefaultCalculatorContext() const;
+  +const CalculatorState& GetCalculatorState() const;
+  --
+  -Status InitializeOutputSidePackets(const PacketTypeSet& output_side_packet_types,
+  -    OutputSidePacketImpl* output_side_packets);
+  -Status InitializeInputSidePackets(OutputSidePacketImpl* output_side_packets);
+  -Status InitializeOutputStreams(OutputStreamManager* output_stream_managers);
+  -Status InitializeInputStreams(InputStreamManager* input_stream_managers,
+  -    OutputStreamManager* output_stream_managers);
+  -Status InitializeInputStreamHandler(const InputStreamHandlerConfig& handler_config,
+  -    const PacketTypeSet& input_stream_types);
+  -Status InitializeOutputStreamHandler(const OutputStreamHandlerConfig& handler_config,
+  -    const PacketTypeSet& output_stream_types);
+  -Status ConnectShardsToStreams(CalculatorContext* cc);
+  -void SchedulingLoop();
+  -void CloseInputStreams();
+  -void CloseOutputStreams(OutputStreamShardSet* outputs); 
+  -std::string DebugInputStreamNames() const;
+  -bool OutputsAreConstant(CalculatorContext* cc);
+}
+
+CalculatorNode "1" *--> "1" CalculatorBase : contains
+CalculatorNode "1" *--> "1" CalculatorState : contains
+CalculatorNode "1" *--> "1" CalculatorContextManager : contains
+CalculatorNode "1" o--> "1" ProfilingContext : aggregation
+CalculatorNode::SourceProcessOrder .> CalculatorBase::SourceProcessOrder : calls
+
+class CalculatorState {
+  +CalculatorState(const std::string& node_name, int node_id, const std::string& calculator_type,
+  +                const CalculatorGraphConfig::Node& node_config, std::shared_ptr<ProfilingContext> profiling_context);
+  +~CalculatorState();
+  +void SetInputStreamSet(InputStreamSet* input_stream_set);
+  +void SetOutputStreamSet(OutputStreamSet* output_stream_set);
+  +void ResetBetweenRuns();
+  +const std::string& CalculatorType() const;
+  +const CalculatorOptions& Options() const;
+  +template <class T> const T& Options() const;
+  +const std::string& NodeName() const;
+  +const int& NodeId() const;
+  +const InputStreamSet& InputStreams() const;
+  +const OutputStreamSet& OutputStreams() const;
+  +const PacketSet& InputSidePackets() const;
+  +OutputSidePacketSet& OutputSidePackets();
+  +Counter* GetCounter(const std::string& name);
+  +std::shared_ptr<ProfilingContext> GetSharedProfilingContext() const;
+  +void SetInputSidePackets(const PacketSet* input_side_packets);
+  +void SetOutputSidePackets(OutputSidePacketSet* output_side_packets);
+  +void SetCounterFactory(CounterFactory* counter_factory);
+  +void SetServicePacket(const std::string& key, Packet packet);
+  +bool IsServiceAvailable(const GraphServiceBase& service);
+  +template <typename T> T& GetServiceObject(const GraphService<T>& service);
+  -const std::string node_name_;
+  -const int node_id_;
+  -const std::string calculator_type_;
+  -const CalculatorGraphConfig::Node node_config_;
+  -OptionsMap options_;
+  -std::shared_ptr<ProfilingContext> profiling_context_;
+  -std::map<std::string, Packet> service_packets_;
+  -InputStreamSet* input_streams_;
+  -OutputStreamSet* output_streams_;
+  -const PacketSet* input_side_packets_;
+  -OutputSidePacketSet* output_side_packets_;
+  -CounterFactory* counter_factory_;
+}
+
+class CalculatorContext {
+  +CalculatorContext(CalculatorState* calculator_state, std::shared_ptr<TagMap> in, std::shared_ptr<TagMap> out);
+  +const std::string& NodeName() const;
+  +int NodeId() const;
+  +const std::string& CalculatorType() const;
+  +const CalculatorOptions& Options() const;
+  +Counter* GetCounter(const std::string& name);
+  +Timestamp InputTimestamp() const;
+  +const PacketSet& InputSidePackets() const;
+  +OutputSidePacketSet& OutputSidePackets();
+  +InputStreamShardSet& Inputs();
+  +const InputStreamShardSet& Inputs() const;
+  +OutputStreamShardSet& Outputs();
+  +const OutputStreamShardSet& Outputs() const;
+  +void SetOffset(TimestampDiff offset);
+  +Status GraphStatus() const;
+  +ProfilingContext* GetProfilingContext() const;
+  +template <typename T> ServiceBinding<T> Service(const GraphService<T>& service);
+  +template <typename T> const T& Options() const;
+  -int NumberOfTimestamps() const;
+  -bool HasInputTimestamp() const;
+  -void PushInputTimestamp(Timestamp input_timestamp);
+  -void PopInputTimestamp();
+  -void SetGraphStatus(const Status& status);
+  -const InputStreamSet& InputStreams() const;
+  -const OutputStreamSet& OutputStreams() const;
+  -CalculatorState* calculator_state_;
+  -InputStreamShardSet inputs_;
+  -OutputStreamShardSet outputs_;
+  -std::queue<Timestamp> input_timestamps_;
+  -Status graph_status_;
+  -friend class CalculatorContextManager;
+}
+CalculatorContext "1" o--> "1" CalculatorState: aggregation
+
+class CalculatorContextManager {
+  +CalculatorContextManager() {}
+  +void Initialize(CalculatorState* calculator_state, std::shared_ptr<TagMap> in, std::shared_ptr<TagMap> out, bool calculator_run_in_parallel);
+  +Status PrepareForRun(std::function<Status(CalculatorContext*)> setup_shards_callback);
+  +void CleanupAfterRun();
+  +bool HasDefaultCalculatorContext() const;
+  +CalculatorContext* GetDefaultCalculatorContext() const;
+  +CalculatorContext* GetFrontCalculatorContext(Timestamp* context_input_timestamp);
+  +CalculatorContext* PrepareCalculatorContext(Timestamp input_timestamp);
+  +void RecycleCalculatorContext();
+  +bool HasActiveContexts();
+  +int NumberOfContextTimestamps(const CalculatorContext& calculator_context) const;
+  +bool ContextHasInputTimestamp(const CalculatorContext& calculator_context) const;
+  +void PushInputTimestampToContext(CalculatorContext* calculator_context, Timestamp input_timestamp);
+  +void PopInputTimestampFromContext(CalculatorContext* calculator_context);
+  +void SetGraphStatusInContext(CalculatorContext* calculator_context,const Status& status);
+  -CalculatorState* calculator_state_;
+  -std::shared_ptr<TagMap> input_tag_map_;
+  -std::shared_ptr<TagMap> output_tag_map_;
+  -bool calculator_run_in_parallel_;
+  -std::function<Status(CalculatorContext*)> setup_shards_callback_;
+  -absl::Mutex contexts_mutex_;
+  -std::unique_ptr<CalculatorContext> default_context_;
+  -std::map<Timestamp, std::unique_ptr<CalculatorContext>> active_contexts_;
+  -std::deque<std::unique_ptr<CalculatorContext>> idle_contexts_;
+}
+
+CalculatorContextManager "1" *--> "n" CalculatorContext: contains
+
+' ==============================================================
+
+abstract class CalculatorBase {
+  +virtual ~CalculatorBase() {}
+  +virtual Status Open(CalculatorContext* cc);
+  +{abstract}virtual Status Process(CalculatorContext* cc) = 0;
+  +virtual Status Close(CalculatorContext* cc);
+  +virtual Timestamp SourceProcessOrder(const CalculatorContext* cc) const;
+}
+
+' ==============================================================
+
+package Counter {
+
+abstract class CounterFactory {
+  +{abstract} virtual ~CounterFactory() {}
+  +{abstract} virtual Counter* GetCounter(const std::string& name) = 0;
+  +CounterSet* GetCounterSet() { return &counter_set_; }
+  #CounterSet counter_set_;
+}
+
+class BasicCounterFactory {
+  +~BasicCounterFactory() override {}
+  +Counter* GetCounter(const std::string& name) override;
+}
+
+abstract class Counter {
+  +{abstract}virtual ~Counter() {}
+  +{abstract}virtual void Increment() = 0;
+  +{abstract}virtual void IncrementBy(int amount) = 0;
+  +{abstract}virtual int64 Get() = 0;
+}
+
+class BasicCounter {
+  +explicit BasicCounter(const std::string& name) : value_(0) {}
+  +void Increment() override;
+  +void IncrementBy(int amount) override;
+  +int64 Get() override;
+  -absl::Mutex mu_;
+  -int64 value_;
+}
+
+class CounterSet {
+  +CounterSet();
+  +~CounterSet();
+  +void PrintCounters();
+  +void PublishCounters();
+  +Counter* Get(const std::string& name);
+  +std::map<std::string, int64> GetCountersValues();
+  -absl::Mutex mu_;
+  -std::map<std::string, std::unique_ptr<Counter>> counters_;
+}
+
+CounterFactory <|.right. BasicCounterFactory
+
+Counter <|. BasicCounter
+CounterSet "1" *-right-> "n" Counter: contains
+CounterFactory "1" *--> "1" CounterSet: contains
+
+}
+
+' ==============================================================
+
+abstract class TaskQueue {
+  +{abstract}virtual ~TaskQueue();
+  +{abstract}virtual void RunNextTask() = 0;
+}
+
+class SchedulerQueue {
+  +typedef std::function<void(bool idle)> IdleCallback;
+  +explicit SchedulerQueue(SchedulerShared* shared) : shared_(shared) {}
+  +void SetExecutor(Executor* executor);
+  +void SetIdleCallback(IdleCallback callback);
+  +void Reset();
+  +void RunNextTask() override;
+  +void SetRunning(bool running);
+  +int GetTasksToSubmitToExecutor();
+  +void SubmitWaitingTasksToExecutor();
+  +void AddNode(CalculatorNode* node, CalculatorContext* cc);
+  +void AddNodeForOpen(CalculatorNode* node);
+  +void AddItemToQueue(Item&& item);
+  +void CleanupAfterRun();
+  -void RunCalculatorNode(CalculatorNode* node, CalculatorContext* cc);
+  -void OpenCalculatorNode(CalculatorNode* node);
+  -bool IsIdle());
+  -Executor* executor_ = nullptr;
+  -IdleCallback idle_callback_;
+  -int running_count_ = 0;
+  -int num_pending_tasks_;
+  -int num_tasks_to_add_;
+  -std::priority_queue<Item> queue_;
+  -SchedulerShared* const shared_;
+  -absl::Mutex mutex_;
+}
+
+class Item {
+  -source_process_order_: int64
+  -node_: CalculatorNode*
+  -cc_: CalculatorContext*
+  -id_, layer_: int
+  -is_source_, is_open_node_: bool
+  +Item(CalculatorNode*)
+  +Item(CalculatorNode*, CalculatorContext*)
+  +Node() const: CalculatorNode*
+  +Context() const: CalculatorContext*
+  +IsOpenNode() const: bool
+  +operator<(const Item&) const: bool
+}
+
+TaskQueue <|.. SchedulerQueue
+SchedulerQueue "1" o--> "1" SchedulerShared
+SchedulerQueue "1" o-right-> "1" Executor
+
+' ==============================================================
+
+abstract class Executor {
+  +{abstract}virtual ~Executor();
+  +{abstract}virtual void AddTask(TaskQueue* task_queue);
+  +{abstract}virtual void Schedule(std::function<void()> task) = 0;
+}
+
+class DelegatingExecutor {
+  +explicit DelegatingExecutor(
+      std::function<void(std::function<void()>)> callback)
+      : callback_(std::move(callback)) {}
+  +void Schedule(std::function<void()> task) override;
+  -std::function<void(std::function<void()>)> callback_;
+}
+
+class ThreadPoolExecutor {
+  +{static} StatusOr<Executor*> Create(const MediaPipeOptions&);
+  +explicit ThreadPoolExecutor(int num_threads);
+  +~ThreadPoolExecutor() override;
+  +void Schedule(std::function<void()> task) override;
+  +int num_threads() const { return thread_pool_.num_threads(); }
+  +size_t stack_size() const { return stack_size_; }
+  -ThreadPoolExecutor(const ThreadOptions& thread_options, int num_threads);
+  -void Start();
+  -ThreadPool thread_pool_;
+  -size_t stack_size_ = 0;
+}
+
+class CurrentThreadExecutor {
+  +~CurrentThreadExecutor() override;
+  +void Schedule(std::function<void()> task) override;
+  -bool executing_ = false;
+  -std::deque<std::function<void()>> tasks_;
+}
+
+Executor <|.. DelegatingExecutor
+Executor <|.. ThreadPoolExecutor
+Executor <|.. CurrentThreadExecutor
+
+ThreadPoolExecutor "1" *--> "1" ThreadPool: contains
+
+' ==============================================================
+
+class SchedulerTimes <<(S,#ADD1B2)>>{
+  +int64 total_time;
+  +int64 node_time;
+  +double overhead() const {return 1 -double(node_time) / double(total_time);}
+}
+
+class SchedulerTimer {
+  +SchedulerTimer();
+  +void StartRun();
+  +void EndRun();
+  +int64 StartNode();
+  +void EndNode(int64 node_start_time);
+  +SchedulerTimes GetSchedulerTimes();
+  -std::unique_ptr<mediapipe::Clock> clock_;
+  -std::atomic<int64> total_node_time_;
+  -int64 start_time_;
+  -int64 total_run_time_;
+}
+
+class SchedulerShared <<(S,#ADD1B2)>>{
+  +std::atomic<bool> stopping;
+  +std::atomic<bool> has_error;
+  +std::function<void(const Status& error)> error_callback;
+  +SchedulerTimer timer;
+}
+
+SchedulerTimer "1" *--> "1" Clock: contains
+SchedulerTimer -- SchedulerTimes
+SchedulerShared "1" *--> "1" SchedulerTimer: contains
+
+class Scheduler {
+  +explicit Scheduler(CalculatorGraph* graph);
+  +~Scheduler();
+  +void SetExecutor(Executor* executor);
+  +Status SetNonDefaultExecutor(const std::string& name, Executor* executor);
+  +void Reset();
+  +void Start();
+  +Status WaitUntilDone();
+  +Status WaitUntilIdle();
+  +void WaitUntilGraphInputStreamUnthrottled(absl::Mutex* secondary_mutex);
+  +Status WaitForObservedOutput();
+  +void ScheduleNodeIfNotThrottled(CalculatorNode* node, CalculatorContext* cc);
+  +void ScheduleNodeForOpen(CalculatorNode* node);
+  +void ScheduleUnthrottledReadyNodes(const std::vector<CalculatorNode*>& nodes_to_schedule);
+  +void QueueIdleStateChanged(bool idle);
+  +void AddApplicationThreadTask(std::function<void()> task);
+  +void AddUnopenedSourceNode(CalculatorNode* node);
+  +void AddNodeToSourcesQueue(CalculatorNode* node);
+  +void AssignNodeToSchedulerQueue(CalculatorNode* node);
+  +void Pause();
+  +void Resume();
+  +void Cancel();
+  +bool IsPaused();
+  +bool IsTerminated();
+  +void CleanupAfterRun();
+  +void SetHasError(bool error);
+  +void AddedPacketToGraphInputStream();
+  +void ThrottledGraphInputStream();
+  +void UnthrottledGraphInputStream();
+  +void EmittedObservedOutput();
+  +void CloseAllSourceNodes();
+  +void ClosedAllGraphInputStreams();
+  +SchedulerTimes GetSchedulerTimes();
+  -void SetQueuesRunning(bool running);
+  -void SubmitWaitingTasksOnQueues();
+  -bool IsIdle();
+  -void CleanupActiveSources();
+  -bool TryToScheduleNextSourceLayer();
+  -void HandleIdle();
+  -void Quit();
+  -void ApplicationThreadAwait(const std::function<bool()>& stop_condition);
+  -CalculatorGraph* graph_;
+  -SchedulerShared shared_;
+  -SchedulerQueue default_queue_;
+  -std::map<std::string, std::unique_ptr<SchedulerQueue>> non_default_queues_;
+  -std::vector<SchedulerQueue*> scheduler_queues_;
+  -std::priority_queue<SchedulerQueue::Item> sources_queue_;
+  -std::set<CalculatorNode*, SourceLayerCompare> unopened_sources_;
+  -std::vector<CalculatorNode*> active_sources_;
+  -absl::CondVar state_cond_var_;
+  -int non_idle_queue_count_ = 0;
+  -std::deque<std::function<void()>> app_thread_tasks_;
+  -bool handling_idle_ = false;
+  -absl::Mutex state_mutex_;
+  -std::atomic<State> state_ = ATOMIC_VAR_INIT(STATE_NOT_STARTED);
+  -bool graph_input_streams_closed_ = false;
+  -int throttled_graph_input_stream_count_ = 0;
+  -int unthrottle_seq_num_ = 0;
+  -bool observed_output_signal_ = false;
+  -bool waiting_for_observed_output_ = false;
+}
+
+Scheduler "1" o--> "1" CalculatorGraph
+Scheduler -- Executor
+
+@enduml

@@ -1,0 +1,412 @@
+
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+!theme sketchy-outline
+' !theme cerulean-outline
+
+
+' ==============================================================
+
+abstract class CalculatorBase {
+  +virtual ~CalculatorBase() {}
+  +virtual Status Open(CalculatorContext* cc);
+  +{abstract}virtual Status Process(CalculatorContext* cc) = 0;
+  +virtual Status Close(CalculatorContext* cc);
+  +virtual Timestamp SourceProcessOrder(const CalculatorContext* cc) const;
+}
+
+class CalculatorRunnerSourceCalculator {
+  +{static} absl::Status GetContract(CalculatorContract* cc);
+  +absl::Status Open(CalculatorContext* cc) override;
+  +absl::Status Process(CalculatorContext* cc) override;
+}
+
+class CalculatorRunnerSinkCalculator {
+  +{static} absl::Status GetContract(CalculatorContract* cc);
+  +absl::Status Open(CalculatorContext* cc) override;
+  +absl::Status Process(CalculatorContext* cc) override;
+  -CalculatorRunner::StreamContents* contents_ = nullptr;
+}
+
+CalculatorBase <|.. CalculatorRunnerSourceCalculator
+CalculatorBase <|.. CalculatorRunnerSinkCalculator
+
+struct CalculatorRunner::StreamContents {
+  +std::vector<Packet> packets;
+  +Packet header;
+}
+
+class CalculatorRunner {
+  +typedef Collection<StreamContents> StreamContentsSet;
+  +explicit CalculatorRunner(const CalculatorGraphConfig::Node& node_config);
+  +~CalculatorRunner();
+  +StreamContentsSet* MutableInputs() { return inputs_.get(); }
+  +PacketSet* MutableSidePackets() { return input_side_packets_.get(); }
+  +absl::Status Run();
+  +const StreamContentsSet& Outputs() const { return *outputs_; }
+  +const PacketSet& OutputSidePackets() { return *output_side_packets_; }
+  +mediapipe::Counter* GetCounter(const std::string& name);
+  +std::map<std::string, int64_t> GetCountersValues();
+  -absl::Status BuildGraph();
+  -CalculatorGraphConfig::Node node_config_;
+  -bool log_calculator_proto_ = false;
+  -std::unique_ptr<StreamContentsSet> inputs_;
+  -std::unique_ptr<StreamContentsSet> outputs_;
+  -std::unique_ptr<PacketSet> input_side_packets_;
+  -std::unique_ptr<PacketSet> output_side_packets_;
+  -std::unique_ptr<CalculatorGraph> graph_;
+}
+
+CalculatorRunner --> CalculatorRunner::StreamContents : defines
+CalculatorRunner "1" *-- "0...n" Packet : contains
+' CalculatorRunner::BuildGraph ..> CalculatorRunnerSourceCalculator: setCalculatorToNode
+' CalculatorRunner::BuildGraph ..> CalculatorRunnerSinkCalculator: setCalculatorToNode
+' CalculatorRunner "1" *--> "1" CalculatorGraph : contains
+
+class CalculatorContract {
+  +absl::Status Initialize(const CalculatorGraphConfig::Node& node);
+  +absl::Status Initialize(const PacketGeneratorConfig& node, const std::string& package);
+  +absl::Status Initialize(const StatusHandlerConfig& node);
+  +void SetNodeName(const std::string& node_name);
+  +const std::string& GetNodeName() const;
+  +const CalculatorOptions& Options() const;
+  +template <class T> const T& Options() const;
+  +template <class T> bool HasOptions() const;
+  +PacketTypeSet& Inputs();
+  +PacketTypeSet& Outputs();
+  +PacketTypeSet& InputSidePackets();
+  +PacketTypeSet& OutputSidePackets();
+  +void SetInputStreamHandler(const std::string& name);
+  +void SetInputStreamHandlerOptions(const MediaPipeOptions& options);
+  +std::string GetInputStreamHandler() const;
+  +MediaPipeOptions GetInputStreamHandlerOptions() const;
+  +void SetProcessTimestampBounds(bool process_timestamps);
+  +bool GetProcessTimestampBounds() const;
+  +void SetTimestampOffset(TimestampDiff offset);
+  +TimestampDiff GetTimestampOffset() const;
+  -template <class T> void GetNodeOptions(T* result) const;
+  -const CalculatorGraphConfig::Node& GetWrapperConfig();
+  -const CalculatorGraphConfig::Node* node_config_ = nullptr;
+  -std::unique_ptr<CalculatorGraphConfig::Node> wrapper_config_;
+  -tool::OptionsMap options_;
+  -std::unique_ptr<PacketTypeSet> inputs_;
+  -std::unique_ptr<PacketTypeSet> outputs_;
+  -std::unique_ptr<PacketTypeSet> input_side_packets_;
+  -std::unique_ptr<PacketTypeSet> output_side_packets_;
+  -std::string input_stream_handler_;
+  -MediaPipeOptions input_stream_handler_options_;
+  -std::string node_name_;
+  -ServiceReqMap service_requests_;
+  -bool process_timestamps_ = false;
+  -TimestampDiff timestamp_offset_ = TimestampDiff::Unset();
+  -friend class CalculatorNode;
+}
+
+class CalculatorGraph {
+  -bool initialized_ = false;
+  -PacketType any_packet_type_;
+  -std::unique_ptr<ValidatedGraphConfig> validated_graph_;
+  -PacketGeneratorGraph packet_generator_graph_;
+  -bool has_sources_ = false;
+  -std::unique_ptr<InputStreamManager[]> input_stream_managers_;
+  -std::unique_ptr<OutputStreamManager[]> output_stream_managers_;
+  -std::unique_ptr<OutputSidePacketImpl[]> output_side_packets_;
+  -std::unique_ptr<absl::FixedArray<CalculatorNode>> nodes_;
+  -std::vector<std::shared_ptr<GraphOutputStream>> graph_output_streams_;
+  -int max_queue_size_ = -1;
+  -GraphInputStreamAddMode graph_input_stream_add_mode_;
+  -std::vector<absl::flat_hash_set<InputStreamManager*>> full_input_streams_
+  -absl::flat_hash_map<std::string, std::unique_ptr<GraphInputStream>> graph_input_streams_;
+  -absl::flat_hash_map<std::string, int> graph_input_stream_node_ids_;
+  -absl::flat_hash_map<std::string, int> graph_input_stream_max_queue_size_;
+  -std::unique_ptr<CounterFactory> counter_factory_;
+  -std::map<std::string, std::shared_ptr<Executor>> executors_;
+  -std::map<std::string, Packet> current_run_side_packets_;
+  -std::map<std::string, Packet> service_packets_;
+  -std::vector<Status> errors_;
+  -bool use_application_thread_ = false;
+  -absl::CondVar wait_to_add_packet_cond_var_;
+  -absl::Mutex error_mutex_;
+  -std::atomic<bool> has_error_;
+  -mutable absl::Mutex full_input_streams_mutex_;
+  -std::atomic<unsigned int> num_closed_graph_input_streams_;
+  -std::shared_ptr<ProfilingContext> profiler_;
+  -Scheduler scheduler_;
+  +CalculatorGraph();
+  +explicit CalculatorGraph(const CalculatorGraphConfig& config);
+  +virtual ~CalculatorGraph();
+  +Status Initialize(const CalculatorGraphConfig& config, const std::map<std::string, Packet>& side_packets);
+  +Status Initialize(const CalculatorGraphConfig& config);
+  +Status Initialize(
+  +    const std::vector<CalculatorGraphConfig>& configs,
+  +    const std::vector<CalculatorGraphTemplate>& templates,
+  +    const std::map<std::string, Packet>& side_packets = {},
+  +    const std::string& graph_type = "",
+  +    const Subgraph::SubgraphOptions* options = nullptr);
+  +const CalculatorGraphConfig& Config();
+  +Status ObserveOutputStream(const std::string& stream_name, std::function<Status(const Packet&)> packet_callback);
+  +StatusOrPoller AddOutputStreamPoller(const std::string& stream_name);
+  +StatusOr<Packet> GetOutputSidePacket(const std::string& packet_name);
+  +virtual Status Run(const std::map<std::string, Packet>& extra_side_packets);
+  +Status Run() { return Run({}); }
+  +Status StartRun(const std::map<std::string, Packet>& extra_side_packets);
+  +Status StartRun(const std::map<std::string, Packet>& extra_side_packets, const std::map<std::string, Packet>& stream_headers);
+  +Status WaitUntilDone();
+  +Status WaitUntilIdle();
+  +Status WaitForObservedOutput();
+  +bool HasError() const;
+  +Status AddPacketToInputStream(const std::string& stream_name, const Packet& packet);
+  +Status AddPacketToInputStream(const std::string& stream_name, Packet&& packet);
+  +Status SetInputStreamMaxQueueSize(const std::string& stream_name, int max_queue_size);
+  +bool HasInputStream(const std::string& name);
+  +Status CloseInputStream(const std::string& stream_name);
+  +Status CloseAllInputStreams();
+  +Status CloseAllPacketSources();
+  +ProfilingContext* profiler();
+  +void SetCounterFactory(CounterFactory* factory);
+  +CounterFactory* GetCounterFactory();
+  +void RecordError(const Status& error);
+  +int GetMaxInputStreamQueueSize();
+  +GraphInputStreamAddMode GetGraphInputStreamAddMode() const;
+  +void SetGraphInputStreamAddMode(GraphInputStreamAddMode mode);
+  +void Cancel();
+  +Status SetExecutor(const std::string& name, std::shared_ptr<Executor> executor);
+  +bool GraphInputStreamsClosed();
+  +bool IsNodeThrottled(int node_id);
+  +bool UnthrottleSources();
+  +SchedulerTimes GetSchedulerTimes();
+  -Status Initialize(std::unique_ptr<ValidatedGraphConfig> validated_graph, const std::map<std::string, Packet>& side_packets);
+  -Status AddPacketToInputStreamInternal(const std::string& stream_name, T&& packet);
+  -Status SetExecutorInternal(const std::string& name, std::shared_ptr<Executor> executor);
+  -Status InitializeDefaultExecutor(const ThreadPoolExecutorOptions& default_executor_options, bool use_application_thread);
+  -Status CreateDefaultThreadPool(const ThreadPoolExecutorOptions& default_executor_options, int num_threads);
+  -static bool IsReservedExecutorName(const std::string& name);
+  -Status InitializeExecutors();
+  -Status InitializePacketGeneratorGraph(const std::map<std::string, Packet>& side_packets);
+  -Status InitializeStreams();
+  -Status InitializeProfiler();
+  -Status InitializeCalculatorNodes();
+  -void ScheduleAllOpenableNodes();
+  -Status PrepareForRun(const std::map<std::string, Packet>& extra_side_packets, const std::map<std::string, Packet>& stream_headers);
+  -Status FinishRun();
+  -void CleanupAfterRun(Status* status);
+  -bool GetCombinedErrors(const std::string& error_prefix, Status* error_status);
+  -bool GetCombinedErrors(Status* error_status);
+  -void CallStatusHandlers(GraphRunState graph_run_state, const Status& status);
+  -void UpdateThrottledNodes(InputStreamManager* stream, bool* stream_was_full);
+}
+
+abstract class CalculatorNode {
+  -const ValidatedGraphConfig* validated_graph_ = nullptr;
+  -**std::unique_ptr<CalculatorBase> calculator_**;
+  -**std::unique_ptr<CalculatorState> calculator_state_**;
+  -**std::shared_ptr<ProfilingContext> profiling_context_**;
+  -**CalculatorContextManager calculator_context_manager_**;
+  -schedulerQueue* scheduler_queue_ = nullptr;
+  -int node_id_ = -1;
+  -std::string name_;
+  -std::string executor_;
+  -int source_layer_ = 0;
+  -**NodeStatus status_**;
+  -int max_in_flight_ = 1;
+  -int current_in_flight_ = 0;
+  -**SchedulingState scheduling_state_ = kIdle**;
+  -std::function<void()> ready_for_open_callback_;
+  -std::function<void()> source_node_opened_callback_;
+  -bool input_stream_headers_ready_called_ = false;
+  -bool input_side_packets_ready_called_ = false;
+  -bool input_stream_headers_ready_ = false;
+  -bool input_side_packets_ready_ = false;
+  -mutable absl::Mutex status_mutex_;
+  -**InputSidePacketHandler input_side_packet_handler_**;
+  -**std::unique_ptr<OutputSidePacketSet> output_side_packets_**;
+  -**std::unique_ptr<InputStreamHandler> input_stream_handler_**;
+  -**std::unique_ptr<OutputStreamHandler> output_stream_handler_**;
+  -bool uses_gpu_ = false;
+  -bool needs_to_close_ = false;
+  +typedef std::unordered_map<std::string, std::unordered_set<int>> OutputStreamToSourcesMap;
+  --
+  +CalculatorNode();
+  +Timestamp SourceProcessOrder(const CalculatorContext* cc) const;
+  +Status Initialize(const ValidatedGraphConfig*, int node_id, InputStreamManager*, OutputStreamManager*,
+                     OutputSidePacketImpl*, int* buffer_size_hint, std::shared_ptr<ProfilingContext>);
+  +Status PrepareForRun(const std::map<std::string, Packet>& all_side_packets, const std::map<std::string, Packet>& service_packets,
+    std::function<void()> ready_for_open_callback, std::function<void()> source_node_opened_callback,
+    std::function<void(CalculatorContext*)> schedule_callback, std::function<void(Status)> error_callback, CounterFactory* counter_factory);
+  +Status OpenNode();
+  +Status ProcessNode(CalculatorContext* cc);
+  +void ActivateNode();
+  +void SetExecutor(const std::string& executor);
+  +void SetSchedulerQueue(schedulerQueue* queue);
+  +void CleanupAfterRun(const Status& graph_status);
+  ..
+  +int Id();
+  +std::string DebugName() const;
+  +const std::string& Executor() const { return executor_; }
+  +bool Prepared() const;
+  +bool Opened() const;
+  +bool Active() const;
+  +bool Closed() const;
+  +bool IsSource() const;
+  +int source_layer() const;
+  +bool TryToBeginScheduling();
+  +void EndScheduling();
+  +bool ReadyForOpen() const;
+  +void InputStreamHeadersReady();
+  +void InputSidePacketsReady();
+  +void CheckIfBecameReady();
+  +void NodeOpened();
+  +bool UsesGpu() const;
+  +SchedulerQueue* GetSchedulerQueue() const;
+  +void SetQueueSizeCallbacks(InputStreamManager::QueueSizeCallback becomes_full_callback, QSCB becomes_not_full_callback);
+  +void SetMaxInputStreamQueueSize(int max_queue_size);
+  +Status CloseNode(const Status& graph_status, bool graph_run_ended);
+  +CalculatorContext* GetDefaultCalculatorContext() const;
+  +const CalculatorState& GetCalculatorState() const;
+'   --
+'   -Status InitializeOutputSidePackets(const PacketTypeSet& output_side_packet_types,
+'   -    OutputSidePacketImpl* output_side_packets);
+'   -Status InitializeInputSidePackets(OutputSidePacketImpl* output_side_packets);
+'   -Status InitializeOutputStreams(OutputStreamManager* output_stream_managers);
+'   -Status InitializeInputStreams(InputStreamManager* input_stream_managers,
+'   -    OutputStreamManager* output_stream_managers);
+'   -Status InitializeInputStreamHandler(const InputStreamHandlerConfig& handler_config,
+'   -    const PacketTypeSet& input_stream_types);
+'   -Status InitializeOutputStreamHandler(const OutputStreamHandlerConfig& handler_config,
+'   -    const PacketTypeSet& output_stream_types);
+'   -Status ConnectShardsToStreams(CalculatorContext* cc);
+'   -void SchedulingLoop();
+'   -void CloseInputStreams();
+'   -void CloseOutputStreams(OutputStreamShardSet* outputs); 
+'   -std::string DebugInputStreamNames() const;
+'   -bool OutputsAreConstant(CalculatorContext* cc);
+}
+
+CalculatorNode "1" *--> "1" CalculatorState : contains
+CalculatorNode "1" *-left- "1" CalculatorBase : contains
+'CalculatorNode "1" *-right- "1" CalculatorContextManager : contains
+CalculatorNode "1" *-> "1" CalculatorContextManager : contains
+CalculatorNode "1" o--> "1" ProfilingContext : aggregation
+' CalculatorNode::SourceProcessOrder .> CalculatorBase::SourceProcessOrder : calls
+
+class CalculatorState <<存储Caculator所需数据=>与计算器和计算器节点解耦>> {
+  -const std::string node_name_;
+  -const int node_id_;
+  -const std::string calculator_type_;
+  -const CalculatorGraphConfig::Node node_config_;
+  -OptionsMap options_;
+  -std::shared_ptr<ProfilingContext> profiling_context_;
+  -std::map<std::string, Packet> service_packets_;
+  -InputStreamSet* input_streams_;
+  -OutputStreamSet* output_streams_;
+  -const PacketSet* input_side_packets_;
+  -OutputSidePacketSet* output_side_packets_;
+  -CounterFactory* counter_factory_;
+  --
+  +CalculatorState(const std::string& node_name, int node_id, const std::string& calculator_type,
+  +                const CalculatorGraphConfig::Node& node_config, std::shared_ptr<ProfilingContext> profiling_context);
+  +~CalculatorState();
+  +void ResetBetweenRuns();
+  ..setters invoked by CalculatorNode..
+  +void SetInputStreamSet(InputStreamSet* input_stream_set);
+  +void SetOutputStreamSet(OutputStreamSet* output_stream_set);
+  +void SetInputSidePackets(const PacketSet* input_side_packets);
+  +void SetOutputSidePackets(OutputSidePacketSet* output_side_packets);
+  +void SetCounterFactory(CounterFactory* counter_factory);
+  +void SetServicePacket(const std::string& key, Packet packet);
+  .. getters invoked by CalculatorContext..
+  +const std::string& CalculatorType() const;
+  +const CalculatorOptions& Options() const;
+  +template <class T> const T& Options() const;
+  +const std::string& NodeName() const;
+  +const int& NodeId() const;
+  +const InputStreamSet& InputStreams() const;
+  +const OutputStreamSet& OutputStreams() const;
+  +const PacketSet& InputSidePackets() const;
+  +OutputSidePacketSet& OutputSidePackets();
+  +Counter* GetCounter(const std::string& name);
+  +std::shared_ptr<ProfilingContext> GetSharedProfilingContext() const;
+  +bool IsServiceAvailable(const GraphServiceBase& service);
+  +template <typename T> T& GetServiceObject(const GraphService<T>& service);
+}
+
+class CalculatorContext { 
+  -CalculatorState* calculator_state_;
+  -InputStreamShardSet inputs_;
+  -OutputStreamShardSet outputs_;
+  -std::queue<Timestamp> input_timestamps_;
+  -Status graph_status_;
+  --
+  +CalculatorContext(CalculatorState* calculator_state, std::shared_ptr<TagMap> in, std::shared_ptr<TagMap> out);
+  ..get from CalculatorState..
+  +const std::string& NodeName() const;
+  +int NodeId() const;
+  +const std::string& CalculatorType() const;
+  +const CalculatorOptions& Options() const;
+  +Counter* GetCounter(const std::string& name);
+  +ProfilingContext* GetProfilingContext() const;
+  ..get from its member data..
+  +Timestamp InputTimestamp() const;
+  +const PacketSet& InputSidePackets() const;
+  +OutputSidePacketSet& OutputSidePackets();
+  +InputStreamShardSet& Inputs();
+  +const InputStreamShardSet& Inputs() const;
+  +OutputStreamShardSet& Outputs();
+  +const OutputStreamShardSet& Outputs() const;
+  +void SetOffset(TimestampDiff offset);
+  +Status GraphStatus() const;
+  +template <typename T> ServiceBinding<T> Service(const GraphService<T>& service);
+  +template <typename T> const T& Options() const;
+  ..以下函数被CalculatorContextManager helpers调用..
+  -friend class CalculatorContextManager;
+  -int NumberOfTimestamps() const;
+  -bool HasInputTimestamp() const;
+  -void PushInputTimestamp(Timestamp input_timestamp);
+  -void PopInputTimestamp();
+  -void SetGraphStatus(const Status& status);
+  -const InputStreamSet& InputStreams() const;
+  -const OutputStreamSet& OutputStreams() const;
+}
+CalculatorContext "1" o-left-> "1" CalculatorState: aggregation \n <<**通过Context成员函数访问State成员数据**>>
+CalculatorBase -right[hidden]-> CalculatorState
+
+
+
+class CalculatorContextManager <<计算器并行运行时使用Context池化技术，否则使用默认Context>> {
+  -CalculatorState* calculator_state_; // 传递给CalculatorState
+  -std::shared_ptr<TagMap> input_tag_map_; 
+  -std::shared_ptr<TagMap> output_tag_map_;
+  -bool calculator_run_in_parallel_; // 标识计算器顺序执行（串行）或并行
+  -**std::unique_ptr<CalculatorContext> default_context_; // for 顺序执行**
+  -**std::map<Timestamp, std::unique_ptr<CalculatorContext>> active_contexts_; // for 并行(using)**
+  -**std::deque<std::unique_ptr<CalculatorContext>> idle_contexts_; // for 并行(free)**
+  -std::function<Status(CalculatorContext*)> setup_shards_callback_;
+  -absl::Mutex contexts_mutex_;
+  --
+  +CalculatorContextManager() {}
+  +void Initialize(CalculatorState* calculator_state, std::shared_ptr<TagMap> in, std::shared_ptr<TagMap> out, bool calculator_run_in_parallel);
+  +Status PrepareForRun(std::function<Status(CalculatorContext*)> setup_shards_callback);// 创建默认上下文
+  +void CleanupAfterRun();
+  +bool HasDefaultCalculatorContext() const;
+  +CalculatorContext* GetDefaultCalculatorContext() const;
+  +CalculatorContext* GetFrontCalculatorContext(Timestamp* context_input_timestamp);
+  +CalculatorContext* PrepareCalculatorContext(Timestamp input_timestamp); // 串行-返回默认，并行-优先从free返回>using 返回动态创建结果
+  +void RecycleCalculatorContext(); // 从using上下文容器中取Header放入free上下文容器中
+  +bool HasActiveContexts();
+  ..<i>HZW称之为helpers，通过上下文管理器成员函数操作，即fn(Object obj, Data d)实际invoke obj.fn(d)</i>..
+  +int NumberOfContextTimestamps(const CalculatorContext& calculator_context) const;
+  +bool ContextHasInputTimestamp(const CalculatorContext& calculator_context) const;
+  +void PushInputTimestampToContext(CalculatorContext* calculator_context, Timestamp input_timestamp);
+  +void PopInputTimestampFromContext(CalculatorContext* calculator_context);
+  +void SetGraphStatusInContext(CalculatorContext* calculator_context,const Status& status);
+}
+
+CalculatorContextManager "1" *--> "1" CalculatorContext: contains \n <<default contexts, 串行场景>>
+CalculatorContextManager "1" *--> "0..n" CalculatorContext: contains \n <<active + idle contexts, 并行场景>>
+
+@enduml

@@ -1,0 +1,57 @@
+
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+!theme mars
+' !theme sketchy-outline
+' !theme cerulean-outline
+
+abstract class AbstractLayerAcc {
+    +virtual Status Init(Context *context, LayerParam *param, LayerResource *resource,
+                        const std::vector<Blob *> &inputs, const std::vector<Blob *> &outputs) = 0;
+    +virtual Status Forward(const std::vector<Blob *> &inputs, const std::vector<Blob *> &outputs) = 0;
+}
+
+AbstractLayerAcc <|.. CpuConvLayerAcc
+AbstractLayerAcc <|.. ArmConvLayerAcc
+AbstractLayerAcc <|.. X86ConvLayerAcc
+AbstractLayerAcc <|.. CudaConvLayerAcc
+AbstractLayerAcc <|.. OpenCLConvLayerAcc
+AbstractLayerAcc <|.. MetalConvLayerAcc
+
+abstract class AbstractDevice {
+    +{abstract}virtual BlobMemorySizeInfo Calculate(BlobDesc& desc) = 0;
+    +{abstract}virtual Status Allocate(void** handle, MatType mat_type, DimsVector dims) = 0;
+    +{abstract}virtual Status Allocate(void** handle, BlobMemorySizeInfo& size_info) = 0;
+    +{abstract}virtual Status Free(void* handle) = 0;
+    +{abstract}virtual Status CopyToDevice(BlobHandle* dst, const BlobHandle* src,
+                                <i>BlobDesc& desc, void* command_queue) = 0;</i>
+    +{abstract}virtual Status CopyFromDevice(BlobHandle* dst, const BlobHandle* src,
+                                  <i>BlobDesc& desc, void* command_queue) = 0;</i>
+    +{abstract}virtual AbstractLayerAcc* CreateLayerAcc(LayerType type) = 0;
+    +{abstract}virtual Context* CreateContext(int device_id) = 0;
+   -DeviceType device_type_;
+}
+
+AbstractDevice <|.. CpuDevice
+AbstractDevice <|.. ArmDevice
+AbstractDevice <|.. X86Device
+AbstractDevice <|.. CudaDevice
+AbstractDevice <|.. OpenCLDevice
+AbstractDevice <|.. MetalDevice
+
+AbstractDevice .up.> AbstractLayerAcc
+' X86ConvLayerAcc .right[hidden]. AbstractLayerAcc
+' CudaConvLayerAcc .left[hidden]. AbstractLayerAcc
+
+CpuDevice .up.> CpuConvLayerAcc: CreateLayerAcc
+ArmDevice .up.> ArmConvLayerAcc: CreateLayerAcc
+X86Device .up.> X86ConvLayerAcc: CreateLayerAcc
+CudaDevice .up.> CudaConvLayerAcc: CreateLayerAcc
+OpenCLDevice .up.> OpenCLConvLayerAcc: CreateLayerAcc
+MetalDevice .up.> MetalConvLayerAcc: CreateLayerAcc
+
+@enduml

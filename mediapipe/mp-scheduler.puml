@@ -1,0 +1,248 @@
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+!theme sketchy-outline
+' !theme cerulean-outline
+
+allow_mixing
+
+' ==============================================================
+
+package (调度器分片：用来收集时间信息以衡量调度器开销) <<frame>> {
+  struct SchedulerTimes {
+    +int64 total_time;
+    +int64 node_time;
+    +double overhead() const {return 1 -double(node_time) / double(total_time);}
+  }
+
+  class SchedulerTimer {
+    +SchedulerTimer();
+    +void StartRun();
+    +void EndRun();
+    +int64 StartNode();
+    +void EndNode(int64 node_start_time);
+    +SchedulerTimes GetSchedulerTimes();
+    -std::unique_ptr<mediapipe::Clock> clock_;
+    -std::atomic<int64> total_node_time_;
+    -int64 start_time_;
+    -int64 total_run_time_;
+  }
+
+  struct SchedulerShared {
+    +SchedulerTimer timer;
+    ..
+    +std::atomic<bool> has_error;
+    +std::function<void(const Status& error)> error_callback;
+    +std::atomic<bool> stopping;
+  }
+
+  SchedulerTimer "1" *--> "1" Clock: contains \n <<用来计时>>
+  SchedulerTimer .. SchedulerTimes: returns it >
+  SchedulerShared "1" *--> "1" SchedulerTimer: contains
+}
+
+abstract class TaskQueue {
+  +{abstract}virtual ~TaskQueue();
+  +{abstract}virtual void RunNextTask() = 0;
+}
+
+package (调度器队列Item：保存计算器节点及其上下文指针) <<frame>> {
+  class CalculatorContext
+  class CalculatorNode
+  class SchedulerQueue::Item {
+    -source_process_order_: int64
+    -node_: CalculatorNode*
+    -cc_: CalculatorContext*
+    -id_, layer_: int
+    -is_source_, is_open_node_: bool
+    +Item(CalculatorNode*)
+    +Item(CalculatorNode*, CalculatorContext*)
+    +Node() const: CalculatorNode*
+    +Context() const: CalculatorContext*
+    +IsOpenNode() const: bool
+    +operator<(const Item&) const: bool
+  }
+}
+
+class SchedulerQueue {
+  -SchedulerShared* const shared_;
+  -Executor* executor_ = nullptr;
+  -std::priority_queue<Item> queue_;
+  -int running_count_ = 0;
+  -int num_pending_tasks_;
+  -int num_tasks_to_add_;
+  +typedef std::function<void(bool idle)> IdleCallback;
+  -IdleCallback idle_callback_;
+  -absl::Mutex mutex_;
+  --
+  +**explicit SchedulerQueue(SchedulerShared* shared)**;
+  +**void SetExecutor(Executor* executor)**;
+  +void SetIdleCallback(IdleCallback callback);
+  +void Reset();
+  +**void RunNextTask() override;**
+  +void SetRunning(bool running);
+  +int GetTasksToSubmitToExecutor();
+  +void SubmitWaitingTasksToExecutor();
+  +void **AddNode**(CalculatorNode* node, CalculatorContext* cc);
+  +void **AddNodeForOpen**(CalculatorNode* node);
+  +void **AddItemToQueue**(Item&& item);
+  +void CleanupAfterRun();
+  -void RunCalculatorNode(CalculatorNode* node, CalculatorContext* cc);
+  -void OpenCalculatorNode(CalculatorNode* node);
+  -bool IsIdle();
+}
+TaskQueue <|.. SchedulerQueue
+SchedulerQueue "1" o--> "1" SchedulerShared: aggregation \n <<构造注入>>
+SchedulerQueue "1" o-right-> "1" Executor: aggregation \n <<配置注入，计算器节点中的任务例程的执行策略由执行器的类型决定>>
+SchedulerQueue "1" *--> "0..n" "SchedulerQueue::Item" : contains \n <<管理节点及其context指针-**优先级队列**>>
+"SchedulerQueue::Item" "1" o--> "1" CalculatorNode: aggregation \n <<构造注入>>
+"SchedulerQueue::Item" "1" o--> "1" CalculatorContext: aggregation \n <<构造注入>>
+
+' ==============================================================
+
+abstract class Executor {
+  +{abstract}virtual ~Executor();
+  +{abstract}virtual void AddTask(TaskQueue* task_queue);
+  +{abstract}virtual void Schedule(std::function<void()> task) = 0;
+}
+
+class DelegatingExecutor {
+  -typedef std::function<void(std::function<void()>)> FnFnCallback;
+  -FnFnCallback callback_;
+  --
+  +explicit DelegatingExecutor(FnFnCallback callback);
+  +void Schedule(std::function<void()> task) override;
+}
+
+class ThreadPoolExecutor {
+  +{static} StatusOr<Executor*> Create(const MediaPipeOptions&);
+  +explicit ThreadPoolExecutor(int num_threads);
+  +~ThreadPoolExecutor() override;
+  +void Schedule(std::function<void()> task) override;
+  +int num_threads() const { return thread_pool_.num_threads(); }
+  +size_t stack_size() const { return stack_size_; }
+  -ThreadPool thread_pool_;
+  -size_t stack_size_ = 0;
+}
+
+class CurrentThreadExecutor {
+  -bool executing_ = false;
+  -std::deque<std::function<void()>> tasks_;
+  --
+  +~CurrentThreadExecutor() override;
+  +void Schedule(std::function<void()> task) override;
+}
+
+Executor <|.. DelegatingExecutor: 任务代理给回调函数 >
+Executor <|.. ThreadPoolExecutor: 任务投递给线程池 >
+Executor <|.. CurrentThreadExecutor: 任务排队或立即执行 >
+Executor .. SchedulerQueue: association \n <<Schedue(RunNextTask)>> >
+
+ThreadPoolExecutor "1" *--> "1" ThreadPool: contains
+
+' ==============================================================
+
+enum Scheduler::State {
+  STATE_NOT_STARTED = 0,  
+  STATE_RUNNING = 1,
+  STATE_PAUSED = 2,
+  STATE_CANCELLING = 3,
+  STATE_TERMINATED = 4,   
+}
+
+Scheduler "1" *--> "1" Scheduler::State : contains <<调度器状态枚举>>
+
+class Scheduler {
+  -CalculatorGraph* graph_;
+  -SchedulerShared shared_;
+  -SchedulerQueue default_queue_;
+  -std::map<std::string, std::unique_ptr<SchedulerQueue>> non_default_queues_;
+  -std::vector<SchedulerQueue*> scheduler_queues_;
+  ..
+  -std::priority_queue<SchedulerQueue::Item> sources_queue_;
+  -std::set<CalculatorNode*, SourceLayerCompare> unopened_sources_;
+  -std::vector<CalculatorNode*> active_sources_;
+  -std::deque<std::function<void()>> app_thread_tasks_;
+  ..
+  -int non_idle_queue_count_ = 0;
+  -bool handling_idle_ = false;
+  -bool graph_input_streams_closed_ = false;
+  -int throttled_graph_input_stream_count_ = 0;
+  -int unthrottle_seq_num_ = 0;
+  ..
+  -bool observed_output_signal_ = false;
+  -bool waiting_for_observed_output_ = false;
+  -std::atomic<State> state_ = ATOMIC_VAR_INIT(STATE_NOT_STARTED);
+  -absl::Mutex state_mutex_;
+  -absl::CondVar state_cond_var_;
+  --
+  +explicit Scheduler(CalculatorGraph* graph);
+  +~Scheduler();
+  ..
+  +void SetExecutor(Executor* executor);
+  +Status SetNonDefaultExecutor(const std::string& name, Executor* executor);
+  +void Reset();
+  +void Start();
+  +Status WaitUntilDone();
+  +Status WaitUntilIdle();
+  +void WaitUntilGraphInputStreamUnthrottled(absl::Mutex* secondary_mutex);
+  +Status WaitForObservedOutput();
+  ..
+  +void ScheduleNodeIfNotThrottled(CalculatorNode* node, CalculatorContext* cc);
+  +void ScheduleNodeForOpen(CalculatorNode* node);
+  +void ScheduleUnthrottledReadyNodes(const std::vector<CalculatorNode*>& nodes_to_schedule);
+  +void QueueIdleStateChanged(bool idle);
+  +void AddApplicationThreadTask(std::function<void()> task);
+  +void AddUnopenedSourceNode(CalculatorNode* node);
+  +void AddNodeToSourcesQueue(CalculatorNode* node);
+  +void AssignNodeToSchedulerQueue(CalculatorNode* node);
+  ..
+  +void Pause();
+  +void Resume();
+  +void Cancel();
+  +bool IsPaused();
+  +bool IsTerminated();
+  +void CleanupAfterRun();
+  +void SetHasError(bool error);
+  ..
+  +void AddedPacketToGraphInputStream();
+  +void ThrottledGraphInputStream();
+  +void UnthrottledGraphInputStream();
+  +void EmittedObservedOutput();
+  +void CloseAllSourceNodes();
+  +void ClosedAllGraphInputStreams();
+  +SchedulerTimes GetSchedulerTimes();
+  ' -void SetQueuesRunning(bool running);
+  ' -void SubmitWaitingTasksOnQueues();
+  ' -bool IsIdle();
+  ' -void CleanupActiveSources();
+  ' -bool TryToScheduleNextSourceLayer();
+  ' -void HandleIdle();
+  ' -void Quit();
+  ' -void ApplicationThreadAwait(const std::function<bool()>& stop_condition);
+}
+
+Scheduler "1" *-right-> "1..n" SchedulerQueue: contains \n <<管理它的aggregations\n(CalculatorNode,SchedulerShared,Executor)>>
+
+' 其他模块如何使用本模块中内容
+
+class CalculatorGraph {
+  -std::map<std::string, std::shared_ptr<Executor>> executors_;
+  -Scheduler scheduler_;
+  --
+  +absl::Status SetExecutor(const std::string& name, std::shared_ptr<Executor> executor);
+  +absl::Status Initialize(std::unique_ptr<ValidatedGraphConfig> validated_graph, const std::map<std::string, Packet>& side_packets) 
+  -absl::Status InitializeExecutors();
+  -absl::Status SetExecutorInternal(const std::string& name, std::shared_ptr<Executor> executor);
+  -absl::Status InitializeDefaultExecutor(const ThreadPoolExecutorOptions*, bool use_app_thread);
+}
+
+CalculatorGraph::scheduler_ "1" *---> "1" Scheduler: contains
+CalculatorGraph::executors_ "1" *---> "1..n" Executor: contains
+' CalculatorGraph -[hidden]> TaskQueue
+
+@enduml

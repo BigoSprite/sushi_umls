@@ -1,0 +1,800 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'!theme mono
+'!theme plain
+'!theme mars
+'!theme crt-amber
+'!theme crt-green
+'!theme hacker
+'!theme silver
+'!theme sketchy
+'!theme sketchy-outline
+'!theme sunlust
+'!theme carbon-gray
+'!theme reddress-darkgreen
+
+footer "TNN: UML Class 2024/06/10 by hzw"
+
+'================================================================
+
+together {
+  class TNN <<PUBLIC>>{
+      -shared_ptr<TNNImpl> impl_ = nullptr;
+      --
+      +Status Init(ModelConfig& config);
+      +Status DeInit();
+      +Status AddOutput(const string& output_name, int output_index = 0);
+      +Status GetModelInputShapesMap(InputShapesMap& shapes_map);
+      +shared_ptr<Instance> CreateInst(
+          NetworkConfig& config, Status& status,
+          InputShapesMap inputs_shape = InputShapesMap());
+      +shared_ptr<Instance> CreateInst(
+          NetworkConfig& config, Status& status,
+          InputShapesMap min_inputs_shape, InputShapesMap max_inputs_shape);
+  }
+
+  abstract TNNImpl {
+    #ModelConfig model_config_;
+    --
+    +virtual ~TNNImpl();
+    +virtual Status Init(ModelConfig& config);
+    +virtual Status DeInit();
+    +{abstract}virtual Status AddOutput(const string& output_name, int output_index = 0) = 0;
+    +{abstract}virtual Status GetModelInputShapesMap(InputShapesMap& shapes_map) = 0;
+    +virtual shared_ptr<Instance> CreateInst(NetworkConfig& config, Status& status,
+      InputShapesMap inputs_shape = InputShapesMap()) = 0;
+    +{abstract}virtual shared_ptr<Instance> CreateInst(NetworkConfig& config, Status& status,
+      InputShapesMap min_inputs_shape, InputShapesMap max_inputs_shape) = 0;
+  }
+
+  abstract AbstractTNNImplFactory {
+    +virtual ~AbstractTNNImplFactory() {}
+    +{abstract}virtual shared_ptr<TNNImpl> CreateTNNImp() = 0;
+  }
+  class TNNImplFactory <? T> {
+    +virtual shared_ptr<TNNImpl> CreateTNNImp() {
+          return make_shared<T>(); }
+  }
+  TNNImplFactory .up.|> AbstractTNNImplFactory
+  class TNNImplManager {
+      +{static} shared_ptr<TNNImpl> GetTNNImpl(ModelType type);
+      +{static} void RegisterTNNImplFactory(ModelType type, AbstractTNNImplFactory* factory);
+      -{static} map<ModelType, shared_ptr<AbstractTNNImplFactory>>& GetTNNImplFactoryMap();
+  }
+  class TNNImplFactoryRegister <? T> << <color:pink>注册器</color> >> {
+    +explicit TNNImplFactoryRegister(ModelType type) {
+          TNNImplManager::RegisterTNNImplFactory(type, new T()); }
+  }
+
+  TNNImpl <-left-* TNN: pImpl idiom \n <<impl_ = TNNImplManager::GetTNNImpl(config.model_type)>>
+  TNNImplFactoryRegister .> TNNImplManager: register subclass of \n AbstractTNNImplFactory to static map
+  TNNImplManager "1" *-up-> "1..n" TNNImplFactory: contains \n<<lazy creating T - subclass of TNNImpl>>
+
+  class TNNImplDefault
+  class TNNImplRknpu
+  class TNNImplCoreML
+
+  TNNImplDefault .up.|> TNNImpl
+  TNNImplRknpu   .up.|> TNNImpl
+  TNNImplCoreML  .up.|> TNNImpl
+
+  TNNImplFactoryRegister .up.> TNNImplDefault: register this to static map \n <<lazy create>>
+  TNNImplFactoryRegister .up.> TNNImplRknpu: register this to static map \n <<lazy create>>
+  TNNImplFactoryRegister .up.> TNNImplCoreML: register this to static map \n <<lazy create>>
+
+}
+'================================================================
+together {
+
+class ModelConfig <<(S,#ADD1B2)>> {
+    +ModelType model_type = MODEL_TYPE_TNN;
+    // tnn model need two params: order is proto content, model content.
+    // ncnn need two: params: order is param, weights.
+    // openvino model need two params: order is xml content, model path.
+    // coreml model need one param: coreml model dir.
+    // snpe model need one param: dlc model dir.
+    // hiai model need two params: order is model name, model_file_path.
+    // atlas model need one param: config string.
+    +std::vector<std::string> params = {};
+    // params can also add extra config for specific layer
+    // tnn model use [layer_name:string] as key-value pair,
+    // to add extra config for some layer.
+    // for example: "ExtraConfig:Conv_0:arm_fp16_winograd_unit2,arm_fp32_gemm;Conv_1:arm_fp32_gemm"
+    // set Conv_0 layer to run winograd_unit2 conv if precision is fp16
+    // set Conv_1 layer to run gemm conv if precision is fp32
+    // the config format is: device_type + precision + option
+    // in OpenCL, if you want the specified layer to use fp32 inference, you can use the following config,
+    // "ExtraConfig:Conv_0:opencl_force_fp32;Conv_1:opencl_force_fp32;"
+    // set Conv_0 layer to use fp32 inference
+    // set Conv_1 layer to use fp32 inference
+    // in OpenCL, the result of conv is incorrect on some chips, you can use the unoptimized conv with following config,
+    // "ExtraConfig:Conv_0:opencl_use_unoptimized_conv;"
+}
+
+class NetResource <<(S,#ADD1B2)>> {
+  +std::map<std::string, std::shared_ptr<LayerResource>> resource_map;
+  +ConstantResource constant_map;
+  // data flag of constant blobs
+  +ConstantResourceFlag constant_blob_flags;
+  // names of constant layer whose output blob data flag is
+  // DATA_FLAG_CHANGE_NEVER or DATA_FLAG_CHANGE_IF_SHAPE_DIFFER
+  +std::set<std::string> constant_layers;
+  // names of constant layer whose output blob data flag is
+  // DATA_FLAG_CHANGE_IF_SHAPE_DIFFER
+  +std::set<std::string> shape_differ_layers;
+  //default shape map, also it is max shape map corresponding to
+  // max_inputs_shape in Instance.Init
+  +BlobShapesMap blob_shapes_map;
+  // min shape map, corresponding to min_inputs_shape
+  // in Instance.Init
+  +BlobShapesMap min_blob_shapes_map;
+  //data type for input and output blobs
+  +BlobDataTypeMap blob_datatype_map;
+}
+
+abstract class AbstractModelInterpreter {
+  +{abstract}virtual Status Interpret(std::vector<std::string>& params) = 0;
+  +virtual Status InterpretConfig(std::map<std::string, std::string>& config_map);
+  +virtual std::shared_ptr<AbstractModelInterpreter> Copy();
+}
+abstract class DefaultModelInterpreter {
+  -NetStructure *net_structure_; // network build info
+  -NetResource *net_resource_; // weights data
+  +{abstract}virtual Status Interpret(std::vector<std::string> &params) = 0;
+  +virtual NetStructure *GetNetStructure();
+  +virtual NetResource *GetNetResource();
+}
+class ModelInterpreter {
+  +virtual Status Interpret(std::vector<std::string>& params);
+  +virtual Status InterpretConfig(std::map<std::string, std::string>& config_map);
+  +virtual std::shared_ptr<AbstractModelInterpreter> Copy();
+  +{static}static Status RegisterLayerInterpreter(LayerType type, AbstractLayerInterpreter* creator);
+  +{static}static const safe_map<LayerType, shared_ptr<AbstractLayerInterpreter>>& GetLayerInterpreterMap();
+}
+
+class NCNNModelInterpreter
+
+abstract class ModelInterpreterCreator {
+  +{abstract} virtual AbstractModelInterpreter* CreateModelInterpreter() = 0;
+}
+abstract class TypeModelInterpreterCreator <? T> {
+  +virtual AbstractModelInterpreter* CreateModelInterpreter();
+}
+class TypeModelInterpreterRegister <? T> << <color:pink>注册器</color> >>{
+  +explicit TypeModelInterpreterRegister(ModelType type);
+}
+
+class TypeLayerInterpreterRegister <? T> << <color:pink>注册器</color> >> {
+  +explicit TypeLayerInterpreterRegister(LayerType type);
+}
+
+class LayerInfo <<(S,#ADD1B2)>> {
+  +LayerType type;
+  +string type_str;
+  +string name;
+  +vector<string> inputs;
+  +vector<string> outputs;
+  +shared_ptr<LayerParam> param = nullptr;
+  +shared_ptr<LayerInfo> Copy();
+}
+
+class NetStructure <<(S,#ADD1B2)>> {
+  +InputShapesMap inputs_shape_map;
+  +InputDataTypeMap input_data_type_map;
+  +set<string> outputs;
+  +vector<shared_ptr<LayerInfo>> layers;
+  +set<string> blobs;
+  +ModelType source_model_type = MODEL_TYPE_TNN;
+  +shared_ptr<NetStructure> Copy();
+  +NetStructure* CreateNew();
+}
+
+abstract class AbstractLayerInterpreter {
+  +{abstract}virtual Status InterpretProto(str_arr layer_cfg_arr, int start_index, LayerParam **param) = 0;
+  +{abstract}virtual Status InterpretResource(Deserializer &deserializer, LayerResource **resource) = 0;
+  +{abstract}virtual Status SaveProto(std::ofstream &output_stream, LayerParam *param) = 0;
+  +{abstract}virtual Status SaveResource(Serializer &serializer, LayerParam *param, LayerResource *resource) = 0;
+}
+
+class LayerParam <<(S,#ADD1B2)>> {
+  +virtual ~LayerParam() {}
+  +string type;
+  +string name;
+  +bool quantized = false;
+  +bool dynamic_range_quantized = false;
+  +size_t weight_data_size = 0;
+  +set<string> extra_config;
+  +PARAM_COPY(LayerParam)
+}
+
+class PoolingLayerParam <<(S,#ADD1B2)>> {
+  +int pool_type = 0;
+  //-1:caffe type default 0:SAME 1:VALID
+  +int pad_type  = -1;
+  +int ceil_mode = 1;
+  //[w_begin w_end h_begin h_end d_begin d_end]
+  +vector<int> pads;
+  // order [w h d]
+  +vector<int> kernels;
+  +vector<int> kernels_params;
+  // order [w h d]
+  +vector<int> strides;
+  // order [w h d] for adaptive pool
+  +vector<int> kernel_indexs;
+  +int is_adaptive_pool = 0;
+  +int is_global_pool   = 0;
+  // order [w h d]
+  +vector<int> output_shape;
+  +PARAM_COPY(PoolingLayerParam)
+}
+
+class BatchNormLayerParam <<(S,#ADD1B2)>> {
+  +int channels = 0;
+  +float eps = 1e-5f;
+  +int is_instance_norm = 0;
+  +PARAM_COPY(BatchNormLayerParam)
+}
+
+class LayerResource <<(S,#ADD1B2)>> {
+  +string name = "";
+}
+
+class BatchNormLayerResource <<(S,#ADD1B2)>> {
+  +// bn k buffer
+  +RawBuffer scale_handle;
+  +// bn b buffer
+  +RawBuffer bias_handle;
+}
+
+class BiasAddLayerResource <<(S,#ADD1B2)>> {
+  +RawBuffer bias_handle;
+}
+
+class RawBuffer {
+  -shared_ptr<char> buff_ = nullptr;
+  -int bytes_size_ = 0;
+  -DataType data_type_ = DATA_TYPE_FLOAT;
+  -DimsVector dims_ = {};
+}
+
+class LayerResourceGenerator {
+  +virtual Status GenLayerResource(LayerParam* param,
+    LayerResource** resource, vector<Blob*>& inputs);
+  +virtual Status GenLayerConstantResource(LayerParam* param,
+    LayerResource** resource, vector<Blob*>& inputs, ConstantResource* consts);
+  +virtual Status ConvertHalfLayerResource(LayerResource* src_res,
+    LayerResource** dst_res);
+}
+
+LayerResourceGenerator <|-- ConvolutionLayerResourceGenerator
+LayerResourceGenerator <|-- BatchnormLayerResourceGenerator
+LayerResourceGenerator <|-- xxxLayerResourceGenerator
+
+class TypeLayerResourceRegister <? T> << <color:pink>注册器</color> >>{
+  +explicit TypeLayerResourceRegister(LayerType type)
+      { GetGlobalLayerResourceGeneratorMap()[type] = shared_ptr<T>(new T); }
+}
+
+TypeModelInterpreterCreator .up.|> ModelInterpreterCreator
+
+AbstractModelInterpreter <|. RknpuModelInterpreter
+AbstractModelInterpreter <|.. DefaultModelInterpreter
+DefaultModelInterpreter <|.. NCNNModelInterpreter
+DefaultModelInterpreter <|..... ModelInterpreter
+
+PoolingLayerInterpreter ..|> AbstractLayerInterpreter
+BatchNormLayerInterpreter ..|> AbstractLayerInterpreter
+xxxLayerInterpreter       ..|> AbstractLayerInterpreter
+
+LayerParam <|-right- PoolingLayerParam
+LayerParam <|-- BatchNormLayerParam
+LayerParam <|-- xxxLayerParam
+
+LayerResource <|-- BatchNormLayerResource
+LayerResource <|-- BiasAddLayerResource
+LayerResource <|-- xxxLayerResource
+
+TypeModelInterpreterRegister .right.> TypeModelInterpreterCreator: < new & register creator to map \n GetGlobalModelInterpreterCreatorMap()[type] = std::shared_ptr<T>(new T());
+TypeModelInterpreterRegister ..> AbstractModelInterpreter: 1. REGISTER AbstractModelInterpreter subclass to static map \n subclass as T of TypeModelInterpreterCreator \n\n2. AbstractModelInterpreter* CreateModelInterpreter(ModelType type);
+
+ModelConfig . AbstractModelInterpreter: association \n 1. mode_type as the map key \n 2. param for model info
+
+TypeLayerInterpreterRegister --> AbstractLayerInterpreter: REGISTER_LAYER_INTERPRETER \n subclass as T of TypeLayerInterpreterCreator
+'123
+TypeLayerInterpreterRegister ..> ModelInterpreter: "call ModelInterpreter::RegisterLayerInterpreter \n register subclass instance of AbstractLayerInterpreter to map"
+
+DefaultModelInterpreter "1" *--right-> "1" NetStructure: contains
+DefaultModelInterpreter "1" ---> "1" NetResource: contains
+
+LayerInfo "1" o-right-> "1" LayerParam: pointer to \n\n <<created by InterpretProto(str_arr, int, LayerParam **)>>
+NetResource "1" --> "0..n" LayerResource
+NetStructure "1" *-> "0..n" LayerInfo: contains \n pointer to
+LayerResource "1" *--> "0..n" RawBuffer: contains in subclass
+LayerResource <. LayerResourceGenerator: make LayerResource subclass object \n from subclass of LayerParam
+TypeLayerResourceRegister --> LayerResourceGenerator: REGISTER_LAYER_RESOURCE
+AbstractNetwork ....> AbstractModelInterpreter: interpreter_ = CreateModelInterpreter(config.model_type) \n <<in TNNImpl>>
+
+'AbstractLayerInterpreter --> LayerParam: New subclass of LayerParam \n according to LayerType \n LayerParam saved to NetStructure
+PoolingLayerInterpreter 	 .up. PoolingLayerParam: new >
+BatchNormLayerInterpreter  .up. BatchNormLayerParam: new >
+xxxLayerInterpreter 			 .up. xxxLayerParam: new >
+
+}
+
+'================================================================
+
+together {
+
+class Instance <<PUBLIC>> {
+    -shared_ptr<AbstractModelInterpreter> interpreter_ = nullptr;
+    -shared_ptr<AbstractNetwork> network_ = nullptr;
+    -shared_ptr<AbstractNetwork> const_folder_ = nullptr;
+    -NetworkConfig net_config_;
+    -ModelConfig model_config_;
+    -map<string, shared_ptr<BlobConverter>> input_converters_ = {};
+    -map<string, shared_ptr<BlobConverter>> output_converters_ = {};
+    -map<string, shared_ptr<Mat>> output_mats_ = {};
+    -map<string, int> output_mats_convert_status_ = {};
+    --
+    +Instance(NetworkConfig& net_config, ModelConfig& model_config);
+    +~Instance();
+    +Status Init(shared_ptr<AbstractModelInterpreter> interpreter, InputShapesMap inputs_shape);
+    +Status Init(shared_ptr<AbstractModelInterpreter> interpreter,
+    	InputShapesMap min_inputs_shape, InputShapesMap max_inputs_shape);
+    +Status DeInit();
+    +Status GetForwardMemorySize(int& memory_size);
+    +Status SetForwardMemory(void* memory);
+    +Status Reshape(const InputShapesMap& inputs);
+    +Status GetCommandQueue(void** command_queue);
+    +Status ShareCommandQueue(Instance *instance);
+    +Status Forward();
+    +Status ForwardAsync(Callback call_back);
+    +Status GetAllInputBlobs(BlobMap& blobs);
+    +Status GetAllOutputBlobs(BlobMap& blobs);
+    +Status SetCpuNumThreads(int num_threads);
+    +Status SetInputMat(shared_ptr<Mat> mat, MatConvertParam param, string input_name = "");
+    +Status GetOutputMat(shared_ptr<Mat>& mat,
+                        MatConvertParam param = MatConvertParam(), string output_name = "",
+                        DeviceType device = DEVICE_ARM, MatType mat_type = NCHW_FLOAT);
+}
+
+TNNImplDefault "1" ..> "1" Instance: CreateInst
+TNNImplCoreML "1" ..> "1" Instance: CreateInst
+TNNImplRknpu "1" ..> "1" Instance: CreateInst
+
+TNN ..> Instance: TNN实例句柄类
+
+Instance "1" o......> "1" AbstractNetwork: **透传调用-类似于pImpl惯用法** \n <<network_ = NetworkImplManager::GetNetworkImpl(network_type)>>
+
+}
+'================================================================
+
+
+abstract AbstractDevice {
+  -DeviceType* device_type_;
+  --
+  +explicit AbstractDevice(DeviceType);
+  +virtual ~AbstractDevice();
+  +{abstract}virtual BLobMemorySizeInfo Calculate(BlobDesc& desc) = 0;
+  +{abstract}virtual Status Allocate(void** handle, MatType mat_type, DimsVector dims) = 0;
+  +{abstract}virtual Status Allocate(void** handle, BLobMemorySizeInfo& size_info) = 0;
+  +{abstract}virtual Status Allocate(BlobHandle* handle, BLobMemorySizeInfo& size_info) = 0;
+  +{abstract}virtual Status Free(void* handle) = 0;
+  +{abstract}virtual Status CopyToDevice(BlobHandle* dst, const BlobHandle* src, BlobDesc& desc, void* cmd_queue) = 0;
+  +{abstract}virtual Status CopyFromDevice(BlobHandle* dst, const BlobHandle* src, BlobDesc& desc, void* cmd_queue) = 0;
+  ..
+  +{abstract}virtual AbstractLayerAcc* CreateLayerAcc(LayerType type) = 0;
+  +{abstract}virtual Context* CreateContext(int device_id) = 0;
+  ..
+  +virtual shared_ptr<const ImplementedPrecision> GetImplementPrecision(LayerType type);
+  +virtual shared_ptr<const ImplementLayout> GetImplementLayout(LayerType type);
+  +DeviceType GetDeviceType();
+  +{abstract}virtual NetworkType ConvertAutoNetworkType() = 0;
+}
+AbstractDevice ......> AbstractLayerAcc: new subclass of AbstractLayerAcc \n\n <<AbstractLayerAcc *XXXDevice::CreateLayerAcc(LayerType type) { \n auto &layer_creator_map = GetLayerCreatorMap(); \n if (layer_creator_map.count(type) > 0) { \nreturn layer_creator_map[type]->CreateLayerAcc(type); } \n return NULL; }>>
+AbstractDevice .> Context: new subclass of Context \n <<Context *XXXDevice::CreateContext(int device_id) { return new XXXContext(); }>>
+
+class ArmDevice <<所有具体device实现模式均与它的实现模式类似>> implements AbstractDevice {
+  +<i>Base class pure virtual methods with same name</i>
+  +{static} Status RegisterLayerAccCreator(LayerType type, LayerAccCreator* creator);
+  +{static} Status RegisterLayerPrecision(LayerType type, shared_ptr<ImplementedPrecision> precision);
+  +{static} Status RegisterLayerLayout(LayerType type, shared_ptr<ImplementedLayout> layout);
+  +{static} map<LayerType, shared_ptr<LayerAccCreator>>& GetLayerCreatorMap();
+  +{static} map<LayerType, shared_ptr<ImplementedPrecision>>& GetLayerPrecisionMap();
+  +{static} map<LayerType, shared_ptr<ImplementedLayout>>& GetLayerLayoutMap();
+}
+
+
+AbstractDevice <|.. X86Device
+AbstractDevice <|.. CudaDevice
+AbstractDevice <|.. xxxDevice
+
+ArmDevice ..> ArmLayerAcc: CreateLayerAcc
+X86Device ..> X86LayerAcc: CreateLayerAcc
+CudaDevice ..> CudaLayerAcc: CreateLayerAcc
+xxxDevice ..> xxxLayerAcc: CreateLayerAcc
+
+class TypeDeviceRegister <? T> << <color:pink>注册器</color> >>{
+  +explicit TypeDeviceRegister(DeviceType type)
+        auto& device_map = GetGlobalDeviceMap();
+        if (device_map.find(type) == device_map.end()) {
+          device_map[type] = shared_ptr<T>(new T(type));}
+}
+
+TypeDeviceRegister .> AbstractDevice: subclass of AbstractDevice registered by \n TypeDeviceRegister global variable, which calling its constructor \n \n<<AbstractDevice* GetDevice(DeviceType type) { return GetGlobalDeviceMap()[type].get(); }>>
+
+
+'================================================================
+
+together {
+  abstract AbstractNetworkImplFactory {
+    +virtual ~AbstractNetworkImplFactory() {}
+    +{abstract}virtual shared_ptr<AbstractNetwork> CreateNetworkImp() = 0;
+  }
+
+  class NetworkImplFactory <? T> implements AbstractNetworkImplFactory {
+    +virtual shared_ptr<AbstractNetwork> CreateNetworkImp() {
+      return make_shared<T>(); }
+  }
+
+  class NetworkImplManager {
+    +{static} shared_ptr<AbstractNetwork> GetNetworkImpl(NetworkType type);
+    +{static} void RegisterNetworkImplFactory(NetworkType type, AbstractNetworkImplFactory *factory);
+    -{static} map<NetworkType, shared_ptr<AbstractNetworkImplFactory>> &GetNetworkImplFactoryMap();
+  }
+
+  class NetworkImplFactoryRegister <? T> << <color:pink>注册器</color> >>{
+    +explicit NetworkImplFactoryRegister(NetworkType type) {
+      NetworkImplManager::RegisterNetworkImplFactory(type, new T()); }
+  }
+
+  NetworkImplManager ..> NetworkImplFactoryRegister: register subclass of \n AbstractNetworkImplFactory to static map
+  NetworkImplManager "1" *-> "1..n" NetworkImplFactory: contains
+
+  NetworkImplFactoryRegister .left.> AbstractNetwork: get => shared_ptr<AbstractNetwork> GetNetworkImpl(NetworkType)\n\n register => NetworkImplFactoryRegister<NetworkImplFactory<XXXNetwork>> \ng_network_impl_xxx_factory_register(NETWORK_TYPE_XXX);
+}
+
+abstract class AbstractNetwork {
+  --
+  +virtual ~AbstractNetwork() {}
+  +{abstract}virtual Status Init(NetworkConfig &net_config, ModelConfig &model_config,
+    AbstractModelInterpreter *interpreter, InputShapesMap min_inputs_shape,
+    InputShapesMap max_inputs_shape, bool enable_const_folder=true) = 0;
+  +{abstract}virtual Status DeInit() = 0;
+  +{abstract}virtual Status GetForwardMemorySize(int &memory_size) = 0;
+  +{abstract}virtual Status SetForwardMemory(void *memory) = 0;
+  +{abstract}virtual Status Reshape(const InputShapesMap &inputs) = 0;
+  +{abstract}virtual Status GetCommandQueue(void **command_queue) = 0;
+  +{abstract}virtual Status Forward() = 0;
+  +{abstract}virtual Status ForwardAsync(Callback call_back) = 0;
+  +{abstract}virtual Status GetAllInputBlobs(BlobMap &blobs) = 0;
+  +{abstract}virtual Status GetAllOutputBlobs(BlobMap &blobs) = 0;
+  +{abstract}virtual Status SetCpuNumThreads(int num_threads);
+}
+
+class DefaultNetwork {
+  #AbstractDevice *device_ = nullptr;
+  #Context *context_  = nullptr;
+  #vector<BaseLayer *> layers_;
+  #BlobManager *blob_manager_ = nullptr;
+  #BlobMemoryPool *runtime_blob_pool_ = nullptr;
+  #NetStructure *net_structure_ = nullptr;
+  #NetResource *net_resource_ = nullptr;
+  #NetworkConfig config_;
+  #{static}mutex optimize_mtx_;
+  ---
+  +<i>Base class pure virtual methods with same name</i>
+}
+
+abstract class ISharedMemoryChangeListener {
+  +{abstract}virtual void OnSharedForwardMemoryChanged(void *memory) = 0;
+}
+
+note right of DefaultNetwork
+1.包含blob_manager_用于TNN网络内存管理；
+2.包含layers_用于TNN层加速实现。
+end note
+
+AbstractNetwork <|........ DefaultNetwork
+DefaultNetwork <|........ TensorRTNetwork_
+ISharedMemoryChangeListener <|... TensorRTNetwork_
+
+'TODO
+'DefaultNetwork "1" o-> "1" NetStructure: net_structure_ \n <<from DefaultModelInterpreter>>
+'DefaultNetwork "1" o-left-> "1" NetResource: net_resource_ \n <<from DefaultModelInterpreter>>
+DefaultNetwork "1" o-up-> "1" AbstractDevice: device_ = GetDevice(type)
+DefaultNetwork "1" o-up-> "1" Context: context_ \n <<from device_->CreateContext>>
+
+class TensorRTNetwork_ {
+  +set<string> m_concat_blob_names;
+  -bool int8_mode;
+  -bool test_mode;
+  -int m_max_batchsize;
+  -nvinfer1::ICudaEngine* m_trt_engine;
+  -nvinfer1::IExecutionContext* m_trt_context;
+  -{static} TRTLogger m_trt_logger;
+  -unordered_map<string, shared_ptr<nvinfer1::ITensor>> m_blob_tensor_map;
+  -unordered_set<nvinfer1::ITensor *> m_tensor_set;
+  -void** m_trt_bindings;
+  -void* m_context_memory;
+  -NetResource *net_resource_;
+  -int device_id_;
+  -size_t context_memory_size_;
+  -thread::id init_thread_id_;
+  -vector<string> const_input_blobs_;
+  -vector<string> const_weight_blobs_;
+  -{static}unordered_map<string, TensorRTPluginLayerBuilder*> m_plugin_layer_name_map;
+  -{static}mutex network_mutex;
+  ---
+  +<i>Base class pure virtual methods with same name</i>
+  +{static}unordered_map<string, TensorRTPluginLayerBuilder*> GetPluginLayerNameMap();
+}
+
+class TensorRTBlobManager {
+  +virtual Status Init(NetworkConfig &config, NetStructure *net_structure,
+    InputShapesMap inputs_shape_map, DataType input_data_type);
+  +Status AllocateBlobMemory(int flag = DATA_FLAG_CHANGE_ALWAYS) override;
+  +Status MemAlloc(void** ptr, size_t size);
+  +Status MemFree(void* ptr);
+  +explicit TensorRTBlobManager(AbstractDevice *device);
+  +~TensorRTBlobManager();
+}
+
+BlobManager <|-- TensorRTBlobManager
+TensorRTNetwork_ "1" *-> "1" TensorRTBlobManager: contains
+TensorRTNetwork_ "1" o--------------> "1..n" TensorRTBaseLayerBuilder
+
+
+TensorRTBlobManager "1" .> "0..n" ForeignBlob: new ForeignBlob
+
+class BaseLayer
+
+abstract class BaseLayerBuilder {
+  +explicit BaseLayerBuilder(LayerType type);
+  +virtual ~BaseLayerBuilder();
+  +virtual Status Init(Context* context, LayerParam* param, LayerResource* resource,
+     vector<Blob*>& inputs, vector<Blob*>& outputs, AbstractDevice* device);
+  +virtual Status Reshape();
+  +virtual Status Forward();
+  #{abstract}virtual Status Build() = 0 ;
+  #virtual vector<shared_ptr<ForeignTensor>> GetInputTensors();
+  #virtual vector<shared_ptr<ForeignTensor>> GetOutputTensors();
+}
+
+abstract class TensorRTBaseLayerBuilder
+abstract class TensorRTLayerBuilder
+class TensorRTPluginLayerBuilder
+abstract class nvinfer1::IPluginV2DynamicExt
+
+BaseLayer <|---------- BaseLayerBuilder
+BaseLayerBuilder <|.. TensorRTBaseLayerBuilder
+TensorRTBaseLayerBuilder <|.... TensorRTLayerBuilder
+TensorRTBaseLayerBuilder <|.... TensorRTPluginLayerBuilder
+nvinfer1::IPluginV2DynamicExt <|.. TensorRTPluginLayerBuilder
+
+TensorRTLayerBuilder <|-- AbsTRTLayerBuilder
+TensorRTLayerBuilder <|-- ConcatTRTLayerBuilder
+TensorRTLayerBuilder <|-- xxxTRTLayerBuilder
+
+TensorRTPluginLayerBuilder <|-- InnerProductTensorRTPluginLayerBuilder
+TensorRTPluginLayerBuilder <|-- OneHotTensorRTPluginLayerBuilder
+TensorRTPluginLayerBuilder <|-- xxxTensorRTPluginLayerBuilder
+
+class ForeignTensor {
+  +explicit ForeignTensor(){};
+  +virtual ~ForeignTensor(){};
+}
+
+class OpenvinoTensor extends ForeignTensor
+class TensorRTTensor extends ForeignTensor {
+  +explicit TensorRTTensor() {}
+  +virtual ~TensorRTTensor() {}
+  +nvinfer1::ITensor* GetTensor();
+  +Status SetTensor(nvinfer1::ITensor* tensor);
+  +IntScaleResource * GetIntResource();
+  +void SetIntResource(IntScaleResource * resource);
+  +void SetInt8Mode(bool flag);
+  +bool GetInt8Mode();
+  +bool IsQuantized();
+  +void SetQuantized();
+  +bool IsShapeTensor();
+  +void SetShapeTensor();
+  +void SetShapeBlobName(string name);
+  +string GetShapeBlobName();
+  -bool int8_mode = false;
+  -bool quantized = false;
+  -bool shape_tensor = false;
+  -string shape_blob_name;
+  -IntScaleResource *resource_ = nullptr;
+  -nvinfer1::ITensor* m_trt_tensor = nullptr;
+}
+
+class ForeignBlob extends Blob  {
+  +explicit ForeignBlob(BlobDesc desc);
+  +ForeignBlob(BlobDesc desc, bool alloc_memory);
+  +ForeignBlob(BlobDesc desc, BlobHandle);
+  +ForeignBlob(Blob* blob);
+  +~ForeignBlob();
+  +shared_ptr<ForeignTensor> GetForeignTensor();
+  +Status SetForeignTensor(shared_ptr<ForeignTensor> foreign_tensor);
+  #shared_ptr<ForeignTensor> foreign_tensor_;
+}
+
+ForeignBlob "1" o-> "1" TensorRTTensor: foreign_tensor_
+
+'----
+
+together {
+
+  abstract class AbstractLayerAcc {
+    +{abstract}virtual Status Init(Context *context, LayerParam *param, LayerResource *resource,
+      const vector<Blob *> &inputs, const vector<Blob *> &outputs) = 0;
+    +{abstract}virtual Status Forward(const vector<Blob *> &inputs, const vector<Blob *> &outputs) = 0;
+  }
+
+  abstract class LayerAccCreator {
+    +{abstract}virtual AbstractLayerAcc *CreateLayerAcc(LayerType layer_type) = 0;
+  }
+  class TypeLayerAccCreator <? T> {
+    +AbstractLayerAcc *CreateLayerAcc(LayerType layer_type) {
+      return new T(); }
+  }
+
+  class X86TypeLayerAccRegister << <color:pink>注册器</color> >>{
+    +explicit X86TypeLayerAccRegister(LayerType type) {
+      X86Device::RegisterLayerAccCreator(type, new T()); }
+  }
+  class ArmTypeLayerAccRegister << <color:pink>注册器</color> >>{
+    +explicit ArmTypeLayerAccRegister(LayerType type) {
+      ArmDevice::RegisterLayerAccCreator(type, new T()); }
+  }
+  class CudaTypeLayerAccRegister << <color:pink>注册器</color> >>{
+    +explicit CudaTypeLayerAccRegister(LayerType type) {
+      CudaDevice::RegisterLayerAccCreator(type, new T()); }
+  }
+  class xxxTypeLayerAccRegister << <color:pink>注册器</color> >>{
+    +explicit xxxTypeLayerAccRegister(LayerType type) {
+      xxxDevice::RegisterLayerAccCreator(type, new T()); }
+  }
+
+  LayerAccCreator <|. TypeLayerAccCreator
+  BaseLayer "1" o-> "1" AbstractLayerAcc: "layer_acc_ = device->CreateLayerAcc(type_) \n <<each device implement its tnn layer acc>>"
+
+  AbstractLayerAcc <|.. X86LayerAcc
+  AbstractLayerAcc <|.. ArmLayerAcc
+  AbstractLayerAcc <|.. CudaLayerAcc
+  AbstractLayerAcc <|.. xxxLayerAcc
+
+  X86TypeLayerAccRegister  .up.> X86LayerAcc: register subclass to static map \n <<lazy create>>
+  ArmTypeLayerAccRegister  .up.> ArmLayerAcc: register subclass to static map \n <<lazy create>>
+  CudaTypeLayerAccRegister .up.> CudaLayerAcc: register subclass to static map \n <<lazy create>>
+  xxxTypeLayerAccRegister  .up.> xxxLayerAcc: register subclass to static map \n <<lazy create>>
+
+  X86TypeLayerAccRegister ..> TypeLayerAccCreator: new
+  ArmTypeLayerAccRegister ..> TypeLayerAccCreator: new
+  CudaTypeLayerAccRegister ..> TypeLayerAccCreator: new
+  xxxTypeLayerAccRegister ..> TypeLayerAccCreator: new
+
+  together {
+    BaseLayer <|-- ConvLayer: tnn layer \n <<subclass stored to register>>
+    BaseLayer <|-- PoolingLayer: tnn layer \n <<subclass stored to register>>
+    BaseLayer <|-- NormalizeLayer: tnn layer \n <<subclass stored to register>>
+    BaseLayer <|-- xxxLayer: tnn layer \n <<subclass stored to register>>
+  }
+
+}
+
+'----
+abstract class LayerCreator {
+  +{abstract}virtual BaseLayer* CreateLayer() = 0;
+}
+class TypeLayerCreator <? T> {
+  +explicit TypeLayerCreator(LayerType type);
+  +virtual BaseLayer* CreateLayer();
+  #LayerType type_;
+}
+LayerCreator <|.. TypeLayerCreator
+
+class TypeLayerRegister <? T> << <color:pink>注册器</color> >>{
+    +explicit TypeLayerRegister(LayerType type) {
+      GetGlobalLayerCreatorMap()[type] = shared_ptr<T>(new T(type));}
+}
+
+TypeLayerRegister .left.> TypeLayerCreator: new
+TypeLayerRegister ..> BaseLayer: register subclass to static map \n <<lazy create>>
+
+'----
+abstract class LayerBuilderCreator {
+  +{abstract}virtual BaseLayerBuilder* CreateLayerBuilder() = 0;
+}
+class TypeLayerBuilderCreator <? T> {
+  +explicit TypeLayerBuilderCreator(LayerType type);
+  +virtual BaseLayerBuilder* CreateLayerBuilder();
+  #LayerType type_;
+}
+LayerBuilderCreator <|.. TypeLayerBuilderCreator
+
+class TensorRTTypeLayerBuilderRegister <? T> << <color:pink>注册器</color> >>{
+  +explicit TensorRTTypeLayerBuilderRegister(LayerType type) {
+    GetTRTLayerBuilderCreatorMap()[type] = shared_ptr<T>(new T(type)); }
+}
+class TRTPluginTypeLayerBuilderRegister <? T> << <color:pink>注册器</color> >>{
+  +explicit TRTPluginTypeLayerBuilderRegister(LayerType type) {
+    GetTRTPluginLayerBuilderCreatorMap()[type] = shared_ptr<T>(new T(type)); }
+}
+
+TensorRTTypeLayerBuilderRegister .......> TypeLayerBuilderCreator: new
+TRTPluginTypeLayerBuilderRegister .......> TypeLayerBuilderCreator: new
+TensorRTTypeLayerBuilderRegister ..> TensorRTLayerBuilder: register subclass to static map \n <<lazy create>>
+TRTPluginTypeLayerBuilderRegister ..> TensorRTPluginLayerBuilder: register subclass to static map \n <<lazy create>>
+
+'=====================================
+
+'abstract NetOptimizer {
+'  +virtual ~NetOptimizer() {}
+'  +{abstract}virtual string Strategy() = 0;
+'  +{abstract}virtual bool IsSupported(const NetworkConfig &net_config) = 0;
+'  +{abstract}virtual Status Optimize(NetStructure *structure, NetResource *resource) = 0;
+'}
+'
+'class NetOptimizerCbamFusedPooling implements NetOptimizer
+'class NetOptimizerFuseConvActivation implements NetOptimizer
+'class NetOptimizerFuseConvAdd implements NetOptimizer
+'class NetOptimizerXXX implements NetOptimizer
+'
+'class NetOptimizerManager {
+'  +{static} Status Optimize(NetStructure *structure, NetResource *resource, const NetworkConfig &net_config);
+'  +{static} void RegisterNetOptimizer(NetOptimizer *optimizer, OptPriority prior);
+'  +{static} shared_ptr<NetOptimizer> GetNetOptimizerByName(const string &k_net_optimizer);
+'  -{static} map<string, shared_ptr<NetOptimizer>> &GetNetOptimizerMap();
+'  -{static} vector<pair<OptPriority, string>> &GetNetOptimizerSeq();
+'}
+'
+'class NetOptimizerRegister<? T> {
+'  +explicit NetOptimizerRegister(OptPriority p) {
+'    NetOptimizerManager::RegisterNetOptimizer(new T(), p); }
+'}
+'
+'NetOptimizerRegister .> NetOptimizer: do register SubClassOfNetOptimizer to map \n <<using "NetOptimizerRegister<SubClassOfNetOptimizer> g_xxx(OptPriority::P1)">>
+'NetOptimizerRegister ..> NetOptimizerManager: call static register method \n <<for registering SubClassOfNetOptimizer>>
+
+
+'================================================================
+
+abstract Context {
+    +virtual ~Context() {}
+    +{abstract}virtual Status LoadLibrary(vector<string> path) = 0;
+    +{abstract}virtual Status GetCommandQueue(void** command_queue) = 0;
+    +virtual Status ShareCommandQueue(Context* context);
+    +virtual Status OnInstanceForwardBegin();
+    +{abstract}virtual Status OnInstanceForwardEnd() = 0;
+    +virtual Status OnInstanceReshapeBegin();
+    +virtual Status OnInstanceReshapeEnd();
+    +{abstract}virtual Status Synchronize() = 0;
+    +virtual Status SetNumThreads(int num_threads);
+    +void SetPrecision(Precision precision);
+    +Precision GetPrecision();
+    +void SetEnableTuneKernel(bool enable_tune_kernel);
+    +bool GetEnableTuneKernel();
+    +void SetCachePath(string cache_path);
+    +string GetCachePath();
+    +void SetCacheFilePath(string cache_file_path);
+    +string GetCacheFilePath();
+    #Precision precision_ = PRECISION_AUTO;
+    #bool enable_tune_kernel_ = true;
+    #string cache_path_ = "";
+    #string cache_file_path_ = "";
+}
+
+class ArmContext implements Context
+class X86Context implements Context
+class CudaContext implements Context
+class NpuContext implements Context
+class RknpuContext implements Context
+class OpenCLContext implements Context
+class CpuContext implements Context
+class MetalContext implements Context
+
+
+@enduml

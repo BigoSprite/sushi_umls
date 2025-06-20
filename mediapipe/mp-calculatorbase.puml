@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+!theme sketchy-outline
+' !theme cerulean-outline
+
+
+' ==============================================================
+
+abstract class CalculatorBase {
+  +virtual ~CalculatorBase() {}
+  +virtual Status Open(CalculatorContext* cc);
+  +{abstract}virtual Status Process(CalculatorContext* cc) = 0;
+  +virtual Status Close(CalculatorContext* cc);
+  +virtual Timestamp SourceProcessOrder(const CalculatorContext* cc) const;
+}
+
+class PassThroughCalculator {
+  +{static} absl::Status GetContract(CalculatorContract* cc);
+  +absl::Status Open(CalculatorContext* cc) override;
+  +absl::Status Process(CalculatorContext* cc) override;
+}
+
+CalculatorBase <|.. PassThroughCalculator: 计算器通过上下文**配置**其输入流与输出流
+
+class CalculatorContext {
+  -CalculatorState* calculator_state_;
+  -InputStreamShardSet inputs_;
+  -OutputStreamShardSet outputs_;
+  -std::queue<Timestamp> input_timestamps_;
+  -Status graph_status_;
+  --
+  ...
+  +Counter* GetCounter(const std::string& name);
+  +InputStreamShardSet& Inputs();
+  +OutputStreamShardSet& Outputs();
+  +const PacketSet& InputSidePackets() const;
+  +OutputSidePacketSet& OutputSidePackets();
+  +void SetOffset(TimestampDiff offset);
+  ...
+}
+
+PassThroughCalculator .> CalculatorContext: 通过上下文访问输入输出流，完成Packet数据流转
+
+@enduml

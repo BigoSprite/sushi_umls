@@ -1,0 +1,196 @@
+@startuml
+'https://plantuml.com/class-diagram        
+' !theme mono
+' !theme plain
+' !theme crt-green
+' !theme crt-amber
+' !theme mars
+!theme sketchy-outline
+' !theme cerulean-outline
+
+' ==============================================================
+
+' The necessary information to locate an InputStreamImpl.
+struct OutputStreamManager::Mirror <<输出流结果流向它的镜子-输入流handler>> {
+  +Mirror(InputStreamHandler* input_stream_handler, const CollectionItemId& id);
+  +InputStreamHandler* const input_stream_handler;
+  +const CollectionItemId id;
+}
+
+struct OutputStreamSpec  {
+  +**Packet header**;
+  +std::string name;
+  +const PacketType* packet_type;
+  +std::function<void(Status)> error_callback;
+  +bool locked_intro_data;
+  +bool offset_enabled;
+  +TimestampDiff offset;
+  --
+  +void TriggerErrorCallback(const Status& status) const;
+}
+
+' ==============================================================
+
+' Each output stream has an OutputStreamManager object, which manages the input
+' stream mirrors, the error callback, and some other metadata of the output
+' stream
+class OutputStreamManager <<**生产者是输出流,消费者是输入流,通过输入流handler将输出Packet流向下个节点输入流**>> {
+  -**OutputStreamSpec output_stream_spec_**;
+  -**std::vector<OutputStreamManager::Mirror> mirrors_**;
+  -Timestamp next_timestamp_bound_;
+  -bool closed_;
+  -mutable absl::Mutex stream_mutex_;
+  --
+  +OutputStreamManager() = default;
+  ..access OutputStreamSpec..
+  +Status Initialize(const std::string& name, const PacketType* packet_type);
+  +void PrepareForRun(std::function<void(Status)> error_callback);
+  +OutputStreamSpec* Spec();
+  +const std::string& Name() const;
+  +void Close();
+  +bool IsClosed() const;
+  +bool OffsetEnabled() const;
+  +TimestampDiff Offset() const;
+  +const Packet& Header() const;
+  +void LockIntroData();
+  ..access Mirrors..
+  +void PropagateHeader();
+  +void AddMirror(InputStreamHandler* input_stream_handler, CollectionItemId id);
+  +void PropagateUpdatesToMirrors(Timestamp next_timestamp_bound, OutputStreamShard* oss);
+  +void SetMaxQueueSize(int max_queue_size);
+  ..
+  +Timestamp NextTimestampBound() const;
+  +Timestamp ComputeOutputTimestampBound(const OutputStreamShard&, Timestamp) const;
+  +void ResetShard(OutputStreamShard* output_stream_shard);
+}
+OutputStreamManager "1" *--> "1" OutputStreamSpec : contains \n <<管理器持有输出流基本信息>>
+OutputStreamManager "1" *--> "0..n" OutputStreamManager::Mirror : contains \n <<输出流的镜子是输入流-accessedByHandler>>
+' OutputStreamManager::Mirror "1" o--> "1" InputStreamHandler : aggregation \n <<输出流的镜子是输入流handler>>
+
+' ==============================================================
+
+abstract class OutputStream {
+  #virtual ~OutputStream() {}
+  +{abstract}virtual const std::string& Name() const = 0;
+  +{abstract}virtual void AddPacket(const Packet& packet) = 0;
+  +{abstract}virtual void AddPacket(Packet&& packet) = 0;
+  +void Add(T* ptr, Timestamp timestamp) { AddPacket(Adopt(ptr).At(timestamp)); }
+  +{abstract}virtual void SetHeader(const Packet& packet) = 0;
+  +{abstract}virtual const Packet& Header() const = 0;
+  +{abstract}virtual void SetNextTimestampBound(Timestamp timestamp) = 0;
+  +{abstract}virtual Timestamp NextTimestampBound() const = 0;
+  +{abstract}virtual void Close() = 0;
+  +{abstract}virtual bool IsClosed() const = 0;
+  +{abstract}virtual void SetOffset(TimestampDiff offset) = 0;
+  +{abstract}virtual bool OffsetEnabled() const = 0;
+  +{abstract}virtual TimestampDiff Offset() const = 0;
+}
+
+class OutputStreamShard <<持有Packet输出队列>> {
+  -**OutputStreamSpec* output_stream_spec_;**
+  -**std::list<Packet> output_queue_**;
+  -bool closed_;
+  -Timestamp next_timestamp_bound_;
+  --
+  +OutputStreamShard();
+  +~OutputStreamShard();
+  +void SetSpec(OutputStreamSpec* oss);
+  +<i>Base Class pure virutal method IMPLEMENTATION, omitted here.</i>
+  +bool IsEmpty() const;
+  +Timestamp LastAddedPacketTimestamp() const;
+  ..
+  -friend class GraphProfiler;
+  -friend class GraphTracer;
+  -friend class OutputStreamManager;
+  -std::list<Packet>* OutputQueue();
+  -const std::list<Packet>* OutputQueue() const;
+  -void Reset(Timestamp next_timestamp_bound, bool close);
+}
+
+OutputStreamShard "1" o--> "1" OutputStreamSpec: aggregation \n <<输出流基本信息未保存在其Shard中>>
+OutputStream <|.. OutputStreamShard
+OutputStreamShard "1" *--> "1" Packet: contains \n <<byListAsOutQueue>> >
+
+' ==============================================================
+
+interface OutputStreamPoller <<**类似PImpl模式**：它是OutStreamPollerImpl的弱代理>> {
+  -std::weak_ptr<OutputStreamPollerImpl> internal_poller_impl_;
+  -friend class CalculatorGraph;
+  -OutputStreamPoller(std::shared_ptr<OutputStreamPollerImpl>);
+  +void Reset();
+  +void SetMaxQueueSize(int queue_size);
+  +int QueueSize();
+  +ABSL_MUST_USE_RESULT bool Next(Packet* packet);
+}
+
+OutputStreamPoller "1" --> "1" OutputStreamPollerImpl : weak_ptr >
+CalculatorGraph .. OutputStreamPoller: friend >
+
+package (输出流的消费者：输入流) <<frame>> {
+
+class InputStreamManager
+class InputStreamHandler
+
+class GraphOutputStream::GraphOutputStreamHandler <<It is only for observation or polling purpose>> {
+  +GraphOutputStreamHandler(shared_ptr<TagMap>, CalculatorContextManager*, const MediaPipeOptions&, bool)
+  #<s>NodeReadiness GetNodeReadiness(Timestamp* min_stream_timestamp) override</s>; // Never be invoked
+  #<s>void FillInputSet(Timestamp input_timestamp,InputStreamShardSet* input_set) override</s>; // Never be invoked
+}
+InputStreamHandler <|.. GraphOutputStream::GraphOutputStreamHandler
+}
+
+OutputStreamManager::Mirror "1" o--> "1" InputStreamHandler : aggregation \n <<输出流的镜子是输入流handler>>
+
+abstract class GraphOutputStream {
+  #**std::unique_ptr<InputStreamManager> input_stream_mgr_**;
+  #**std::unique_ptr<InputStreamHandler> input_stream_handler_**;
+  #absl::Mutex mutex_;
+  #bool notifying_ = false;
+  #bool observe_timestamp_bounds_;
+  #Timestamp last_processed_ts_ = Timestamp::Unstarted();
+  +virtual ~GraphOutputStream() {}
+  +Status Initialize(const std::string& stream_name, const PacketType*, OutputStreamManager*);
+  +virtual void PrepareForRun(std::function<void()> notify_callback, std::function<void(Status)> err_callback);
+  +{abstract}virtual Status Notify() = 0;
+  +{abstract}virtual void NotifyError() = 0;
+  +InputStreamManager* input_stream();
+}
+
+'GraphOutputStream <|.. OutputStreamObserver
+OutputStreamObserver ..|> GraphOutputStream
+
+GraphOutputStream <|.up. OutputStreamPollerImpl
+GraphOutputStream "1" *--> "1" InputStreamManager : constains
+GraphOutputStream "1" *--> "1" GraphOutputStream::GraphOutputStreamHandler : constains
+
+OutputStreamManager -[hidden]left- OutputStreamPollerImpl
+OutputStreamManager .right. OutputStreamShard: OutputStreamSpec+OutputStreamShard=>完整的输出流
+InputStreamHandler -[hidden]left- GraphOutputStream
+
+class OutputStreamObserver{
+  -std::function<Status(const Packet&)> packet_callback_;
+  --
+  +virtual ~OutputStreamObserver() {}
+  +Status Initialize(const std::string&, const PacketType*, std::function<Status(const Packet&)>, OutputStreamManager*);
+  +Status Notify() override;
+  +void NotifyError() override {}
+}
+
+class OutputStreamPollerImpl {
+  +virtual ~OutputStreamPollerImpl() {}
+  +Status Initialize(const std::string&, const PacketType*, std::function<Status(const Packet&)>, OutputStreamManager*);
+  +void PrepareForRun(std::function<void()> notify_callback, std::function<void(Status)> err_callback) override;
+  +void Reset();
+  +void SetMaxQueueSize(int queue_size);
+  +int QueueSize();
+  +Status Notify() override;
+  +void NotifyError() override;
+  +ABSL_MUST_USE_RESULT bool Next(Packet* packet);
+  -absl::Mutex mutex_;
+  -absl::CondVar handler_condvar_;
+  -bool graph_has_error_;
+}
+
+
+
+@enduml
