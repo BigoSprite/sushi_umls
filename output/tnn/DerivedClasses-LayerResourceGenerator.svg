@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<svg width="552" height="382" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polyline points="136,176 138,176 138,26 142,26" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,46 142,46" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,66 142,66" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,86 142,86" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,106 142,106" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,126 142,126" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,146 142,146" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,266 142,266" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,286 142,286" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,306 142,306" stroke="#8C2020" fill="none"/>
+ <polyline points="136,176 138,176 138,326 142,326" stroke="#8C2020" fill="none"/>
+ <polyline points="320,86 329,86 333,86" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,166 333,166" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,186 333,186" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,206 333,206" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,226 333,226" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,246 333,246" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 333,266" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,286 333,286" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,306 333,306" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,326 333,326" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,346 333,346" stroke="#8C2020" fill="none"/>
+ <polyline points="300,266 329,266 329,366 333,366" stroke="#8C2020" fill="none"/>
+ <polyline points="324,26 329,26 329,16 333,16" stroke="#8C2020" fill="none"/>
+ <polyline points="324,26 329,26 329,36 333,36" stroke="#8C2020" fill="none"/>
+ <polygon points="7,176 12,167 131,167 136,176 131,185 12,185 7,176" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="15" y="180" fill="#8C2020" font-family="Arial" font-size="10">LayerResourceGenerator</text>
+ <polygon points="142,26 147,17 319,17 324,26 319,35 147,35 142,26" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="30" fill="#000000" font-family="Arial" font-size="10">ConvolutionLayerResourceGenerator</text>
+ <polygon points="142,46 147,37 332,37 337,46 332,55 147,55 142,46" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="50" fill="#000000" font-family="Arial" font-size="10">Convolution1DLayerResourceGenerator</text>
+ <polygon points="142,66 147,57 323,57 328,66 323,75 147,75 142,66" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="70" fill="#000000" font-family="Arial" font-size="10">InnerProductLayerResourceGenerator</text>
+ <polygon points="142,86 147,77 315,77 320,86 315,95 147,95 142,86" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="90" fill="#000000" font-family="Arial" font-size="10">BatchnormLayerResourceGenerator</text>
+ <polygon points="142,106 147,97 328,97 333,106 328,115 147,115 142,106" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="110" fill="#000000" font-family="Arial" font-size="10">InstanceNormLayerResourceGenerator</text>
+ <polygon points="142,126 147,117 293,117 298,126 293,135 147,135 142,126" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="130" fill="#000000" font-family="Arial" font-size="10">PReluLayerResourceGenerator</text>
+ <polygon points="142,146 147,137 311,137 316,146 311,155 147,155 142,146" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="150" fill="#000000" font-family="Arial" font-size="10">BlobScaleLayerResourceGenerator</text>
+ <polygon points="142,266 147,257 295,257 300,266 295,275 147,275 142,266" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="270" fill="#000000" font-family="Arial" font-size="10">BinaryLayerResourceGenerator</text>
+ <polygon points="142,286 147,277 309,277 314,286 309,295 147,295 142,286" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="290" fill="#000000" font-family="Arial" font-size="10">HdrGuideLayerResourceGenerator</text>
+ <polygon points="142,306 147,297 322,297 327,306 322,315 147,315 142,306" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="310" fill="#000000" font-family="Arial" font-size="10">LSTMONNXLayerResourceGenerator</text>
+ <polygon points="142,326 147,317 299,317 304,326 299,335 147,335 142,326" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="150" y="330" fill="#000000" font-family="Arial" font-size="10">MatMulLayerResourceGenerator</text>
+ <polygon points="333,86 338,77 482,77 487,86 482,95 338,95 333,86" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="90" fill="#000000" font-family="Arial" font-size="10">ScaleLayerResourceGenerator</text>
+ <polygon points="333,166 338,157 475,157 480,166 475,175 338,175 333,166" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="170" fill="#000000" font-family="Arial" font-size="10">AddLayerResourceGenerator</text>
+ <polygon points="333,186 338,177 475,177 480,186 475,195 338,195 333,186" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="190" fill="#000000" font-family="Arial" font-size="10">SubLayerResourceGenerator</text>
+ <polygon points="333,206 338,197 476,197 481,206 476,215 338,215 333,206" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="210" fill="#000000" font-family="Arial" font-size="10">MaxLayerResourceGenerator</text>
+ <polygon points="333,226 338,217 473,217 478,226 473,235 338,235 333,226" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="230" fill="#000000" font-family="Arial" font-size="10">MinLayerResourceGenerator</text>
+ <polygon points="333,246 338,237 472,237 477,246 472,255 338,255 333,246" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="250" fill="#000000" font-family="Arial" font-size="10">DivLayerResourceGenerator</text>
+ <polygon points="333,266 338,257 473,257 478,266 473,275 338,275 333,266" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="270" fill="#000000" font-family="Arial" font-size="10">MulLayerResourceGenerator</text>
+ <polygon points="333,286 338,277 478,277 483,286 478,295 338,295 333,286" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="290" fill="#000000" font-family="Arial" font-size="10">LessLayerResourceGenerator</text>
+ <polygon points="333,306 338,297 491,297 496,306 491,315 338,315 333,306" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="310" fill="#000000" font-family="Arial" font-size="10">GreaterLayerResourceGenerator</text>
+ <polygon points="333,326 338,317 475,317 480,326 475,335 338,335 333,326" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="330" fill="#000000" font-family="Arial" font-size="10">AndLayerResourceGenerator</text>
+ <polygon points="333,346 338,337 473,337 478,346 473,355 338,355 333,346" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="350" fill="#000000" font-family="Arial" font-size="10">NotLayerResourceGenerator</text>
+ <polygon points="333,366 338,357 540,357 545,366 540,375 338,375 333,366" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="370" fill="#000000" font-family="Arial" font-size="10">SquaredDifferenceLayerResourceGenerator</text>
+ <polygon points="333,16 338,7 520,7 525,16 520,25 338,25 333,16" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="20" fill="#000000" font-family="Arial" font-size="10">DeconvolutionLayerResourceGenerator</text>
+ <polygon points="333,36 338,27 523,27 528,36 523,45 338,45 333,36" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="341" y="40" fill="#000000" font-family="Arial" font-size="10">Convolution3DLayerResourceGenerator</text>
+</svg>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<svg width="836" height="476" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="4,473 4,4 833,4 833,473 4,473" stroke="#ffffff" fill="#ffffff"/>
+ <ellipse cx="420" cy="238" rx="165" ry="18" stroke="#000000" fill="#ffffff"/>
+ <text x="297" y="243" fill="#000000" font-family="Arial" font-size="12">DECLARE_MULTIDIR_BROADCAST_LAYER</text>
+ <polygon points="790,4 686,4 686,40 790,40 790,4" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="20" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="694" y="34" fill="#000000" font-family="Arial" font-size="12">sub_layer.cc(19)</text>
+ <polyline points="437,220 449,207 463,193 480,176 499,157 520,138 543,119 567,100 592,81 618,64 644,49 647,48 650,46 653,45 656,43 660,42 663,40 666,39 669,38 673,37 676,36" stroke="#0000ff" fill="none"/>
+ <text x="604" y="59" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="675,32 686,33 677,39 675,32" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="791,58 686,58 686,94 791,94 791,58" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="74" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="694" y="88" fill="#000000" font-family="Arial" font-size="12">and_layer.cc(19)</text>
+ <polyline points="446,220 459,211 474,200 492,189 511,177 531,164 553,151 575,138 598,126 621,114 644,103 647,102 650,101 653,99 656,98 660,97 663,96 666,95 669,93 673,92 676,91" stroke="#0000ff" fill="none"/>
+ <text x="604" y="110" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="675,88 685,88 677,95 675,88" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="788,112 688,112 688,148 788,148 788,112" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="128" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="696" y="142" fill="#000000" font-family="Arial" font-size="12">div_layer.cc(19)</text>
+ <polyline points="466,221 480,216 496,210 513,203 530,197 549,190 568,183 587,176 606,170 625,163 644,157 647,156 651,155 654,154 658,153 661,152 664,151 668,150 671,149 675,148 678,147" stroke="#0000ff" fill="none"/>
+ <text x="604" y="162" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="677,143 688,144 679,150 677,143" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="832,166 644,166 644,202 832,202 832,166" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="182" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="652" y="196" fill="#000000" font-family="Arial" font-size="12">squared_difference_layer.cc(19)</text>
+ <polyline points="510,223 522,221 534,219 546,217 559,214 571,212 584,210 597,208 609,206 622,204 634,202" stroke="#0000ff" fill="none"/>
+ <text x="604" y="202" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="633,198 644,200 635,205 633,198" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="792,220 684,220 684,256 792,256 792,220" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="236" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="692" y="250" fill="#000000" font-family="Arial" font-size="12">max_layer.cc(19)</text>
+ <polyline points="586,238 595,238 605,238 614,238 623,238 632,238 641,238 649,238 658,238 666,238 674,238" stroke="#0000ff" fill="none"/>
+ <text x="604" y="236" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="674,234 684,238 674,241 674,234" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="790,274 686,274 686,310 790,310 790,274" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="290" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="694" y="304" fill="#000000" font-family="Arial" font-size="12">min_layer.cc(19)</text>
+ <polyline points="510,253 526,256 543,259 560,262 578,265 595,268 613,270 629,273 646,276 661,279 676,282" stroke="#0000ff" fill="none"/>
+ <text x="604" y="267" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="676,278 686,283 675,285 676,278" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="791,328 686,328 686,364 791,364 791,328" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="344" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="694" y="358" fill="#000000" font-family="Arial" font-size="12">add_layer.cc(19)</text>
+ <polyline points="466,255 480,260 496,266 513,273 530,279 549,286 568,293 587,300 606,306 625,313 644,319 647,320 650,321 653,322 656,323 660,324 663,325 666,326 669,327 673,328 676,329" stroke="#0000ff" fill="none"/>
+ <text x="604" y="304" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="677,325 685,332 675,332 677,325" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="811,382 665,382 665,418 811,418 811,382" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="398" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="673" y="412" fill="#000000" font-family="Arial" font-size="12">hard_swish_layer.cc(19)</text>
+ <polyline points="446,256 459,265 474,276 492,287 511,299 531,312 553,325 575,338 598,350 621,362 644,373 645,374 647,374 648,375 649,375 651,376 652,376 654,377 655,377 657,378 658,378" stroke="#0000ff" fill="none"/>
+ <text x="604" y="352" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="659,375 667,382 657,382 659,375" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="790,436 686,436 686,472 790,472 790,436" stroke="#000000" fill="#ffffff"/>
+ <text x="730" y="452" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="694" y="466" fill="#000000" font-family="Arial" font-size="12">mul_layer.cc(19)</text>
+ <polyline points="437,256 449,269 463,283 480,300 499,319 520,338 543,357 567,376 592,395 618,412 644,427 647,428 650,430 653,431 656,433 660,434 663,436 666,437 669,438 673,439 676,440" stroke="#0000ff" fill="none"/>
+ <text x="604" y="404" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="677,437 686,443 675,444 677,437" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="182,220 4,220 4,256 182,256 182,220" stroke="#000000" fill="#ffffff"/>
+ <text x="85" y="236" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="12" y="250" fill="#000000" font-family="Arial" font-size="12">multidir_broadcast_layer.h(30)</text>
+ <polyline points="182,238 188,238 194,238 200,238 206,238 213,238 219,238 225,238 231,238 238,238 244,238" stroke="#696969" fill="none"/>
+ <text x="201" y="236" fill="#000000" font-family="Arial" font-size="12">Define</text>
+ <polygon points="244,234 254,238 244,241 244,234" stroke="#696969" fill="#696969"/>
+</svg>

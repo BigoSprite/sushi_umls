@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<svg width="428" height="352" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polyline points="91,176 93,176 93,16 97,16" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,36 97,36" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,56 97,56" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,76 97,76" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,96 97,96" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,116 97,116" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,136 97,136" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,156 97,156" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 97,176" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,196 97,196" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,216 97,216" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,236 97,236" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,256 97,256" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,276 97,276" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,296 97,296" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,316 97,316" stroke="#8C2020" fill="none"/>
+ <polyline points="91,176 93,176 93,336 97,336" stroke="#8C2020" fill="none"/>
+ <polyline points="221,296 271,296 275,296" stroke="#8C2020" fill="none"/>
+ <polyline points="231,36 271,36 275,36" stroke="#8C2020" fill="none"/>
+ <polygon points="7,176 12,167 86,167 91,176 86,185 12,185 7,176" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="15" y="180" fill="#8C2020" font-family="Arial" font-size="10">LayerResource</text>
+ <polygon points="97,16 102,7 200,7 205,16 200,25 102,25 97,16" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="20" fill="#000000" font-family="Arial" font-size="10">ConvLayerResource</text>
+ <polygon points="97,36 102,27 226,27 231,36 226,45 102,45 97,36" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="40" fill="#000000" font-family="Arial" font-size="10">BatchNormLayerResource</text>
+ <polygon points="97,56 102,47 208,47 213,56 208,65 102,65 97,56" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="60" fill="#000000" font-family="Arial" font-size="10">EltwiseLayerResource</text>
+ <polygon points="97,76 102,67 233,67 238,76 233,85 102,85 97,76" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="80" fill="#000000" font-family="Arial" font-size="10">InnerProductLayerResource</text>
+ <polygon points="97,96 102,87 203,87 208,96 203,105 102,105 97,96" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="100" fill="#000000" font-family="Arial" font-size="10">PReluLayerResource</text>
+ <polygon points="97,116 102,107 187,107 192,116 187,125 102,125 97,116" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="120" fill="#000000" font-family="Arial" font-size="10">IntScaleResource</text>
+ <polygon points="97,136 102,127 219,127 224,136 219,145 102,145 97,136" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="140" fill="#000000" font-family="Arial" font-size="10">HdrGuideLayerResource</text>
+ <polygon points="97,156 102,147 202,147 207,156 202,165 102,165 97,156" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="160" fill="#000000" font-family="Arial" font-size="10">ConstLayerResource</text>
+ <polygon points="97,176 102,167 274,167 279,176 274,185 102,185 97,176" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="180" fill="#000000" font-family="Arial" font-size="10">DetectionPostProcessLayerResource</text>
+ <polygon points="97,196 102,187 222,187 227,196 222,205 102,205 97,196" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="200" fill="#000000" font-family="Arial" font-size="10">ScatterNDLayerResource</text>
+ <polygon points="97,216 102,207 208,207 213,216 208,225 102,225 97,216" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="220" fill="#000000" font-family="Arial" font-size="10">ScatterLayerResource</text>
+ <polygon points="97,236 102,227 249,227 254,236 249,245 102,245 97,236" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="240" fill="#000000" font-family="Arial" font-size="10">ScatterElementsLayerResource</text>
+ <polygon points="97,256 102,247 207,247 212,256 207,265 102,265 97,256" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="260" fill="#000000" font-family="Arial" font-size="10">GatherLayerResource</text>
+ <polygon points="97,276 102,267 256,267 261,276 256,285 102,285 97,276" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="280" fill="#000000" font-family="Arial" font-size="10">ConstantOfShapeLayerResource</text>
+ <polygon points="97,296 102,287 216,287 221,296 216,305 102,305 97,296" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="300" fill="#000000" font-family="Arial" font-size="10">SqueezeLayerResource</text>
+ <polygon points="97,316 102,307 209,307 214,316 209,325 102,325 97,316" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="320" fill="#000000" font-family="Arial" font-size="10">MatMulLayerResource</text>
+ <polygon points="97,336 102,327 213,327 218,336 213,345 102,345 97,336" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="105" y="340" fill="#000000" font-family="Arial" font-size="10">BiasAddLayerResource</text>
+ <polygon points="275,296 280,287 405,287 410,296 405,305 280,305 275,296" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="283" y="300" fill="#000000" font-family="Arial" font-size="10">UnsqueezeLayerResource</text>
+ <polygon points="275,36 280,27 416,27 421,36 416,45 280,45 275,36" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="283" y="40" fill="#000000" font-family="Arial" font-size="10">InstanceNormLayerResource</text>
+</svg>

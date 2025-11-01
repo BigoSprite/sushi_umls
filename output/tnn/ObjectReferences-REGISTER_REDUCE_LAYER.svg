@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<svg width="682" height="530" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="4,527 4,4 679,4 679,527 4,527" stroke="#ffffff" fill="#ffffff"/>
+ <ellipse cx="306" cy="265" rx="114" ry="18" stroke="#000000" fill="#ffffff"/>
+ <text x="224" y="270" fill="#000000" font-family="Arial" font-size="12">REGISTER_REDUCE_LAYER</text>
+ <polygon points="652,4 504,4 504,40 652,40 652,4" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="20" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="512" y="34" fill="#000000" font-family="Arial" font-size="12">reduce_min_layer.cc(21)</text>
+ <polyline points="316,247 324,233 334,215 345,196 359,174 375,152 392,129 411,107 432,86 454,66 478,49 480,48 481,47 483,46 484,45 486,45 488,44 490,43 491,42 493,41 495,40" stroke="#0000ff" fill="none"/>
+ <text x="438" y="60" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="493,37 504,36 496,43 493,37" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="647,58 509,58 509,94 647,94 647,58" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="74" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="517" y="88" fill="#000000" font-family="Arial" font-size="12">reduce_l2_layer.cc(21)</text>
+ <polyline points="321,247 330,236 341,223 354,208 368,193 384,177 401,160 419,144 438,129 458,115 478,103 480,102 482,101 484,100 486,99 489,98 491,97 493,96 495,95 497,94 499,93" stroke="#0000ff" fill="none"/>
+ <text x="438" y="115" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="498,90 509,90 501,96 498,90" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="654,112 503,112 503,148 654,148 654,112" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="128" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="511" y="142" fill="#000000" font-family="Arial" font-size="12">reduce_max_layer.cc(21)</text>
+ <polyline points="330,247 340,240 352,231 365,222 380,213 395,203 410,193 427,183 444,174 461,165 478,157 480,156 481,156 483,155 484,155 486,154 487,153 489,153 490,152 492,152 493,151" stroke="#0000ff" fill="none"/>
+ <text x="438" y="165" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="492,148 502,148 494,154 492,148" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="654,166 503,166 503,202 654,202 654,166" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="182" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="511" y="196" fill="#000000" font-family="Arial" font-size="12">reduce_sum_layer.cc(21)</text>
+ <polyline points="357,249 368,246 379,242 390,238 402,234 415,230 427,226 440,222 453,219 466,215 478,211 480,210 482,210 484,209 486,209 489,208 491,207 493,207 495,206 498,206 500,205" stroke="#0000ff" fill="none"/>
+ <text x="438" y="215" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="499,201 510,202 501,208 499,201" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="657,220 499,220 499,256 657,256 657,220" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="236" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="507" y="250" fill="#000000" font-family="Arial" font-size="12">reduce_mean_layer.cc(21)</text>
+ <polyline points="403,255 411,254 420,254 429,253 437,252 446,251 455,251 463,250 472,249 481,248 489,247" stroke="#0000ff" fill="none"/>
+ <text x="438" y="248" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="489,243 499,246 489,250 489,243" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="647,274 509,274 509,310 647,310 647,274" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="290" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="517" y="304" fill="#000000" font-family="Arial" font-size="12">reduce_l1_layer.cc(21)</text>
+ <polyline points="403,275 412,276 422,277 432,278 442,279 451,280 461,280 471,281 480,282 490,283 499,284" stroke="#0000ff" fill="none"/>
+ <text x="438" y="276" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="499,281 509,285 498,288 499,281" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="654,328 502,328 502,364 654,364 654,328" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="344" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="510" y="358" fill="#000000" font-family="Arial" font-size="12">reduce_prod_layer.cc(21)</text>
+ <polyline points="357,281 368,284 379,288 390,292 402,296 415,300 427,304 440,308 453,311 466,315 478,319 480,320 482,320 484,321 486,321 489,322 491,323 493,323 495,324 498,324 500,325" stroke="#0000ff" fill="none"/>
+ <text x="438" y="305" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="501,322 510,328 499,329 501,322" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="675,382 481,382 481,418 675,418 675,382" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="398" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="489" y="412" fill="#000000" font-family="Arial" font-size="12">reduce_sum_square_layer.cc(21)</text>
+ <polyline points="330,283 340,290 352,299 365,308 380,317 395,327 410,337 427,347 444,356 461,365 478,373 479,374 481,374 482,375 483,375 485,376 486,377 488,377 489,378 491,378 492,379" stroke="#0000ff" fill="none"/>
+ <text x="438" y="351" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="493,375 502,382 491,382 493,375" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="665,436 491,436 491,472 665,472 665,436" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="452" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="499" y="466" fill="#000000" font-family="Arial" font-size="12">reduce_log_sum_layer.cc(21)</text>
+ <polyline points="321,283 330,294 341,307 354,322 368,337 384,354 401,370 419,386 438,401 458,415 478,427 479,428 480,428 481,429 482,429 483,430 484,430 485,430 486,431 487,431 488,432" stroke="#0000ff" fill="none"/>
+ <text x="438" y="400" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="489,429 497,436 486,435 489,429" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="678,490 478,490 478,526 678,526 678,490" stroke="#000000" fill="#ffffff"/>
+ <text x="570" y="506" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="486" y="520" fill="#000000" font-family="Arial" font-size="12">reduce_log_sum_exp_layer.cc(21)</text>
+ <polyline points="316,283 324,297 334,315 345,334 359,356 375,378 392,401 411,423 432,444 454,464 478,481 479,482 479,482 480,483 481,483 482,483 482,484 483,484 484,484 484,485 485,485" stroke="#0000ff" fill="none"/>
+ <text x="438" y="451" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="487,482 494,490 484,489 487,482" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="120,247 4,247 4,283 120,283 120,247" stroke="#000000" fill="#ffffff"/>
+ <text x="54" y="263" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="12" y="277" fill="#000000" font-family="Arial" font-size="12">reduce_layer.h(38)</text>
+ <polyline points="120,265 126,265 132,265 138,265 144,265 150,265 156,265 162,265 169,265 175,265 182,265" stroke="#696969" fill="none"/>
+ <text x="139" y="263" fill="#000000" font-family="Arial" font-size="12">Define</text>
+ <polygon points="182,261 192,265 182,268 182,261" stroke="#696969" fill="#696969"/>
+</svg>

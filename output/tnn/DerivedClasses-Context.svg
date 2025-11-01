@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<svg width="792" height="104" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polyline points="396,25 396,43 60,63 60,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 162,63 162,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 258,63 258,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 353,63 353,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 449,63 449,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 545,63 545,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 638,63 638,79" stroke="#8C2020" fill="none"/>
+ <polyline points="396,25 396,43 735,63 735,79" stroke="#8C2020" fill="none"/>
+ <polygon points="361,16 366,7 426,7 431,16 426,25 366,25 361,16" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="369" y="20" fill="#8C2020" font-family="Arial" font-size="10">tnn::Context</text>
+ <polygon points="7,88 12,79 109,79 114,88 109,97 12,97 7,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="15" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::OpenCLContext</text>
+ <polygon points="118,88 123,79 202,79 207,88 202,97 123,97 118,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="126" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::ArmContext</text>
+ <polygon points="211,88 216,79 300,79 305,88 300,97 216,97 211,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="219" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::CudaContext</text>
+ <polygon points="309,88 314,79 393,79 398,88 393,97 314,97 309,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="317" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::NpuContext</text>
+ <polygon points="402,88 407,79 492,79 497,88 492,97 407,97 402,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="410" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::MetalContext</text>
+ <polygon points="501,88 506,79 585,79 590,88 585,97 506,97 501,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="509" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::CpuContext</text>
+ <polygon points="594,88 599,79 677,79 682,88 677,97 599,97 594,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="602" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::X86Context</text>
+ <polygon points="686,88 691,79 780,79 785,88 780,97 691,97 686,88" stroke="#20208C" fill="#FFFFFF"/>
+ <text x="694" y="92" fill="#000000" font-family="Arial" font-size="10">tnn::RknpuContext</text>
+</svg>

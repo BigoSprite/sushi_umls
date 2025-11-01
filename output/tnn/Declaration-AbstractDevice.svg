@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<svg width="475" height="573" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="11" y="194" width="331" height="372" stroke="#20208C" fill="white"/>
+ <text fill="#8C2020" font-family="Arial" font-size="10">
+  <tspan x="14" y="207">Abstract Class: tnn::AbstractDevice</tspan>
+  <tspan x="14" y="227">defined as:</tspan>
+  <tspan x="14" y="237" xml:space='preserve'>  </tspan></text>
+ <text x="364" y="17" fill="black" font-family="Arial" font-size="10">Derived Classes:</text>
+ <polyline points="342,197 349,197 349,32 364,32" stroke="#8C2020" fill="none"/>
+ <polygon points="364,32 358,29 358,35 364,32" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,53 364,53" stroke="#8C2020" fill="none"/>
+ <polygon points="364,53 358,50 358,56 364,53" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,74 364,74" stroke="#8C2020" fill="none"/>
+ <polygon points="364,74 358,71 358,77 364,74" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,95 364,95" stroke="#8C2020" fill="none"/>
+ <polygon points="364,95 358,92 358,98 364,95" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,116 364,116" stroke="#8C2020" fill="none"/>
+ <polygon points="364,116 358,113 358,119 364,116" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,137 364,137" stroke="#8C2020" fill="none"/>
+ <polygon points="364,137 358,134 358,140 364,137" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,158 364,158" stroke="#8C2020" fill="none"/>
+ <polygon points="364,158 358,155 358,161 364,158" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="342,197 349,197 349,179 364,179" stroke="#8C2020" fill="none"/>
+ <polygon points="364,179 358,176 358,182 364,179" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="364,32 369,23 443,23 448,32 443,41 369,41 364,32" stroke="#20208C" fill="white"/>
+ <text x="372" y="36" fill="black" font-family="Arial" font-size="10">tnn::X86Device</text>
+ <polygon points="364,53 369,44 454,44 459,53 454,62 369,62 364,53" stroke="#20208C" fill="white"/>
+ <text x="372" y="57" fill="black" font-family="Arial" font-size="10">tnn::RknpuDevice</text>
+ <polygon points="364,74 369,65 444,65 449,74 444,83 369,83 364,74" stroke="#20208C" fill="white"/>
+ <text x="372" y="78" fill="black" font-family="Arial" font-size="10">tnn::NpuDevice</text>
+ <polygon points="364,95 369,86 444,86 449,95 444,104 369,104 364,95" stroke="#20208C" fill="white"/>
+ <text x="372" y="99" fill="black" font-family="Arial" font-size="10">tnn::CpuDevice</text>
+ <polygon points="364,116 369,107 449,107 454,116 449,125 369,125 364,116" stroke="#20208C" fill="white"/>
+ <text x="372" y="120" fill="black" font-family="Arial" font-size="10">tnn::CudaDevice</text>
+ <polygon points="364,137 369,128 463,128 468,137 463,146 369,146 364,137" stroke="#20208C" fill="white"/>
+ <text x="372" y="141" fill="black" font-family="Arial" font-size="10">tnn::OpenCLDevice</text>
+ <polygon points="364,158 369,149 450,149 455,158 450,167 369,167 364,158" stroke="#20208C" fill="white"/>
+ <text x="372" y="162" fill="black" font-family="Arial" font-size="10">tnn::MetalDevice</text>
+ <polygon points="364,179 369,170 444,170 449,179 444,188 369,188 364,179" stroke="#20208C" fill="white"/>
+ <text x="372" y="183" fill="black" font-family="Arial" font-size="10">tnn::ArmDevice</text>
+ <rect x="204" y="251" width="134" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="214" y="264" fill="black" font-family="Arial" font-size="10">DeviceType device_type_</text>
+ <rect x="7" y="251" width="76" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="264" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> AbstractDevice</text>
+ <rect x="7" y="272" width="82" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="285" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> ~AbstractDevice</text>
+ <rect x="7" y="293" width="143" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="306" fill="black" font-family="Arial" font-size="10">BlobMemorySizeInfo Calculate</text>
+ <rect x="7" y="314" width="72" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="327" fill="black" font-family="Arial" font-size="10">Status Allocate</text>
+ <rect x="7" y="335" width="72" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="348" fill="black" font-family="Arial" font-size="10">Status Allocate</text>
+ <rect x="7" y="356" width="72" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="369" fill="black" font-family="Arial" font-size="10">Status Allocate</text>
+ <rect x="7" y="377" width="58" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="390" fill="black" font-family="Arial" font-size="10">Status Free</text>
+ <rect x="7" y="398" width="102" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="411" fill="black" font-family="Arial" font-size="10">Status CopyToDevice</text>
+ <rect x="7" y="419" width="115" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="432" fill="black" font-family="Arial" font-size="10">Status CopyFromDevice</text>
+ <rect x="7" y="440" width="166" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="453" fill="black" font-family="Arial" font-size="10">AbstractLayerAcc * CreateLayerAcc</text>
+ <rect x="7" y="461" width="115" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="474" fill="black" font-family="Arial" font-size="10">Context * CreateContext</text>
+ <rect x="7" y="482" width="191" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="495" fill="black" font-family="Arial" font-size="10">std::shared_ptr GetImplementedPrecision</text>
+ <rect x="7" y="503" width="180" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="516" fill="black" font-family="Arial" font-size="10">std::shared_ptr GetImplementedLayout</text>
+ <rect x="7" y="524" width="130" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="537" fill="black" font-family="Arial" font-size="10">DeviceType GetDeviceType</text>
+ <rect x="7" y="545" width="181" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="558" fill="black" font-family="Arial" font-size="10">NetworkType ConvertAutoNetworkType</text>
+</svg>

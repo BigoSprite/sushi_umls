@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<svg width="445" height="636" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="11" y="194" width="298" height="435" stroke="#20208C" fill="white"/>
+ <text fill="#8C2020" font-family="Arial" font-size="10">
+  <tspan x="14" y="207">Abstract Class: tnn::Context</tspan>
+  <tspan x="14" y="227">defined as:</tspan>
+  <tspan x="14" y="237" xml:space='preserve'>  </tspan></text>
+ <text x="331" y="17" fill="black" font-family="Arial" font-size="10">Derived Classes:</text>
+ <polyline points="309,197 316,197 316,32 331,32" stroke="#8C2020" fill="none"/>
+ <polygon points="331,32 325,29 325,35 331,32" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,53 331,53" stroke="#8C2020" fill="none"/>
+ <polygon points="331,53 325,50 325,56 331,53" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,74 331,74" stroke="#8C2020" fill="none"/>
+ <polygon points="331,74 325,71 325,77 331,74" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,95 331,95" stroke="#8C2020" fill="none"/>
+ <polygon points="331,95 325,92 325,98 331,95" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,116 331,116" stroke="#8C2020" fill="none"/>
+ <polygon points="331,116 325,113 325,119 331,116" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,137 331,137" stroke="#8C2020" fill="none"/>
+ <polygon points="331,137 325,134 325,140 331,137" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,158 331,158" stroke="#8C2020" fill="none"/>
+ <polygon points="331,158 325,155 325,161 331,158" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="309,197 316,197 316,179 331,179" stroke="#8C2020" fill="none"/>
+ <polygon points="331,179 325,176 325,182 331,179" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="331,32 336,23 433,23 438,32 433,41 336,41 331,32" stroke="#20208C" fill="white"/>
+ <text x="339" y="36" fill="black" font-family="Arial" font-size="10">tnn::OpenCLContext</text>
+ <polygon points="331,53 336,44 415,44 420,53 415,62 336,62 331,53" stroke="#20208C" fill="white"/>
+ <text x="339" y="57" fill="black" font-family="Arial" font-size="10">tnn::ArmContext</text>
+ <polygon points="331,74 336,65 420,65 425,74 420,83 336,83 331,74" stroke="#20208C" fill="white"/>
+ <text x="339" y="78" fill="black" font-family="Arial" font-size="10">tnn::CudaContext</text>
+ <polygon points="331,95 336,86 415,86 420,95 415,104 336,104 331,95" stroke="#20208C" fill="white"/>
+ <text x="339" y="99" fill="black" font-family="Arial" font-size="10">tnn::NpuContext</text>
+ <polygon points="331,116 336,107 421,107 426,116 421,125 336,125 331,116" stroke="#20208C" fill="white"/>
+ <text x="339" y="120" fill="black" font-family="Arial" font-size="10">tnn::MetalContext</text>
+ <polygon points="331,137 336,128 415,128 420,137 415,146 336,146 331,137" stroke="#20208C" fill="white"/>
+ <text x="339" y="141" fill="black" font-family="Arial" font-size="10">tnn::CpuContext</text>
+ <polygon points="331,158 336,149 414,149 419,158 414,167 336,167 331,158" stroke="#20208C" fill="white"/>
+ <text x="339" y="162" fill="black" font-family="Arial" font-size="10">tnn::X86Context</text>
+ <polygon points="331,179 336,170 425,170 430,179 425,188 336,188 331,179" stroke="#20208C" fill="white"/>
+ <text x="339" y="183" fill="black" font-family="Arial" font-size="10">tnn::RknpuContext</text>
+ <rect x="199" y="251" width="110" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="209" y="264" fill="black" font-family="Arial" font-size="10">Precision precision_</text>
+ <rect x="174" y="272" width="135" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="184" y="285" fill="black" font-family="Arial" font-size="10">bool enable_tune_kernel_</text>
+ <rect x="185" y="293" width="124" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="195" y="306" fill="black" font-family="Arial" font-size="10">std::string cache_path_</text>
+ <rect x="167" y="314" width="142" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="177" y="327" fill="black" font-family="Arial" font-size="10">std::string cache_file_path_</text>
+ <rect x="7" y="251" width="49" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="264" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> ~Context</text>
+ <rect x="7" y="272" width="90" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="285" fill="black" font-family="Arial" font-size="10">Status LoadLibrary</text>
+ <rect x="7" y="293" width="130" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="306" fill="black" font-family="Arial" font-size="10">Status GetCommandQueue</text>
+ <rect x="7" y="314" width="140" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="327" fill="black" font-family="Arial" font-size="10">Status ShareCommandQueue</text>
+ <rect x="7" y="335" width="151" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="348" fill="black" font-family="Arial" font-size="10">Status OnInstanceForwardBegin</text>
+ <rect x="7" y="356" width="143" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="369" fill="black" font-family="Arial" font-size="10">Status OnInstanceForwardEnd</text>
+ <rect x="7" y="377" width="154" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="390" fill="black" font-family="Arial" font-size="10">Status OnInstanceReshapeBegin</text>
+ <rect x="7" y="398" width="146" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="411" fill="black" font-family="Arial" font-size="10">Status OnInstanceReshapeEnd</text>
+ <rect x="7" y="419" width="92" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="432" fill="black" font-family="Arial" font-size="10">Status Synchronize</text>
+ <rect x="7" y="440" width="110" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="453" fill="black" font-family="Arial" font-size="10">Status SetNumThreads</text>
+ <rect x="7" y="461" width="84" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="474" fill="black" font-family="Arial" font-size="10">void SetPrecision</text>
+ <rect x="7" y="482" width="107" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="495" fill="black" font-family="Arial" font-size="10">Precision GetPrecision</text>
+ <rect x="7" y="503" width="125" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="516" fill="black" font-family="Arial" font-size="10">void SetEnableTuneKernel</text>
+ <rect x="7" y="524" width="126" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="537" fill="black" font-family="Arial" font-size="10">bool GetEnableTuneKernel</text>
+ <rect x="7" y="545" width="92" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="558" fill="black" font-family="Arial" font-size="10">void SetCachePath</text>
+ <rect x="7" y="566" width="118" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="579" fill="black" font-family="Arial" font-size="10">std::string GetCachePath</text>
+ <rect x="7" y="587" width="108" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="600" fill="black" font-family="Arial" font-size="10">void SetCacheFilePath</text>
+ <rect x="7" y="608" width="134" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="621" fill="black" font-family="Arial" font-size="10">std::string GetCacheFilePath</text>
+</svg>

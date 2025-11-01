@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+<svg width="519" height="2037" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="11" y="1559" width="320" height="471" stroke="#20208C" fill="white"/>
+ <text fill="#8C2020" font-family="Arial" font-size="10">
+  <tspan x="14" y="1572">Class: tnn::BaseLayer</tspan>
+  <tspan x="14" y="1592">defined as:</tspan>
+  <tspan x="14" y="1602" xml:space='preserve'>  </tspan></text>
+ <text x="353" y="17" fill="black" font-family="Arial" font-size="10">Derived Classes:</text>
+ <polyline points="331,1562 338,1562 338,32 353,32" stroke="#8C2020" fill="none"/>
+ <polygon points="353,32 347,29 347,35 353,32" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,53 353,53" stroke="#8C2020" fill="none"/>
+ <polygon points="353,53 347,50 347,56 353,53" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,74 353,74" stroke="#8C2020" fill="none"/>
+ <polygon points="353,74 347,71 347,77 353,74" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,95 353,95" stroke="#8C2020" fill="none"/>
+ <polygon points="353,95 347,92 347,98 353,95" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,116 353,116" stroke="#8C2020" fill="none"/>
+ <polygon points="353,116 347,113 347,119 353,116" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,137 353,137" stroke="#8C2020" fill="none"/>
+ <polygon points="353,137 347,134 347,140 353,137" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,158 353,158" stroke="#8C2020" fill="none"/>
+ <polygon points="353,158 347,155 347,161 353,158" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,179 353,179" stroke="#8C2020" fill="none"/>
+ <polygon points="353,179 347,176 347,182 353,179" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,200 353,200" stroke="#8C2020" fill="none"/>
+ <polygon points="353,200 347,197 347,203 353,200" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,221 353,221" stroke="#8C2020" fill="none"/>
+ <polygon points="353,221 347,218 347,224 353,221" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,242 353,242" stroke="#8C2020" fill="none"/>
+ <polygon points="353,242 347,239 347,245 353,242" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,263 353,263" stroke="#8C2020" fill="none"/>
+ <polygon points="353,263 347,260 347,266 353,263" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,284 353,284" stroke="#8C2020" fill="none"/>
+ <polygon points="353,284 347,281 347,287 353,284" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,305 353,305" stroke="#8C2020" fill="none"/>
+ <polygon points="353,305 347,302 347,308 353,305" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,326 353,326" stroke="#8C2020" fill="none"/>
+ <polygon points="353,326 347,323 347,329 353,326" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,347 353,347" stroke="#8C2020" fill="none"/>
+ <polygon points="353,347 347,344 347,350 353,347" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,368 353,368" stroke="#8C2020" fill="none"/>
+ <polygon points="353,368 347,365 347,371 353,368" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,389 353,389" stroke="#8C2020" fill="none"/>
+ <polygon points="353,389 347,386 347,392 353,389" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,410 353,410" stroke="#8C2020" fill="none"/>
+ <polygon points="353,410 347,407 347,413 353,410" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,431 353,431" stroke="#8C2020" fill="none"/>
+ <polygon points="353,431 347,428 347,434 353,431" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,452 353,452" stroke="#8C2020" fill="none"/>
+ <polygon points="353,452 347,449 347,455 353,452" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,473 353,473" stroke="#8C2020" fill="none"/>
+ <polygon points="353,473 347,470 347,476 353,473" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,494 353,494" stroke="#8C2020" fill="none"/>
+ <polygon points="353,494 347,491 347,497 353,494" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,515 353,515" stroke="#8C2020" fill="none"/>
+ <polygon points="353,515 347,512 347,518 353,515" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,536 353,536" stroke="#8C2020" fill="none"/>
+ <polygon points="353,536 347,533 347,539 353,536" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,557 353,557" stroke="#8C2020" fill="none"/>
+ <polygon points="353,557 347,554 347,560 353,557" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,578 353,578" stroke="#8C2020" fill="none"/>
+ <polygon points="353,578 347,575 347,581 353,578" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,599 353,599" stroke="#8C2020" fill="none"/>
+ <polygon points="353,599 347,596 347,602 353,599" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,620 353,620" stroke="#8C2020" fill="none"/>
+ <polygon points="353,620 347,617 347,623 353,620" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,641 353,641" stroke="#8C2020" fill="none"/>
+ <polygon points="353,641 347,638 347,644 353,641" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,662 353,662" stroke="#8C2020" fill="none"/>
+ <polygon points="353,662 347,659 347,665 353,662" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,683 353,683" stroke="#8C2020" fill="none"/>
+ <polygon points="353,683 347,680 347,686 353,683" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,704 353,704" stroke="#8C2020" fill="none"/>
+ <polygon points="353,704 347,701 347,707 353,704" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,725 353,725" stroke="#8C2020" fill="none"/>
+ <polygon points="353,725 347,722 347,728 353,725" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,746 353,746" stroke="#8C2020" fill="none"/>
+ <polygon points="353,746 347,743 347,749 353,746" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,767 353,767" stroke="#8C2020" fill="none"/>
+ <polygon points="353,767 347,764 347,770 353,767" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,788 353,788" stroke="#8C2020" fill="none"/>
+ <polygon points="353,788 347,785 347,791 353,788" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,809 353,809" stroke="#8C2020" fill="none"/>
+ <polygon points="353,809 347,806 347,812 353,809" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,830 353,830" stroke="#8C2020" fill="none"/>
+ <polygon points="353,830 347,827 347,833 353,830" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,851 353,851" stroke="#8C2020" fill="none"/>
+ <polygon points="353,851 347,848 347,854 353,851" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,872 353,872" stroke="#8C2020" fill="none"/>
+ <polygon points="353,872 347,869 347,875 353,872" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,893 353,893" stroke="#8C2020" fill="none"/>
+ <polygon points="353,893 347,890 347,896 353,893" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,914 353,914" stroke="#8C2020" fill="none"/>
+ <polygon points="353,914 347,911 347,917 353,914" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,935 353,935" stroke="#8C2020" fill="none"/>
+ <polygon points="353,935 347,932 347,938 353,935" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,956 353,956" stroke="#8C2020" fill="none"/>
+ <polygon points="353,956 347,953 347,959 353,956" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,977 353,977" stroke="#8C2020" fill="none"/>
+ <polygon points="353,977 347,974 347,980 353,977" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,998 353,998" stroke="#8C2020" fill="none"/>
+ <polygon points="353,998 347,995 347,1001 353,998" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1019 353,1019" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1019 347,1016 347,1022 353,1019" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1040 353,1040" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1040 347,1037 347,1043 353,1040" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1061 353,1061" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1061 347,1058 347,1064 353,1061" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1082 353,1082" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1082 347,1079 347,1085 353,1082" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1103 353,1103" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1103 347,1100 347,1106 353,1103" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1124 353,1124" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1124 347,1121 347,1127 353,1124" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1145 353,1145" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1145 347,1142 347,1148 353,1145" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1166 353,1166" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1166 347,1163 347,1169 353,1166" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1187 353,1187" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1187 347,1184 347,1190 353,1187" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1208 353,1208" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1208 347,1205 347,1211 353,1208" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1229 353,1229" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1229 347,1226 347,1232 353,1229" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1250 353,1250" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1250 347,1247 347,1253 353,1250" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1271 353,1271" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1271 347,1268 347,1274 353,1271" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1292 353,1292" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1292 347,1289 347,1295 353,1292" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1313 353,1313" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1313 347,1310 347,1316 353,1313" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1334 353,1334" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1334 347,1331 347,1337 353,1334" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1355 353,1355" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1355 347,1352 347,1358 353,1355" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1376 353,1376" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1376 347,1373 347,1379 353,1376" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1397 353,1397" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1397 347,1394 347,1400 353,1397" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1418 353,1418" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1418 347,1415 347,1421 353,1418" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1439 353,1439" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1439 347,1436 347,1442 353,1439" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1460 353,1460" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1460 347,1457 347,1463 353,1460" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1481 353,1481" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1481 347,1478 347,1484 353,1481" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1502 353,1502" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1502 347,1499 347,1505 353,1502" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1523 353,1523" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1523 347,1520 347,1526 353,1523" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="331,1562 338,1562 338,1544 353,1544" stroke="#8C2020" fill="none"/>
+ <polygon points="353,1544 347,1541 347,1547 353,1544" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="353,32 358,23 462,23 467,32 462,41 358,41 353,32" stroke="#20208C" fill="white"/>
+ <text x="361" y="36" fill="black" font-family="Arial" font-size="10">tnn::LogSoftmaxLayer</text>
+ <polygon points="353,53 358,44 438,44 443,53 438,62 358,62 353,53" stroke="#20208C" fill="white"/>
+ <text x="361" y="57" fill="black" font-family="Arial" font-size="10">tnn::RangeLayer</text>
+ <polygon points="353,74 358,65 445,65 450,74 445,83 358,83 353,74" stroke="#20208C" fill="white"/>
+ <text x="361" y="78" fill="black" font-family="Arial" font-size="10">tnn::Conv3DLayer</text>
+ <polygon points="353,95 358,86 438,86 443,95 438,104 358,104 353,95" stroke="#20208C" fill="white"/>
+ <text x="361" y="99" fill="black" font-family="Arial" font-size="10">tnn::WhereLayer</text>
+ <polygon points="353,116 358,107 482,107 487,116 482,125 358,125 353,116" stroke="#20208C" fill="white"/>
+ <text x="361" y="120" fill="black" font-family="Arial" font-size="10">tnn::ScatterElementsLayer</text>
+ <polygon points="353,137 358,128 446,128 451,137 446,146 358,146 353,137" stroke="#20208C" fill="white"/>
+ <text x="361" y="141" fill="black" font-family="Arial" font-size="10">tnn::RoiAlignLayer</text>
+ <polygon points="353,158 358,149 454,149 459,158 454,167 358,167 353,158" stroke="#20208C" fill="white"/>
+ <text x="361" y="162" fill="black" font-family="Arial" font-size="10">tnn::UpsampleLayer</text>
+ <polygon points="353,179 358,170 441,170 446,179 441,188 358,188 353,179" stroke="#20208C" fill="white"/>
+ <text x="361" y="183" fill="black" font-family="Arial" font-size="10">tnn::ScatterLayer</text>
+ <polygon points="353,200 358,191 481,191 486,200 481,209 358,209 353,200" stroke="#20208C" fill="white"/>
+ <text x="361" y="204" fill="black" font-family="Arial" font-size="10">tnn::DetectionOutputLayer</text>
+ <polygon points="353,221 358,212 458,212 463,221 458,230 358,230 353,221" stroke="#20208C" fill="white"/>
+ <text x="361" y="225" fill="black" font-family="Arial" font-size="10">tnn::LayerNormLayer</text>
+ <polygon points="353,242 358,233 466,233 471,242 466,251 358,251 353,242" stroke="#20208C" fill="white"/>
+ <text x="361" y="246" fill="black" font-family="Arial" font-size="10">tnn::ElementwiseLayer</text>
+ <polygon points="353,263 358,254 427,254 432,263 427,272 358,272 353,263" stroke="#20208C" fill="white"/>
+ <text x="361" y="267" fill="black" font-family="Arial" font-size="10">tnn::PadLayer</text>
+ <polygon points="353,284 358,275 449,275 454,284 449,293 358,293 353,284" stroke="#20208C" fill="white"/>
+ <text x="361" y="288" fill="black" font-family="Arial" font-size="10">tnn::ReshapeLayer</text>
+ <polygon points="353,305 358,296 428,296 433,305 428,314 358,314 353,305" stroke="#20208C" fill="white"/>
+ <text x="361" y="309" fill="black" font-family="Arial" font-size="10">tnn::SizeLayer</text>
+ <polygon points="353,326 358,317 442,317 447,326 442,335 358,335 353,326" stroke="#20208C" fill="white"/>
+ <text x="361" y="330" fill="black" font-family="Arial" font-size="10">tnn::EinsumLayer</text>
+ <polygon points="353,347 358,338 434,338 439,347 434,356 358,356 353,347" stroke="#20208C" fill="white"/>
+ <text x="361" y="351" fill="black" font-family="Arial" font-size="10">tnn::EqualLayer</text>
+ <polygon points="353,368 358,359 442,359 447,368 442,377 358,377 353,368" stroke="#20208C" fill="white"/>
+ <text x="361" y="372" fill="black" font-family="Arial" font-size="10">tnn::PoolingLayer</text>
+ <polygon points="353,389 358,380 443,380 448,389 443,398 358,398 353,389" stroke="#20208C" fill="white"/>
+ <text x="361" y="393" fill="black" font-family="Arial" font-size="10">tnn::ReduceLayer</text>
+ <polygon points="353,410 358,401 443,401 448,410 443,419 358,419 353,410" stroke="#20208C" fill="white"/>
+ <text x="361" y="414" fill="black" font-family="Arial" font-size="10">tnn::GreaterLayer</text>
+ <polygon points="353,431 358,422 464,422 469,431 464,440 358,440 353,431" stroke="#20208C" fill="white"/>
+ <text x="361" y="435" fill="black" font-family="Arial" font-size="10">tnn::LSTMONNXLayer</text>
+ <polygon points="353,452 358,443 430,443 435,452 430,461 358,461 353,452" stroke="#20208C" fill="white"/>
+ <text x="361" y="456" fill="black" font-family="Arial" font-size="10">tnn::GLULayer</text>
+ <polygon points="353,473 358,464 455,464 460,473 455,482 358,482 353,473" stroke="#20208C" fill="white"/>
+ <text x="361" y="477" fill="black" font-family="Arial" font-size="10">tnn::ScatterNDLayer</text>
+ <polygon points="353,494 358,485 441,485 446,494 441,503 358,503 353,494" stroke="#20208C" fill="white"/>
+ <text x="361" y="498" fill="black" font-family="Arial" font-size="10">tnn::BitShiftLayer</text>
+ <polygon points="353,515 358,506 461,506 466,515 461,524 358,524 353,515" stroke="#20208C" fill="white"/>
+ <text x="361" y="519" fill="black" font-family="Arial" font-size="10">tnn::PixelShuffleLayer</text>
+ <polygon points="353,536 358,527 457,527 462,536 457,545 358,545 353,536" stroke="#20208C" fill="white"/>
+ <text x="361" y="540" fill="black" font-family="Arial" font-size="10">tnn::RoiPoolingLayer</text>
+ <polygon points="353,557 358,548 498,548 503,557 498,566 358,566 353,557" stroke="#20208C" fill="white"/>
+ <text x="361" y="561" fill="black" font-family="Arial" font-size="10">tnn::CbamFusedReduceLayer</text>
+ <polygon points="353,578 358,569 436,569 441,578 436,587 358,587 353,578" stroke="#20208C" fill="white"/>
+ <text x="361" y="582" fill="black" font-family="Arial" font-size="10">tnn::ReorgLayer</text>
+ <polygon points="353,599 358,590 426,590 431,599 426,608 358,608 353,599" stroke="#20208C" fill="white"/>
+ <text x="361" y="603" fill="black" font-family="Arial" font-size="10">tnn::ClipLayer</text>
+ <polygon points="353,620 358,611 454,611 459,620 454,629 358,629 353,620" stroke="#20208C" fill="white"/>
+ <text x="361" y="624" fill="black" font-family="Arial" font-size="10">tnn::NormalizeLayer</text>
+ <polygon points="353,641 358,632 432,632 437,641 432,650 358,650 353,641" stroke="#20208C" fill="white"/>
+ <text x="361" y="645" fill="black" font-family="Arial" font-size="10">tnn::TopKLayer</text>
+ <polygon points="353,662 358,653 455,653 460,662 455,671 358,671 353,662" stroke="#20208C" fill="white"/>
+ <text x="361" y="666" fill="black" font-family="Arial" font-size="10">tnn::Pooling1DLayer</text>
+ <polygon points="353,683 358,674 447,674 452,683 447,692 358,692 353,683" stroke="#20208C" fill="white"/>
+ <text x="361" y="687" fill="black" font-family="Arial" font-size="10">tnn::PriorBoxLayer</text>
+ <polygon points="353,704 358,695 439,695 444,704 439,713 358,713 353,704" stroke="#20208C" fill="white"/>
+ <text x="361" y="708" fill="black" font-family="Arial" font-size="10">tnn::PadV2Layer</text>
+ <polygon points="353,725 358,716 488,716 493,725 488,734 358,734 353,725" stroke="#20208C" fill="white"/>
+ <text x="361" y="729" fill="black" font-family="Arial" font-size="10">tnn::ConstantOfShapeLayer</text>
+ <polygon points="353,746 358,737 454,737 459,746 454,755 358,755 353,746" stroke="#20208C" fill="white"/>
+ <text x="361" y="750" fill="black" font-family="Arial" font-size="10">tnn::HistogramLayer</text>
+ <polygon points="353,767 358,758 447,758 452,767 447,776 358,776 353,767" stroke="#20208C" fill="white"/>
+ <text x="361" y="771" fill="black" font-family="Arial" font-size="10">tnn::PermuteLayer</text>
+ <polygon points="353,788 358,779 438,779 443,788 438,797 358,797 353,788" stroke="#20208C" fill="white"/>
+ <text x="361" y="792" fill="black" font-family="Arial" font-size="10">tnn::ShapeLayer</text>
+ <polygon points="353,809 358,800 441,800 446,809 441,818 358,818 353,809" stroke="#20208C" fill="white"/>
+ <text x="361" y="813" fill="black" font-family="Arial" font-size="10">tnn::ConcatLayer</text>
+ <polygon points="353,830 358,821 429,821 434,830 429,839 358,839 353,830" stroke="#20208C" fill="white"/>
+ <text x="361" y="834" fill="black" font-family="Arial" font-size="10">tnn::LRNLayer</text>
+ <polygon points="353,851 358,842 446,842 451,851 446,860 358,860 353,851" stroke="#20208C" fill="white"/>
+ <text x="361" y="855" fill="black" font-family="Arial" font-size="10">tnn::SoftmaxLayer</text>
+ <polygon points="353,872 358,863 469,863 474,872 469,881 358,881 353,872" stroke="#20208C" fill="white"/>
+ <text x="361" y="876" fill="black" font-family="Arial" font-size="10">tnn::StrideSliceV2Layer</text>
+ <polygon points="353,893 358,884 497,884 502,893 497,902 358,902 353,893" stroke="#20208C" fill="white"/>
+ <text x="361" y="897" fill="black" font-family="Arial" font-size="10">tnn::CbamFusedPoolingLayer</text>
+ <polygon points="353,914 358,905 443,905 448,914 443,923 358,923 353,914" stroke="#20208C" fill="white"/>
+ <text x="361" y="918" fill="black" font-family="Arial" font-size="10">tnn::DeconvLayer</text>
+ <polygon points="353,935 358,926 440,926 445,935 440,944 358,944 353,935" stroke="#20208C" fill="white"/>
+ <text x="361" y="939" fill="black" font-family="Arial" font-size="10">tnn::ShuffleLayer</text>
+ <polygon points="353,956 358,947 428,947 433,956 428,965 358,965 353,956" stroke="#20208C" fill="white"/>
+ <text x="361" y="960" fill="black" font-family="Arial" font-size="10">tnn::PowLayer</text>
+ <polygon points="353,977 358,968 439,968 444,977 439,986 358,986 353,977" stroke="#20208C" fill="white"/>
+ <text x="361" y="981" fill="black" font-family="Arial" font-size="10">tnn::GatherLayer</text>
+ <polygon points="353,998 358,989 428,989 433,998 428,1007 358,1007 353,998" stroke="#20208C" fill="white"/>
+ <text x="361" y="1002" fill="black" font-family="Arial" font-size="10">tnn::SplitLayer</text>
+ <polygon points="353,1019 358,1010 455,1010 460,1019 455,1028 358,1028 353,1019" stroke="#20208C" fill="white"/>
+ <text x="361" y="1023" fill="black" font-family="Arial" font-size="10">tnn::Pooling3DLayer</text>
+ <polygon points="353,1040 358,1031 463,1031 468,1040 463,1049 358,1049 353,1040" stroke="#20208C" fill="white"/>
+ <text x="361" y="1044" fill="black" font-family="Arial" font-size="10">tnn::BaseLayerBuilder</text>
+ <polygon points="353,1061 358,1052 471,1052 476,1061 471,1070 358,1070 353,1061" stroke="#20208C" fill="white"/>
+ <text x="361" y="1065" fill="black" font-family="Arial" font-size="10">tnn::ArgMaxOrMinLayer</text>
+ <polygon points="353,1082 358,1073 448,1073 453,1082 448,1091 358,1091 353,1082" stroke="#20208C" fill="white"/>
+ <text x="361" y="1086" fill="black" font-family="Arial" font-size="10">tnn::NonZeroLayer</text>
+ <polygon points="353,1103 358,1094 432,1094 437,1103 432,1112 358,1112 353,1103" stroke="#20208C" fill="white"/>
+ <text x="361" y="1107" fill="black" font-family="Arial" font-size="10">tnn::ConvLayer</text>
+ <polygon points="353,1124 358,1115 435,1115 440,1124 435,1133 358,1133 353,1124" stroke="#20208C" fill="white"/>
+ <text x="361" y="1128" fill="black" font-family="Arial" font-size="10">tnn::SplitVLayer</text>
+ <polygon points="353,1145 358,1136 507,1136 512,1145 507,1154 358,1154 353,1145" stroke="#20208C" fill="white"/>
+ <text x="361" y="1149" fill="black" font-family="Arial" font-size="10">tnn::DetectionPostProcessLayer</text>
+ <polygon points="353,1166 358,1157 430,1157 435,1166 430,1175 358,1175 353,1166" stroke="#20208C" fill="white"/>
+ <text x="361" y="1170" fill="black" font-family="Arial" font-size="10">tnn::LessLayer</text>
+ <polygon points="353,1187 358,1178 457,1178 462,1187 457,1196 358,1196 353,1187" stroke="#20208C" fill="white"/>
+ <text x="361" y="1191" fill="black" font-family="Arial" font-size="10">tnn::StrideSliceLayer</text>
+ <polygon points="353,1208 358,1199 448,1199 453,1208 448,1217 358,1217 353,1208" stroke="#20208C" fill="white"/>
+ <text x="361" y="1212" fill="black" font-family="Arial" font-size="10">tnn::SqueezeLayer</text>
+ <polygon points="353,1229 358,1220 425,1220 430,1229 425,1238 358,1238 353,1229" stroke="#20208C" fill="white"/>
+ <text x="361" y="1233" fill="black" font-family="Arial" font-size="10">tnn::TileLayer</text>
+ <polygon points="353,1250 358,1241 439,1241 444,1250 439,1259 358,1259 353,1250" stroke="#20208C" fill="white"/>
+ <text x="361" y="1254" fill="black" font-family="Arial" font-size="10">tnn::FlattenLayer</text>
+ <polygon points="353,1271 358,1262 442,1262 447,1271 442,1280 358,1280 353,1271" stroke="#20208C" fill="white"/>
+ <text x="361" y="1275" fill="black" font-family="Arial" font-size="10">tnn::InverseLayer</text>
+ <polygon points="353,1292 358,1283 461,1283 466,1292 461,1301 358,1301 353,1292" stroke="#20208C" fill="white"/>
+ <text x="361" y="1296" fill="black" font-family="Arial" font-size="10">tnn::GroupNormLayer</text>
+ <polygon points="353,1313 358,1304 454,1304 459,1313 454,1322 358,1322 353,1313" stroke="#20208C" fill="white"/>
+ <text x="361" y="1317" fill="black" font-family="Arial" font-size="10">tnn::GatherNDLayer</text>
+ <polygon points="353,1334 358,1325 466,1325 471,1334 466,1343 358,1343 353,1334" stroke="#20208C" fill="white"/>
+ <text x="361" y="1338" fill="black" font-family="Arial" font-size="10">tnn::InnerProductLayer</text>
+ <polygon points="353,1355 358,1346 443,1346 448,1355 443,1364 358,1364 353,1355" stroke="#20208C" fill="white"/>
+ <text x="361" y="1359" fill="black" font-family="Arial" font-size="10">tnn::OneHotLayer</text>
+ <polygon points="353,1376 358,1367 450,1367 455,1376 450,1385 358,1385 353,1376" stroke="#20208C" fill="white"/>
+ <text x="361" y="1380" fill="black" font-family="Arial" font-size="10">tnn::ReformatLayer</text>
+ <polygon points="353,1397 358,1388 443,1388 448,1397 443,1406 358,1406 353,1397" stroke="#20208C" fill="white"/>
+ <text x="361" y="1401" fill="black" font-family="Arial" font-size="10">tnn::ExpandLayer</text>
+ <polygon points="353,1418 358,1409 459,1409 464,1418 459,1427 358,1427 353,1418" stroke="#20208C" fill="white"/>
+ <text x="361" y="1422" fill="black" font-family="Arial" font-size="10">tnn::UnsqueezeLayer</text>
+ <polygon points="353,1439 358,1430 442,1430 447,1439 442,1448 358,1448 353,1439" stroke="#20208C" fill="white"/>
+ <text x="361" y="1443" fill="black" font-family="Arial" font-size="10">tnn::MatMulLayer</text>
+ <polygon points="353,1460 358,1451 445,1451 450,1460 445,1469 358,1469 353,1460" stroke="#20208C" fill="white"/>
+ <text x="361" y="1464" fill="black" font-family="Arial" font-size="10">tnn::Conv1DLayer</text>
+ <polygon points="353,1481 358,1472 430,1472 435,1481 430,1490 358,1490 353,1481" stroke="#20208C" fill="white"/>
+ <text x="361" y="1485" fill="black" font-family="Arial" font-size="10">tnn::CastLayer</text>
+ <polygon points="353,1502 358,1493 452,1493 457,1502 452,1511 358,1511 353,1502" stroke="#20208C" fill="white"/>
+ <text x="361" y="1506" fill="black" font-family="Arial" font-size="10">tnn::HdrGuideLayer</text>
+ <polygon points="353,1523 358,1514 462,1514 467,1523 462,1532 358,1532 353,1523" stroke="#20208C" fill="white"/>
+ <text x="361" y="1527" fill="black" font-family="Arial" font-size="10">tnn::GridSampleLayer</text>
+ <polygon points="353,1544 358,1535 502,1535 507,1544 502,1553 358,1553 353,1544" stroke="#20208C" fill="white"/>
+ <text x="361" y="1548" fill="black" font-family="Arial" font-size="10">tnn::NonMaxSuppressionLayer</text>
+ <rect x="11" y="1616" width="116" height="18" stroke="#20208C" fill="white"/>
+ <text x="14" y="1629" fill="black" font-family="Arial" font-size="10">Status InferOutputShape</text>
+ <rect x="11" y="1637" width="130" height="18" stroke="#20208C" fill="white"/>
+ <text x="14" y="1650" fill="black" font-family="Arial" font-size="10">Status InferOutputDataType</text>
+ <rect x="11" y="1658" width="151" height="30" stroke="#20208C" fill="white"/>
+ <text fill="black" font-family="Arial" font-size="10">
+  <tspan x="14" y="1671">Status FillLayerParamWithConst</tspan>
+  <tspan x="14" y="1681">antResource</tspan></text>
+ <rect x="237" y="1616" width="94" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="247" y="1629" fill="black" font-family="Arial" font-size="10">LayerType type_</text>
+ <rect x="207" y="1637" width="124" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="217" y="1650" fill="black" font-family="Arial" font-size="10">std::string layer_name_</text>
+ <rect x="205" y="1658" width="126" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="215" y="1671" fill="black" font-family="Arial" font-size="10">std::vector input_blobs_</text>
+ <rect x="199" y="1679" width="132" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="209" y="1692" fill="black" font-family="Arial" font-size="10">std::vector output_blobs_</text>
+ <rect x="174" y="1700" width="157" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="184" y="1713" fill="black" font-family="Arial" font-size="10">AbstractLayerAcc * layer_acc_</text>
+ <rect x="213" y="1721" width="118" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="223" y="1734" fill="black" font-family="Arial" font-size="10">LayerParam * param_</text>
+ <rect x="189" y="1742" width="142" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="199" y="1755" fill="black" font-family="Arial" font-size="10">LayerResource * resource_</text>
+ <rect x="189" y="1763" width="142" height="30" rx="8" stroke="#20208C" fill="white"/>
+ <text fill="black" font-family="Arial" font-size="10">
+  <tspan x="199" y="1776">ConstantResource * const_</tspan>
+  <tspan x="199" y="1786">resource_</tspan></text>
+ <rect x="169" y="1796" width="162" height="30" rx="8" stroke="#20208C" fill="white"/>
+ <text fill="black" font-family="Arial" font-size="10">
+  <tspan x="179" y="1809">ConstantResourceFlag * const_</tspan>
+  <tspan x="179" y="1819">resource_flag_</tspan></text>
+ <rect x="174" y="1829" width="157" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="184" y="1842" fill="black" font-family="Arial" font-size="10">RuntimeMode runtime_model_</text>
+ <rect x="193" y="1850" width="138" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="203" y="1863" fill="black" font-family="Arial" font-size="10">bool enable_const_folder_</text>
+ <rect x="7" y="1694" width="57" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1707" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> BaseLayer</text>
+ <rect x="7" y="1715" width="63" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1728" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> ~BaseLayer</text>
+ <rect x="7" y="1736" width="51" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1749" fill="black" font-family="Arial" font-size="10">Status Init</text>
+ <rect x="7" y="1757" width="77" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1770" fill="black" font-family="Arial" font-size="10">Status Reshape</text>
+ <rect x="7" y="1778" width="74" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1791" fill="black" font-family="Arial" font-size="10">Status Forward</text>
+ <rect x="7" y="1799" width="120" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1812" fill="black" font-family="Arial" font-size="10">std::string GetLayerName</text>
+ <rect x="7" y="1820" width="94" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1833" fill="black" font-family="Arial" font-size="10">void SetLayerName</text>
+ <rect x="7" y="1841" width="119" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1854" fill="black" font-family="Arial" font-size="10">std::vector GetInputBlobs</text>
+ <rect x="7" y="1862" width="126" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1875" fill="black" font-family="Arial" font-size="10">std::vector GetOutputBlobs</text>
+ <rect x="7" y="1883" width="115" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1896" fill="black" font-family="Arial" font-size="10">Status InferShapeAhead</text>
+ <rect x="7" y="1904" width="156" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1917" fill="black" font-family="Arial" font-size="10">void SetRuntimeBlobMemoryPool</text>
+ <rect x="7" y="1925" width="106" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1938" fill="black" font-family="Arial" font-size="10">bool IsOutputConstant</text>
+ <rect x="7" y="1946" width="115" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1959" fill="black" font-family="Arial" font-size="10">int GetLayerChangeFlag</text>
+ <rect x="7" y="1967" width="125" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="1980" fill="black" font-family="Arial" font-size="10">void SetConstantResource</text>
+ <rect x="7" y="1988" width="145" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="2001" fill="black" font-family="Arial" font-size="10">void SetConstantResourceFlag</text>
+ <rect x="7" y="2009" width="105" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="2022" fill="black" font-family="Arial" font-size="10">void SetRuntimeMode</text>
+</svg>

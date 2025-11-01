@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<svg width="4614" height="540" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="4,537 4,4 4611,4 4611,537 4,537" stroke="#ffffff" fill="#ffffff"/>
+ <polygon points="2015,233 2015,5 2599,5 2599,233 2015,233" stroke="#ff0000" fill="#ffffff"/>
+ <polyline points="2015,25 2599,25" stroke="#ff0000" fill="none"/>
+ <polyline points="2015,45 2599,45" stroke="#ff0000" fill="none"/>
+ <text x="2264" y="19" fill="#000000" font-family="Arial" font-size="10">tnn::AbstractDevice</text>
+ <text x="2023" y="39" fill="#000000" font-family="Arial" font-size="10">- device_type_: DeviceType</text>
+ <text x="2023" y="59" fill="#000000" font-family="Arial" font-size="10">+ Allocate (handle: BlobHandle *, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="2023" y="71" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedLayout (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="2023" y="83" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedPrecision (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="2023" y="95" fill="#000000" font-family="Arial" font-size="10">+ ~AbstractDevice () Virtual</text>
+ <text x="2023" y="107" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Pure Virtual</text>
+ <text x="2023" y="119" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Pure Virtual</text>
+ <text x="2023" y="131" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Pure Virtual</text>
+ <text x="2023" y="143" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Pure Virtual</text>
+ <text x="2023" y="155" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Pure Virtual</text>
+ <text x="2023" y="167" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Pure Virtual</text>
+ <text x="2023" y="179" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Pure Virtual</text>
+ <text x="2023" y="191" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Pure Virtual</text>
+ <text x="2023" y="203" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Pure Virtual</text>
+ <text x="2023" y="215" fill="#000000" font-family="Arial" font-size="10">+ GetDeviceType () DeviceType</text>
+ <text x="2023" y="227" fill="#000000" font-family="Arial" font-size="10">+ AbstractDevice (device_type: DeviceType ) </text>
+ <polygon points="4,535 4,271 564,271 564,535 4,535" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="4,291 564,291" stroke="#0000ff" fill="none"/>
+ <polyline points="4,311 564,311" stroke="#0000ff" fill="none"/>
+ <text x="250" y="285" fill="#000000" font-family="Arial" font-size="10">tnn::ArmDevice</text>
+ <text x="283" y="305" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="12" y="325" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="12" y="337" fill="#000000" font-family="Arial" font-size="10">+ Allocate (handle: BlobHandle *, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="12" y="349" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="12" y="361" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="12" y="373" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="12" y="385" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="12" y="397" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="12" y="409" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="12" y="421" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="12" y="433" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="12" y="445" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedLayout (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="12" y="457" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedPrecision (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="12" y="469" fill="#000000" font-family="Arial" font-size="10">+ ~ArmDevice () Virtual</text>
+ <text x="12" y="481" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="12" y="493" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerLayout (type: LayerType , layout: std::shared_ptr ) Status</text>
+ <text x="12" y="505" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerPrecision (type: LayerType , precision: std::shared_ptr ) Status</text>
+ <text x="12" y="517" fill="#000000" font-family="Arial" font-size="10">- Calculate1DMemorySize (desc: BlobDesc &amp; ) BlobMemorySizeInfo</text>
+ <text x="12" y="529" fill="#000000" font-family="Arial" font-size="10">+ ArmDevice (device_type: DeviceType ) </text>
+ <polyline points="564,272 565,272 566,272 567,272 568,272 569,271 569,271 570,271 571,271 572,270 573,270 665,250 782,231 918,214 1068,198 1229,184 1394,171 1559,160 1719,150 1869,141 2005,134" stroke="#CC0044" fill="none"/>
+ <polygon points="2005,130 2015,133 2005,137 2005,130" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="582,499 582,307 1142,307 1142,499 582,499" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="582,327 1142,327" stroke="#0000ff" fill="none"/>
+ <polyline points="582,347 1142,347" stroke="#0000ff" fill="none"/>
+ <text x="828" y="321" fill="#000000" font-family="Arial" font-size="10">tnn::CpuDevice</text>
+ <text x="861" y="341" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="590" y="361" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="590" y="373" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="590" y="385" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="590" y="397" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="590" y="409" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="590" y="421" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="590" y="433" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="590" y="445" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="590" y="457" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="590" y="469" fill="#000000" font-family="Arial" font-size="10">+ ~CpuDevice () Virtual</text>
+ <text x="590" y="481" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="590" y="493" fill="#000000" font-family="Arial" font-size="10">+ CpuDevice (device_type: DeviceType ) </text>
+ <polyline points="1049,307 1059,303 1069,299 1079,295 1089,291 1100,287 1110,283 1120,280 1131,276 1141,273 1151,270 1237,247 1326,226 1415,208 1506,192 1595,178 1684,166 1770,156 1852,147 1931,140 2005,134" stroke="#CC0044" fill="none"/>
+ <polygon points="2004,131 2015,134 2005,138 2004,131" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1160,529 1160,277 1720,277 1720,529 1160,529" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1160,297 1720,297" stroke="#0000ff" fill="none"/>
+ <polyline points="1160,317 1720,317" stroke="#0000ff" fill="none"/>
+ <text x="1403" y="291" fill="#000000" font-family="Arial" font-size="10">tnn::CudaDevice</text>
+ <text x="1439" y="311" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="1168" y="331" fill="#000000" font-family="Arial" font-size="10">+ Allocate (handle: BlobHandle *, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="1168" y="343" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="1168" y="355" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="1168" y="367" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="1168" y="379" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="1168" y="391" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="1168" y="403" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="1168" y="415" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="1168" y="427" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="1168" y="439" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="1168" y="451" fill="#000000" font-family="Arial" font-size="10">+ ~CudaDevice () Virtual</text>
+ <text x="1168" y="463" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="1168" y="475" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Pure Virtual</text>
+ <text x="1168" y="487" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Pure Virtual</text>
+ <text x="1168" y="499" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size: size_t ) Status</text>
+ <text x="1168" y="511" fill="#000000" font-family="Arial" font-size="10">+ ReAllocate (void **handle, size: size_t ) Status</text>
+ <text x="1168" y="523" fill="#000000" font-family="Arial" font-size="10">+ CudaDevice (device_type: DeviceType ) </text>
+ <polyline points="1710,277 1712,276 1714,276 1716,275 1718,274 1720,274 1721,273 1723,272 1725,271 1727,271 1729,270 1756,261 1783,252 1810,243 1838,234 1866,226 1894,218 1922,210 1950,202 1978,195 2005,188" stroke="#CC0044" fill="none"/>
+ <polygon points="2004,184 2015,185 2006,191 2004,184" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1738,517 1738,289 2298,289 2298,517 1738,517" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1738,309 2298,309" stroke="#0000ff" fill="none"/>
+ <polyline points="1738,329 2298,329" stroke="#0000ff" fill="none"/>
+ <text x="1981" y="303" fill="#000000" font-family="Arial" font-size="10">tnn::MetalDevice</text>
+ <text x="2017" y="323" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="1746" y="343" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="1746" y="355" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="1746" y="367" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="1746" y="379" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="1746" y="391" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="1746" y="403" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="1746" y="415" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="1746" y="427" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="1746" y="439" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="1746" y="451" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedLayout (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="1746" y="463" fill="#000000" font-family="Arial" font-size="10">+ ~MetalDevice () Virtual</text>
+ <text x="1746" y="475" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="1746" y="487" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerLayout (type: LayerType , layout: std::shared_ptr ) Status</text>
+ <text x="1746" y="499" fill="#000000" font-family="Arial" font-size="10">- Calculate1DMemorySize (desc: BlobDesc &amp; ) BlobMemorySizeInfo</text>
+ <text x="1746" y="511" fill="#000000" font-family="Arial" font-size="10">+ MetalDevice (device_type: DeviceType ) </text>
+ <polyline points="2134,289 2139,284 2144,279 2149,275 2154,270 2159,265 2164,260 2169,255 2174,250 2179,245 2184,240" stroke="#CC0044" fill="none"/>
+ <polygon points="2181,238 2191,233 2186,243 2181,238" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="2316,499 2316,307 2876,307 2876,499 2316,499" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="2316,327 2876,327" stroke="#0000ff" fill="none"/>
+ <polyline points="2316,347 2876,347" stroke="#0000ff" fill="none"/>
+ <text x="2562" y="321" fill="#000000" font-family="Arial" font-size="10">tnn::NpuDevice</text>
+ <text x="2595" y="341" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="2324" y="361" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="2324" y="373" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="2324" y="385" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="2324" y="397" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="2324" y="409" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="2324" y="421" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="2324" y="433" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="2324" y="445" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="2324" y="457" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="2324" y="469" fill="#000000" font-family="Arial" font-size="10">+ ~NpuDevice () Virtual</text>
+ <text x="2324" y="481" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="2324" y="493" fill="#000000" font-family="Arial" font-size="10">+ NpuDevice (device_type: DeviceType ) </text>
+ <polyline points="2499,307 2492,301 2486,294 2479,288 2472,281 2465,274 2458,267 2451,261 2444,254 2437,247 2430,240" stroke="#CC0044" fill="none"/>
+ <polygon points="2428,243 2423,233 2433,238 2428,243" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="2894,511 2894,295 3454,295 3454,511 2894,511" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="2894,315 3454,315" stroke="#0000ff" fill="none"/>
+ <polyline points="2894,335 3454,335" stroke="#0000ff" fill="none"/>
+ <text x="3130" y="309" fill="#000000" font-family="Arial" font-size="10">tnn::OpenCLDevice</text>
+ <text x="3173" y="329" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="2902" y="349" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, desc: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="2902" y="361" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="2902" y="373" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="2902" y="385" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="2902" y="397" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="2902" y="409" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="2902" y="421" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="2902" y="433" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="2902" y="445" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="2902" y="457" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedLayout (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="2902" y="469" fill="#000000" font-family="Arial" font-size="10">+ ~OpenCLDevice () Virtual</text>
+ <text x="2902" y="481" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="2902" y="493" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerLayout (type: LayerType , layout: std::shared_ptr ) Status</text>
+ <text x="2902" y="505" fill="#000000" font-family="Arial" font-size="10">+ OpenCLDevice (device_type: DeviceType ) </text>
+ <polyline points="2950,295 2943,292 2937,290 2930,287 2924,285 2917,282 2911,280 2904,277 2898,275 2891,272 2885,270 2858,261 2831,252 2804,243 2776,234 2748,226 2720,218 2692,210 2664,202 2636,195 2609,188" stroke="#CC0044" fill="none"/>
+ <polygon points="2608,191 2599,185 2610,184 2608,191" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="3472,499 3472,307 4032,307 4032,499 3472,499" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="3472,327 4032,327" stroke="#0000ff" fill="none"/>
+ <polyline points="3472,347 4032,347" stroke="#0000ff" fill="none"/>
+ <text x="3713" y="321" fill="#000000" font-family="Arial" font-size="10">tnn::RknpuDevice</text>
+ <text x="3751" y="341" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="3480" y="361" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="3480" y="373" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="3480" y="385" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="3480" y="397" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="3480" y="409" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="3480" y="421" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="3480" y="433" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="3480" y="445" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="3480" y="457" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="3480" y="469" fill="#000000" font-family="Arial" font-size="10">+ ~RknpuDevice () Virtual</text>
+ <text x="3480" y="481" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="3480" y="493" fill="#000000" font-family="Arial" font-size="10">+ RknpuDevice (device_type: DeviceType ) </text>
+ <polyline points="3565,307 3555,303 3545,299 3535,295 3525,291 3514,287 3504,283 3494,280 3483,276 3473,273 3463,270 3377,247 3288,226 3199,208 3108,192 3019,178 2930,166 2844,156 2762,147 2683,140 2609,134" stroke="#CC0044" fill="none"/>
+ <polygon points="2609,138 2599,134 2610,131 2609,138" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="4050,517 4050,289 4610,289 4610,517 4050,517" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="4050,309 4610,309" stroke="#0000ff" fill="none"/>
+ <polyline points="4050,329 4610,329" stroke="#0000ff" fill="none"/>
+ <text x="4296" y="303" fill="#000000" font-family="Arial" font-size="10">tnn::X86Device</text>
+ <text x="4329" y="323" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="4058" y="343" fill="#000000" font-family="Arial" font-size="10">+ GetLayerCreatorMap () </text>
+ <text x="4058" y="355" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, size_info: BlobMemorySizeInfo &amp; ) Status Virtual</text>
+ <text x="4058" y="367" fill="#000000" font-family="Arial" font-size="10">+ Allocate (void **handle, mat_type: MatType , dims: DimsVector ) Status Virtual</text>
+ <text x="4058" y="379" fill="#000000" font-family="Arial" font-size="10">+ Calculate (desc: BlobDesc &amp; ) BlobMemorySizeInfo Virtual</text>
+ <text x="4058" y="391" fill="#000000" font-family="Arial" font-size="10">+ ConvertAutoNetworkType () NetworkType Virtual</text>
+ <text x="4058" y="403" fill="#000000" font-family="Arial" font-size="10">+ CopyFromDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="4058" y="415" fill="#000000" font-family="Arial" font-size="10">+ CopyToDevice (dst: BlobHandle *, src: const BlobHandle *, desc: BlobDesc &amp; , command_queue: void *) Status Virtual</text>
+ <text x="4058" y="427" fill="#000000" font-family="Arial" font-size="10">+ CreateContext (device_id: int ) Context * Virtual</text>
+ <text x="4058" y="439" fill="#000000" font-family="Arial" font-size="10">+ CreateLayerAcc (type: LayerType ) AbstractLayerAcc * Virtual</text>
+ <text x="4058" y="451" fill="#000000" font-family="Arial" font-size="10">+ Free (handle: void *) Status Virtual</text>
+ <text x="4058" y="463" fill="#000000" font-family="Arial" font-size="10">+ GetImplementedLayout (type: LayerType ) std::shared_ptr Virtual</text>
+ <text x="4058" y="475" fill="#000000" font-family="Arial" font-size="10">+ ~X86Device () Virtual</text>
+ <text x="4058" y="487" fill="#000000" font-family="Arial" font-size="10">+ RegisterLayerAccCreator (type: LayerType , creator: LayerAccCreator *) Status</text>
+ <text x="4058" y="499" fill="#000000" font-family="Arial" font-size="10">- Calculate1DMemorySize (desc: BlobDesc &amp; ) BlobMemorySizeInfo</text>
+ <text x="4058" y="511" fill="#000000" font-family="Arial" font-size="10">+ X86Device (device_type: DeviceType ) </text>
+ <polyline points="4101,289 4095,287 4089,285 4083,283 4077,281 4071,279 4065,277 4059,275 4053,273 4047,272 4041,270 3949,250 3832,231 3696,214 3546,198 3385,184 3220,171 3055,160 2895,150 2745,141 2609,134" stroke="#CC0044" fill="none"/>
+ <polygon points="2609,137 2599,133 2609,130 2609,137" stroke="#CC0044" fill="#CC0044"/>
+</svg>

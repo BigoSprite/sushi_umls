@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<svg width="716" height="1934" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="4,1931 4,4 713,4 713,1931 4,1931" stroke="#ffffff" fill="#ffffff"/>
+ <ellipse cx="356" cy="967" rx="134" ry="18" stroke="#000000" fill="#ffffff"/>
+ <text x="258" y="972" fill="#000000" font-family="Arial" font-size="12">DECLARE_ELEMENTWISE_LAYER</text>
+ <polygon points="684,4 576,4 576,40 684,40 684,4" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="20" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="584" y="34" fill="#000000" font-family="Arial" font-size="12">tanh_layer.cc(19)</text>
+ <polyline points="357,949 358,911 360,855 364,784 370,701 380,609 395,509 414,406 439,302 470,199 508,101 511,93 514,87 517,81 520,76 524,71 527,67 531,63 536,58 541,54 548,49 550,48 552,47 553,46 555,45 557,44 559,43 561,42 562,41 564,40 566,39" stroke="#0000ff" fill="none"/>
+ <text x="508" y="63" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="565,35 576,35 568,42 565,35" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="683,58 578,58 578,94 683,94 683,58" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="74" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="586" y="88" fill="#000000" font-family="Arial" font-size="12">neg_layer.cc(19)</text>
+ <polyline points="357,949 358,913 361,860 366,794 373,716 384,630 398,537 418,440 442,343 472,247 508,155 511,147 514,141 517,135 520,130 524,125 527,121 531,117 536,112 541,108 548,103 550,102 552,101 554,99 556,98 558,97 560,96 562,95 564,94 566,93 568,92" stroke="#0000ff" fill="none"/>
+ <text x="508" y="117" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="567,89 577,88 569,95 567,89" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="681,112 579,112 579,148 681,148 681,112" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="128" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="587" y="142" fill="#000000" font-family="Arial" font-size="12">not_layer.cc(19)</text>
+ <polyline points="358,949 360,915 363,865 368,803 376,730 387,650 402,563 421,474 445,383 474,294 508,209 511,201 514,195 517,189 520,184 524,179 527,175 531,171 536,166 541,162 548,157 550,156 552,154 554,153 556,152 558,151 560,150 563,148 565,147 567,146 569,145" stroke="#0000ff" fill="none"/>
+ <text x="508" y="171" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,142 579,142 571,148 568,142" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="680,166 580,166 580,202 680,202 680,166" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="182" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="588" y="196" fill="#000000" font-family="Arial" font-size="12">sin_layer.cc(19)</text>
+ <polyline points="358,949 360,916 364,870 370,812 379,745 391,670 406,590 425,508 448,424 475,342 508,263 511,256 514,249 517,244 520,238 524,234 527,229 531,225 536,220 541,216 548,211 550,210 552,208 554,207 556,205 559,204 561,203 563,202 565,201 568,200 570,199" stroke="#0000ff" fill="none"/>
+ <text x="508" y="225" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="569,196 580,195 572,202 569,196" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="693,220 567,220 567,256 693,256 693,220" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="236" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="575" y="250" fill="#000000" font-family="Arial" font-size="12">softsign_layer.cc(19)</text>
+ <polyline points="358,949 361,918 366,875 373,822 382,760 394,691 410,617 428,541 451,465 477,389 508,317 511,310 514,303 517,298 520,292 524,288 527,283 531,279 536,274 541,270 548,265 549,264 550,264 551,263 552,263 553,262 554,261 555,261 556,260 557,260 558,259" stroke="#0000ff" fill="none"/>
+ <text x="508" y="279" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="556,256 567,254 560,262 556,256" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="685,274 576,274 576,310 685,310 685,274" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="290" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="584" y="304" fill="#000000" font-family="Arial" font-size="12">rsqrt_layer.cc(19)</text>
+ <polyline points="359,949 362,920 368,880 375,831 385,774 398,711 413,644 432,575 454,505 479,437 508,371 512,364 515,357 518,352 521,346 524,342 527,337 531,333 536,328 541,324 548,319 550,318 552,317 553,316 555,315 557,314 559,313 561,312 562,311 564,310 566,309" stroke="#0000ff" fill="none"/>
+ <text x="508" y="333" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="565,305 575,305 568,312 565,305" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="684,328 576,328 576,364 684,364 684,328" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="344" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="584" y="358" fill="#000000" font-family="Arial" font-size="12">floor_layer.cc(19)</text>
+ <polyline points="359,949 363,922 370,886 378,841 389,789 402,732 417,672 436,609 457,546 481,484 508,425 512,418 515,411 518,406 521,400 524,396 527,391 531,387 536,382 541,378 548,373 550,372 552,371 553,370 555,369 557,368 559,367 561,366 562,365 564,364 566,363" stroke="#0000ff" fill="none"/>
+ <text x="508" y="387" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="565,359 576,359 568,366 565,359" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="688,382 573,382 573,418 688,418 688,382" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="398" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="581" y="412" fill="#000000" font-family="Arial" font-size="12">swish_layer.cc(19)</text>
+ <polyline points="360,949 365,924 371,891 380,851 392,804 405,753 421,699 439,643 460,587 483,532 508,479 512,472 515,465 518,460 521,454 524,450 527,445 531,441 536,436 541,432 548,427 550,426 551,425 553,424 554,423 556,423 557,422 559,421 560,420 562,419 563,418" stroke="#0000ff" fill="none"/>
+ <text x="508" y="441" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="562,415 572,414 565,421 562,415" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="699,436 562,436 562,472 699,472 699,436" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="452" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="570" y="466" fill="#000000" font-family="Arial" font-size="12">reciprocal_layer.cc(19)</text>
+ <polyline points="361,949 366,926 374,896 383,860 395,819 409,774 425,727 443,678 463,628 484,580 508,533 512,526 515,519 518,514 521,508 524,504 528,499 531,495 536,490 541,486 548,481 549,481 549,480 550,480 550,479 551,479 552,479 552,478 553,478 553,477 554,477" stroke="#0000ff" fill="none"/>
+ <text x="508" y="495" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="553,474 563,472 556,480 553,474" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="683,490 578,490 578,526 683,526 683,490" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="506" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="586" y="520" fill="#000000" font-family="Arial" font-size="12">sqrt_layer.cc(19)</text>
+ <polyline points="362,949 368,929 377,903 387,871 399,835 414,797 430,756 447,713 466,670 486,628 508,588 512,581 515,574 518,568 521,563 524,558 528,554 531,549 536,545 541,540 548,535 550,534 552,533 554,531 556,530 558,529 560,528 562,527 564,526 566,525 568,524" stroke="#0000ff" fill="none"/>
+ <text x="508" y="549" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="567,520 577,520 570,527 567,520" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="684,544 577,544 577,580 684,580 684,544" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="560" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="585" y="574" fill="#000000" font-family="Arial" font-size="12">asin_layer.cc(19)</text>
+ <polyline points="364,949 371,931 380,909 392,882 405,852 419,819 435,785 452,749 470,714 489,678 508,644 512,637 516,630 519,624 522,619 525,614 528,609 532,604 536,599 541,594 548,589 550,588 552,587 553,585 555,584 557,583 559,582 561,581 562,580 564,579 566,578" stroke="#0000ff" fill="none"/>
+ <text x="508" y="604" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="566,575 576,574 568,581 566,575" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="703,598 557,598 557,634 703,634 703,598" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="614" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="565" y="628" fill="#000000" font-family="Arial" font-size="12">signed_mul_layer.cc(19)</text>
+ <polyline points="362,949 368,929 377,903 388,874 402,840 419,805 439,770 461,734 487,701 516,670 548,643 549,643 549,642 550,642 550,641 551,641 552,641 552,640 553,640 553,639 554,639" stroke="#0000ff" fill="none"/>
+ <text x="508" y="660" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="553,636 563,634 556,642 553,636" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="681,652 579,652 579,688 681,688 681,652" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="668" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="587" y="682" fill="#000000" font-family="Arial" font-size="12">tan_layer.cc(19)</text>
+ <polyline points="364,949 372,932 382,911 394,886 410,859 427,830 447,801 469,772 493,745 520,719 548,697 550,696 552,694 554,693 556,692 558,691 560,690 563,688 565,687 567,686 569,685" stroke="#0000ff" fill="none"/>
+ <text x="508" y="712" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,682 579,682 571,689 568,682" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="712,706 548,706 548,742 712,742 712,706" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="722" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="556" y="736" fill="#000000" font-family="Arial" font-size="12">instance_norm_layer.cc(19)</text>
+ <polyline points="368,949 377,935 389,918 402,899 418,877 436,855 456,833 477,810 500,789 523,769 548,751 549,750 549,750 550,749 551,749 552,749 552,748 553,748 554,748 554,747 555,747" stroke="#0000ff" fill="none"/>
+ <text x="508" y="763" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="554,743 564,742 557,750 554,743" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="682,760 579,760 579,796 682,796 682,760" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="776" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="587" y="790" fill="#000000" font-family="Arial" font-size="12">ceil_layer.cc(19)</text>
+ <polyline points="373,949 384,938 396,925 411,911 427,896 445,880 464,864 484,848 505,833 526,818 548,805 550,804 552,803 554,802 556,801 558,800 560,799 563,798 565,797 567,796 569,795" stroke="#0000ff" fill="none"/>
+ <text x="508" y="818" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,792 578,792 570,798 568,792" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="709,814 552,814 552,850 709,850 709,814" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="830" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="560" y="844" fill="#000000" font-family="Arial" font-size="12">hard_sigmoid_layer.cc(19)</text>
+ <polyline points="384,949 396,942 409,933 424,925 440,915 457,906 475,896 493,886 511,877 530,867 548,859 549,858 550,858 552,857 553,857 554,856 555,856 557,855 558,855 560,854 561,854" stroke="#0000ff" fill="none"/>
+ <text x="508" y="868" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="559,850 570,850 562,857 559,850" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="705,868 556,868 556,904 705,904 705,868" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="884" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="564" y="898" fill="#000000" font-family="Arial" font-size="12">log_sigmoid_layer.cc(19)</text>
+ <polyline points="412,951 425,947 439,943 454,938 469,934 484,929 499,925 515,920 530,916 545,911 559,907" stroke="#0000ff" fill="none"/>
+ <text x="508" y="915" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="558,904 568,904 560,910 558,904" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="686,922 574,922 574,958 686,958 686,922" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="938" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="582" y="952" fill="#000000" font-family="Arial" font-size="12">prelu_layer.cc(19)</text>
+ <polyline points="464,956 474,955 485,954 495,953 505,952 516,951 526,950 536,949 545,948 555,947 564,946" stroke="#0000ff" fill="none"/>
+ <text x="508" y="949" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="564,943 574,945 564,950 564,943" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="693,976 567,976 567,1012 693,1012 693,976" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="992" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="575" y="1006" fill="#000000" font-family="Arial" font-size="12">sigmoid_layer.cc(19)</text>
+ <polyline points="464,978 473,979 483,980 492,981 502,982 511,983 521,983 530,984 539,985 548,986 557,987" stroke="#0000ff" fill="none"/>
+ <text x="508" y="980" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="557,983 567,988 556,990 557,983" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="697,1030 563,1030 563,1066 697,1066 697,1030" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1046" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="571" y="1060" fill="#000000" font-family="Arial" font-size="12">bias_add_layer.cc(19)</text>
+ <polyline points="412,983 425,987 439,991 454,996 469,1000 484,1005 499,1009 515,1014 530,1018 545,1023 559,1027" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1010" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="560,1024 568,1030 558,1030 560,1024" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="704,1084 556,1084 556,1120 704,1120 704,1084" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1100" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="564" y="1114" fill="#000000" font-family="Arial" font-size="12">batch_norm_layer.cc(19)</text>
+ <polyline points="384,985 396,992 409,1001 424,1009 440,1019 457,1029 475,1038 493,1048 511,1057 530,1067 548,1075 549,1076 550,1076 552,1077 553,1077 554,1078 555,1078 557,1079 558,1079 560,1080 561,1080" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1054" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="562,1077 570,1084 559,1084 562,1077" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="685,1138 575,1138 575,1174 685,1174 685,1138" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1154" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="583" y="1168" fill="#000000" font-family="Arial" font-size="12">acos_layer.cc(19)</text>
+ <polyline points="373,985 384,996 396,1009 411,1023 427,1038 445,1054 464,1070 484,1086 505,1101 526,1116 548,1129 550,1130 551,1131 553,1132 554,1133 556,1133 558,1134 560,1135 561,1136 563,1136 565,1137" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1105" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="567,1134 575,1141 564,1141 567,1134" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="684,1192 576,1192 576,1228 684,1228 684,1192" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1208" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="584" y="1222" fill="#000000" font-family="Arial" font-size="12">atan_layer.cc(19)</text>
+ <polyline points="368,985 377,999 389,1016 402,1035 418,1057 436,1079 456,1101 477,1124 500,1145 523,1165 548,1183 550,1184 552,1185 553,1186 555,1187 557,1188 559,1189 561,1190 562,1191 564,1192 566,1193" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1152" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,1190 576,1197 565,1196 568,1190" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="684,1246 577,1246 577,1282 684,1282 684,1246" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1262" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="585" y="1276" fill="#000000" font-family="Arial" font-size="12">sign_layer.cc(19)</text>
+ <polyline points="364,985 372,1002 382,1023 394,1048 410,1075 427,1104 447,1133 469,1162 493,1189 520,1215 548,1237 550,1238 552,1239 553,1240 555,1241 557,1242 559,1243 561,1244 563,1245 565,1246 567,1247" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1207" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,1244 576,1251 566,1251 568,1244" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="687,1300 574,1300 574,1336 687,1336 687,1300" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1316" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="582" y="1330" fill="#000000" font-family="Arial" font-size="12">scale_layer.cc(19)</text>
+ <polyline points="362,985 368,1005 377,1031 388,1060 402,1094 419,1129 439,1164 461,1200 487,1233 516,1264 548,1291 550,1292 551,1293 553,1294 554,1295 556,1296 557,1297 559,1298 561,1299 562,1299 564,1300" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1256" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="565,1297 573,1304 563,1304 565,1297" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="686,1354 574,1354 574,1390 686,1390 686,1354" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1370" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="582" y="1384" fill="#000000" font-family="Arial" font-size="12">relu6_layer.cc(19)</text>
+ <polyline points="364,985 371,1003 380,1025 392,1052 405,1082 419,1115 435,1149 452,1185 470,1220 489,1256 508,1290 512,1297 516,1304 519,1310 522,1315 525,1321 528,1325 532,1330 536,1335 541,1340 548,1345 550,1346 551,1347 553,1348 554,1349 556,1350 558,1351 560,1352 561,1353 563,1354 565,1355" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1288" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="566,1352 574,1359 563,1358 566,1352" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="681,1408 580,1408 580,1444 681,1444 681,1408" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1424" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="588" y="1438" fill="#000000" font-family="Arial" font-size="12">log_layer.cc(19)</text>
+ <polyline points="362,985 368,1005 377,1031 387,1063 399,1099 414,1137 430,1178 447,1221 466,1264 486,1306 508,1346 512,1353 515,1360 518,1366 521,1371 524,1376 528,1380 531,1385 536,1389 541,1394 548,1399 550,1400 552,1402 554,1403 556,1405 559,1406 561,1407 563,1408 565,1409 568,1410 570,1411" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1344" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="571,1408 579,1415 569,1414 571,1408" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="682,1462 578,1462 578,1498 682,1498 682,1462" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1478" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="586" y="1492" fill="#000000" font-family="Arial" font-size="12">exp_layer.cc(19)</text>
+ <polyline points="361,985 366,1008 374,1038 383,1074 395,1115 409,1160 425,1207 443,1256 463,1306 484,1354 508,1401 512,1408 515,1415 518,1420 521,1426 524,1430 528,1435 531,1439 536,1444 541,1448 548,1453 550,1454 552,1455 554,1457 556,1458 558,1459 560,1460 562,1461 564,1462 567,1463 569,1464" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1399" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="570,1461 578,1468 567,1468 570,1461" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="681,1516 580,1516 580,1552 681,1552 681,1516" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1532" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="588" y="1546" fill="#000000" font-family="Arial" font-size="12">elu_layer.cc(19)</text>
+ <polyline points="360,985 365,1010 371,1043 380,1083 392,1130 405,1181 421,1235 439,1291 460,1347 483,1402 508,1455 512,1462 515,1469 518,1474 521,1480 524,1484 527,1489 531,1493 536,1498 541,1502 548,1507 550,1508 552,1510 554,1511 556,1513 559,1514 561,1515 563,1516 565,1517 568,1518 570,1519" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1453" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="571,1516 579,1523 569,1522 571,1516" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="680,1570 581,1570 581,1606 680,1606 680,1570" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1586" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="589" y="1600" fill="#000000" font-family="Arial" font-size="12">erf_layer.cc(19)</text>
+ <polyline points="359,985 363,1012 370,1048 378,1093 389,1145 402,1202 417,1262 436,1325 457,1388 481,1450 508,1509 512,1516 515,1523 518,1528 521,1534 524,1538 527,1543 531,1547 536,1552 541,1556 548,1561 550,1562 552,1564 555,1565 557,1567 559,1568 561,1569 564,1570 566,1571 569,1572 571,1573" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1507" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="572,1570 580,1577 570,1577 572,1570" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="683,1624 578,1624 578,1660 683,1660 683,1624" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1640" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="586" y="1654" fill="#000000" font-family="Arial" font-size="12">relu_layer.cc(19)</text>
+ <polyline points="359,985 362,1014 368,1054 375,1103 385,1160 398,1223 413,1290 432,1359 454,1429 479,1497 508,1563 512,1570 515,1577 518,1582 521,1588 524,1592 527,1597 531,1601 536,1606 541,1610 548,1615 550,1616 552,1617 554,1619 556,1620 558,1621 560,1622 562,1623 564,1624 566,1625 568,1626" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1561" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="569,1623 577,1630 567,1629 569,1623" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="693,1678 567,1678 567,1714 693,1714 693,1678" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1694" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="575" y="1708" fill="#000000" font-family="Arial" font-size="12">softplus_layer.cc(19)</text>
+ <polyline points="358,985 361,1016 366,1059 373,1112 382,1174 394,1243 410,1317 428,1393 451,1469 477,1545 508,1617 511,1624 514,1631 517,1636 520,1642 524,1646 527,1651 531,1655 536,1660 541,1664 548,1669 549,1670 550,1670 551,1671 552,1671 553,1672 554,1673 555,1673 556,1674 557,1674 558,1675" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1615" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="560,1672 567,1680 556,1678 560,1672" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="682,1732 578,1732 578,1768 682,1768 682,1732" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1748" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="586" y="1762" fill="#000000" font-family="Arial" font-size="12">abs_layer.cc(19)</text>
+ <polyline points="358,985 360,1018 364,1064 370,1122 379,1189 391,1264 406,1344 425,1426 448,1510 475,1592 508,1671 511,1678 514,1685 517,1690 520,1696 524,1700 527,1705 531,1709 536,1714 541,1718 548,1723 550,1724 552,1725 554,1727 556,1728 558,1729 560,1730 562,1731 564,1732 567,1733 569,1734" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1669" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="570,1731 578,1738 567,1738 570,1731" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="684,1786 576,1786 576,1822 684,1822 684,1786" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1802" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="584" y="1816" fill="#000000" font-family="Arial" font-size="12">gelu_layer.cc(19)</text>
+ <polyline points="358,985 360,1019 363,1069 368,1131 376,1204 387,1285 402,1371 421,1460 445,1551 474,1640 508,1725 511,1733 514,1739 517,1745 520,1750 524,1755 527,1759 531,1763 536,1768 541,1772 548,1777 550,1778 552,1779 553,1780 555,1781 557,1782 559,1783 561,1784 562,1785 564,1786 566,1787" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1723" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,1784 576,1791 565,1791 568,1784" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="682,1840 578,1840 578,1876 682,1876 682,1840" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1856" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="586" y="1870" fill="#000000" font-family="Arial" font-size="12">cos_layer.cc(19)</text>
+ <polyline points="357,985 358,1021 361,1074 366,1140 373,1218 384,1304 398,1397 418,1494 442,1591 472,1687 508,1779 511,1787 514,1793 517,1799 520,1804 524,1809 527,1813 531,1817 536,1822 541,1826 548,1831 550,1832 552,1833 554,1835 556,1836 558,1837 560,1838 562,1839 564,1840 567,1841 569,1842" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1777" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="570,1839 578,1846 567,1846 570,1839" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="684,1894 577,1894 577,1930 684,1930 684,1894" stroke="#000000" fill="#ffffff"/>
+ <text x="622" y="1910" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="585" y="1924" fill="#000000" font-family="Arial" font-size="12">selu_layer.cc(19)</text>
+ <polyline points="357,985 358,1023 360,1079 364,1150 370,1233 380,1325 395,1425 414,1528 439,1632 470,1735 508,1833 511,1841 514,1847 517,1853 520,1858 524,1863 527,1867 531,1871 536,1876 541,1880 548,1885 550,1886 552,1887 553,1889 555,1890 557,1891 559,1892 561,1893 563,1894 565,1894 567,1895" stroke="#0000ff" fill="none"/>
+ <text x="508" y="1831" fill="#000000" font-family="Arial" font-size="12">Use</text>
+ <polygon points="568,1892 576,1899 566,1899 568,1892" stroke="#0000ff" fill="#0000ff"/>
+ <polygon points="150,949 4,949 4,985 150,985 150,949" stroke="#000000" fill="#ffffff"/>
+ <text x="69" y="965" fill="#000000" font-family="Arial" font-size="12">tnn</text>
+ <text x="12" y="979" fill="#000000" font-family="Arial" font-size="12">elementwise_layer.h(31)</text>
+ <polyline points="150,967 156,967 162,967 168,967 174,967 180,967 186,967 192,967 199,967 205,967 212,967" stroke="#696969" fill="none"/>
+ <text x="169" y="965" fill="#000000" font-family="Arial" font-size="12">Define</text>
+ <polygon points="212,963 222,967 212,970 212,963" stroke="#696969" fill="#696969"/>
+</svg>

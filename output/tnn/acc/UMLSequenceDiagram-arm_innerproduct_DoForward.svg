@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<svg width="772" height="1254" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="122" y="64" width="546" height="109" stroke="black" fill="none"/>
+ <rect x="123" y="65" width="544" height="107" stroke="#FFFFEA" fill="#FFFFEA"/>
+ <text x="126" y="99" fill="#000000" font-family="Arial" font-size="12">(inputs[0]-&gt;GetBlobDesc().data_type == DATA_TYPE_INT8)</text>
+ <polygon points="122,64 141,64 141,81 138,84 122,84 122,64" stroke="black" fill="#FFFF79"/>
+ <text x="126" y="80" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="15" y="179" width="753" height="978" stroke="black" fill="none"/>
+ <rect x="16" y="555" width="751" height="601" stroke="#CCFFFF" fill="#CCFFFF"/>
+ <text x="19" y="570" fill="#000000" font-family="Arial" font-size="12">else</text>
+ <rect x="16" y="180" width="751" height="375" stroke="#AEFFFF" fill="#AEFFFF"/>
+ <text x="19" y="214" fill="#000000" font-family="Arial" font-size="12">(inputs[0]-&gt;GetBlobDesc().data_format == DATA_FORMAT_NCHW)</text>
+ <polygon points="15,179 34,179 34,196 31,199 15,199 15,179" stroke="black" fill="#00B3B3"/>
+ <text x="19" y="195" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="104" y="224" width="650" height="324" stroke="black" fill="none"/>
+ <rect x="105" y="330" width="648" height="217" stroke="#CACAFF" fill="#CACAFF"/>
+ <text x="108" y="345" fill="#000000" font-family="Arial" font-size="12">else</text>
+ <rect x="105" y="225" width="648" height="105" stroke="#D7D7FF" fill="#D7D7FF"/>
+ <text x="108" y="259" fill="#000000" font-family="Arial" font-size="12">(inputs[0]-&gt;GetBlobDesc().data_type == DATA_TYPE_FLOAT)</text>
+ <polygon points="104,224 123,224 123,241 120,244 104,244 104,224" stroke="black" fill="#9999FF"/>
+ <text x="108" y="240" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="111" y="354" width="636" height="184" stroke="black" fill="none"/>
+ <rect x="112" y="460" width="634" height="77" stroke="#FFFFCC" fill="#FFFFCC"/>
+ <text x="115" y="475" fill="#000000" font-family="Arial" font-size="12">else</text>
+ <rect x="112" y="355" width="634" height="105" stroke="#FFFFEA" fill="#FFFFEA"/>
+ <text x="115" y="389" fill="#000000" font-family="Arial" font-size="12">(inputs[0]-&gt;GetBlobDesc().data_type == DATA_TYPE_BFP16)</text>
+ <polygon points="111,354 130,354 130,371 127,374 111,374 111,354" stroke="black" fill="#FFFF79"/>
+ <text x="115" y="370" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="22" y="629" width="739" height="518" stroke="black" fill="none"/>
+ <rect x="23" y="1019" width="737" height="127" stroke="#FF9999" fill="#FF9999"/>
+ <text x="26" y="1034" fill="#000000" font-family="Arial" font-size="12">else</text>
+ <rect x="23" y="630" width="737" height="389" stroke="#FFB7B7" fill="#FFB7B7"/>
+ <text fill="#000000" font-family="Arial" font-size="12">
+  <tspan x="26" y="664">(inputs[0]-&gt;GetBlobDesc().data_format == DATA_FORMAT_NC4HW4 ||</tspan>
+  <tspan x="26" y="676" xml:space='preserve'>               inputs[0]-&gt;GetBlobDesc().data_format == DATA_FORMAT_NC8HW8)</tspan></text>
+ <polygon points="22,629 41,629 41,646 38,649 22,649 22,629" stroke="black" fill="#FF6767"/>
+ <text x="26" y="645" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="104" y="688" width="650" height="324" stroke="black" fill="none"/>
+ <rect x="105" y="794" width="648" height="217" stroke="#CACAFF" fill="#CACAFF"/>
+ <text x="108" y="809" fill="#000000" font-family="Arial" font-size="12">else</text>
+ <rect x="105" y="689" width="648" height="105" stroke="#D7D7FF" fill="#D7D7FF"/>
+ <text x="108" y="723" fill="#000000" font-family="Arial" font-size="12">(inputs[0]-&gt;GetBlobDesc().data_type == DATA_TYPE_FLOAT)</text>
+ <polygon points="104,688 123,688 123,705 120,708 104,708 104,688" stroke="black" fill="#9999FF"/>
+ <text x="108" y="704" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="111" y="818" width="636" height="184" stroke="black" fill="none"/>
+ <rect x="112" y="924" width="634" height="77" stroke="#FFFFCC" fill="#FFFFCC"/>
+ <text x="115" y="939" fill="#000000" font-family="Arial" font-size="12">else</text>
+ <rect x="112" y="819" width="634" height="105" stroke="#FFFFEA" fill="#FFFFEA"/>
+ <text x="115" y="853" fill="#000000" font-family="Arial" font-size="12">(inputs[0]-&gt;GetBlobDesc().data_type == DATA_TYPE_BFP16)</text>
+ <polygon points="111,818 130,818 130,835 127,838 111,838 111,818" stroke="black" fill="#FFFF79"/>
+ <text x="115" y="834" fill="#000000" font-family="Arial" font-size="12">alt</text>
+ <rect x="373" y="5" width="169" height="19" stroke="black" fill="white"/>
+ <text x="376" y="20" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc</text>
+ <rect x="453" y="50" width="9" height="1180" stroke="black" fill="white"/>
+ <rect x="457" y="130" width="9" height="31" stroke="black" fill="white"/>
+ <rect x="457" y="290" width="9" height="31" stroke="black" fill="white"/>
+ <rect x="457" y="420" width="9" height="31" stroke="black" fill="white"/>
+ <rect x="702" y="5" width="63" height="19" stroke="black" fill="white"/>
+ <text x="705" y="20" fill="#000000" font-family="Arial" font-size="12">tnn::Status</text>
+ <rect x="729" y="505" width="9" height="24" stroke="black" fill="white"/>
+ <rect x="729" y="600" width="9" height="24" stroke="black" fill="white"/>
+ <rect x="457" y="754" width="9" height="31" stroke="black" fill="white"/>
+ <rect x="457" y="884" width="9" height="31" stroke="black" fill="white"/>
+ <rect x="729" y="969" width="9" height="24" stroke="black" fill="white"/>
+ <rect x="729" y="1064" width="9" height="24" stroke="black" fill="white"/>
+ <rect x="729" y="1114" width="9" height="24" stroke="black" fill="white"/>
+ <rect x="729" y="1184" width="9" height="24" stroke="black" fill="white"/>
+ <ellipse cx="8" cy="50" rx="3" ry="3" stroke="black" fill="black"/>
+ <text x="14" y="45" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc::DoForward</text>
+ <polyline points="453,50 10,50" stroke="#0000cd" fill="none"/>
+ <polygon points="453,50 447,53 447,47 453,50" stroke="#0000cd" fill="#0000cd"/>
+ <text x="466" y="125" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc::Exec</text>
+ <polyline points="462,110 476,110 476,113" stroke="#0000cd" fill="none"/>
+ <polyline points="466,130 476,130 476,127" stroke="#0000cd" fill="none"/>
+ <polygon points="466,130 472,133 472,127 466,130" stroke="#0000cd" fill="#0000cd"/>
+ <text x="466" y="285" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc::ExecNchw</text>
+ <polyline points="462,270 476,270 476,273" stroke="#0000cd" fill="none"/>
+ <polyline points="466,290 476,290 476,287" stroke="#0000cd" fill="none"/>
+ <polygon points="466,290 472,293 472,287 466,290" stroke="#0000cd" fill="#0000cd"/>
+ <text x="466" y="415" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc::ExecNchw</text>
+ <polyline points="462,400 476,400 476,403" stroke="#0000cd" fill="none"/>
+ <polyline points="466,420 476,420 476,417" stroke="#0000cd" fill="none"/>
+ <polygon points="466,420 472,423 472,417 466,420" stroke="#0000cd" fill="#0000cd"/>
+ <text x="466" y="500" fill="#000000" font-family="Arial" font-size="12">tnn::Status::Status</text>
+ <polyline points="729,505 462,505" stroke="#0000cd" fill="none"/>
+ <polygon points="729,505 723,508 723,502 729,505" stroke="#0000cd" fill="#0000cd"/>
+ <text x="732" y="535" fill="#000000" font-family="Arial" font-size="12"></text>
+ <polyline points="468,533 462,530 468,527" stroke="#0000cd" fill="none"/>
+ <polyline points="462,530 729,530" stroke="#0000cd" fill="none"/>
+ <polyline points="734,24 734,505" stroke="black" fill="none"/>
+ <text x="466" y="595" fill="#000000" font-family="Arial" font-size="12">tnn::Status::~Status</text>
+ <polyline points="729,600 462,600" stroke="#0000cd" fill="none"/>
+ <polygon points="729,600 723,603 723,597 729,600" stroke="#0000cd" fill="#0000cd"/>
+ <text x="732" y="630" fill="#000000" font-family="Arial" font-size="12"></text>
+ <polyline points="468,628 462,625 468,622" stroke="#0000cd" fill="none"/>
+ <polyline points="462,625 729,625" stroke="#0000cd" fill="none"/>
+ <polyline points="734,529 734,600" stroke="black" fill="none"/>
+ <text x="466" y="749" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc::Exec</text>
+ <polyline points="462,734 476,734 476,737" stroke="#0000cd" fill="none"/>
+ <polyline points="466,754 476,754 476,751" stroke="#0000cd" fill="none"/>
+ <polygon points="466,754 472,757 472,751 466,754" stroke="#0000cd" fill="#0000cd"/>
+ <text x="466" y="879" fill="#000000" font-family="Arial" font-size="12">tnn::ArmInnerProductLayerAcc::Exec</text>
+ <polyline points="462,864 476,864 476,867" stroke="#0000cd" fill="none"/>
+ <polyline points="466,884 476,884 476,881" stroke="#0000cd" fill="none"/>
+ <polygon points="466,884 472,887 472,881 466,884" stroke="#0000cd" fill="#0000cd"/>
+ <text x="466" y="964" fill="#000000" font-family="Arial" font-size="12">tnn::Status::Status</text>
+ <polyline points="729,969 462,969" stroke="#0000cd" fill="none"/>
+ <polygon points="729,969 723,972 723,966 729,969" stroke="#0000cd" fill="#0000cd"/>
+ <text x="732" y="999" fill="#000000" font-family="Arial" font-size="12"></text>
+ <polyline points="468,997 462,994 468,991" stroke="#0000cd" fill="none"/>
+ <polyline points="462,994 729,994" stroke="#0000cd" fill="none"/>
+ <polyline points="734,624 734,969" stroke="black" fill="none"/>
+ <text x="466" y="1059" fill="#000000" font-family="Arial" font-size="12">tnn::Status::~Status</text>
+ <polyline points="729,1064 462,1064" stroke="#0000cd" fill="none"/>
+ <polygon points="729,1064 723,1067 723,1061 729,1064" stroke="#0000cd" fill="#0000cd"/>
+ <text x="732" y="1094" fill="#000000" font-family="Arial" font-size="12"></text>
+ <polyline points="468,1092 462,1089 468,1086" stroke="#0000cd" fill="none"/>
+ <polyline points="462,1089 729,1089" stroke="#0000cd" fill="none"/>
+ <polyline points="734,993 734,1064" stroke="black" fill="none"/>
+ <text x="466" y="1109" fill="#000000" font-family="Arial" font-size="12">tnn::Status::Status</text>
+ <polyline points="729,1114 462,1114" stroke="#0000cd" fill="none"/>
+ <polygon points="729,1114 723,1117 723,1111 729,1114" stroke="#0000cd" fill="#0000cd"/>
+ <text x="732" y="1144" fill="#000000" font-family="Arial" font-size="12"></text>
+ <polyline points="468,1142 462,1139 468,1136" stroke="#0000cd" fill="none"/>
+ <polyline points="462,1139 729,1139" stroke="#0000cd" fill="none"/>
+ <polyline points="734,1088 734,1114" stroke="black" fill="none"/>
+ <text x="466" y="1179" fill="#000000" font-family="Arial" font-size="12">tnn::Status::~Status</text>
+ <polyline points="729,1184 462,1184" stroke="#0000cd" fill="none"/>
+ <polygon points="729,1184 723,1187 723,1181 729,1184" stroke="#0000cd" fill="#0000cd"/>
+ <text x="732" y="1214" fill="#000000" font-family="Arial" font-size="12"></text>
+ <polyline points="468,1212 462,1209 468,1206" stroke="#0000cd" fill="none"/>
+ <polyline points="462,1209 729,1209" stroke="#0000cd" fill="none"/>
+ <polyline points="734,1138 734,1184" stroke="black" fill="none"/>
+ <polyline points="458,24 458,50" stroke="black" fill="none"/>
+ <polyline points="458,1230 458,1239" stroke="black" fill="none"/>
+ <polyline points="734,1208 734,1239" stroke="black" fill="none"/>
+</svg>

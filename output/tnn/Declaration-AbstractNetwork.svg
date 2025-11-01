@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<svg width="317" height="447" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="11" y="110" width="169" height="330" stroke="#20208C" fill="white"/>
+ <text fill="#8C2020" font-family="Arial" font-size="10">
+  <tspan x="14" y="123">Abstract Class: tnn::AbstractNetwork</tspan>
+  <tspan x="14" y="143">defined as:</tspan>
+  <tspan x="14" y="153" xml:space='preserve'>  </tspan></text>
+ <text x="202" y="17" fill="black" font-family="Arial" font-size="10">Derived Classes:</text>
+ <polyline points="180,113 187,113 187,32 202,32" stroke="#8C2020" fill="none"/>
+ <polygon points="202,32 196,29 196,35 202,32" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="180,113 187,113 187,53 202,53" stroke="#8C2020" fill="none"/>
+ <polygon points="202,53 196,50 196,56 202,53" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="180,113 187,113 187,74 202,74" stroke="#8C2020" fill="none"/>
+ <polygon points="202,74 196,71 196,77 202,74" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="180,113 187,113 187,95 202,95" stroke="#8C2020" fill="none"/>
+ <polygon points="202,95 196,92 196,98 202,95" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="202,32 207,23 298,23 303,32 298,41 207,41 202,32" stroke="#20208C" fill="white"/>
+ <text x="210" y="36" fill="black" font-family="Arial" font-size="10">tnn::RknpuNetwork</text>
+ <polygon points="202,53 207,44 301,44 306,53 301,62 207,62 202,53" stroke="#20208C" fill="white"/>
+ <text x="210" y="57" fill="black" font-family="Arial" font-size="10">tnn::DefaultNetwork</text>
+ <polygon points="202,74 207,65 288,65 293,74 288,83 207,83 202,74" stroke="#20208C" fill="white"/>
+ <text x="210" y="78" fill="black" font-family="Arial" font-size="10">tnn::NpuNetwork</text>
+ <polygon points="202,95 207,86 305,86 310,95 305,104 207,104 202,95" stroke="#20208C" fill="white"/>
+ <text x="210" y="99" fill="black" font-family="Arial" font-size="10">tnn::CoreMLNetwork</text>
+ <rect x="7" y="167" width="88" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="180" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> ~AbstractNetwork</text>
+ <rect x="7" y="188" width="51" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="201" fill="black" font-family="Arial" font-size="10">Status Init</text>
+ <rect x="7" y="209" width="64" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="222" fill="black" font-family="Arial" font-size="10">Status DeInit</text>
+ <rect x="7" y="230" width="146" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="243" fill="black" font-family="Arial" font-size="10">Status GetForwardMemorySize</text>
+ <rect x="7" y="251" width="125" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="264" fill="black" font-family="Arial" font-size="10">Status SetForwardMemory</text>
+ <rect x="7" y="272" width="77" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="285" fill="black" font-family="Arial" font-size="10">Status Reshape</text>
+ <rect x="7" y="293" width="130" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="306" fill="black" font-family="Arial" font-size="10">Status GetCommandQueue</text>
+ <rect x="7" y="314" width="140" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="327" fill="black" font-family="Arial" font-size="10">Status ShareCommandQueue</text>
+ <rect x="7" y="335" width="74" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="348" fill="black" font-family="Arial" font-size="10">Status Forward</text>
+ <rect x="7" y="356" width="101" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="369" fill="black" font-family="Arial" font-size="10">Status ForwardAsync</text>
+ <rect x="7" y="377" width="112" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="390" fill="black" font-family="Arial" font-size="10">Status GetAllInputBlobs</text>
+ <rect x="7" y="398" width="120" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="411" fill="black" font-family="Arial" font-size="10">Status GetAllOutputBlobs</text>
+ <rect x="7" y="419" width="129" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="432" fill="black" font-family="Arial" font-size="10">Status SetCpuNumThreads</text>
+</svg>

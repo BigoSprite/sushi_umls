@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<svg width="573" height="597" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="11" y="215" width="390" height="375" stroke="#20208C" fill="white"/>
+ <text fill="#8C2020" font-family="Arial" font-size="10">
+  <tspan x="14" y="228">Abstract Class: tnn::AbstractLayerAcc</tspan>
+  <tspan x="14" y="248">defined as:</tspan>
+  <tspan x="14" y="258" xml:space='preserve'>  </tspan></text>
+ <text x="423" y="17" fill="black" font-family="Arial" font-size="10">Derived Classes:</text>
+ <polyline points="401,218 408,218 408,32 423,32" stroke="#8C2020" fill="none"/>
+ <polygon points="423,32 417,29 417,35 423,32" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,53 423,53" stroke="#8C2020" fill="none"/>
+ <polygon points="423,53 417,50 417,56 423,53" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,74 423,74" stroke="#8C2020" fill="none"/>
+ <polygon points="423,74 417,71 417,77 423,74" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,95 423,95" stroke="#8C2020" fill="none"/>
+ <polygon points="423,95 417,92 417,98 423,95" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,116 423,116" stroke="#8C2020" fill="none"/>
+ <polygon points="423,116 417,113 417,119 423,116" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,137 423,137" stroke="#8C2020" fill="none"/>
+ <polygon points="423,137 417,134 417,140 423,137" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,158 423,158" stroke="#8C2020" fill="none"/>
+ <polygon points="423,158 417,155 417,161 423,158" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,179 423,179" stroke="#8C2020" fill="none"/>
+ <polygon points="423,179 417,176 417,182 423,179" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="401,218 408,218 408,200 423,200" stroke="#8C2020" fill="none"/>
+ <polygon points="423,200 417,197 417,203 423,200" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="423,32 428,23 519,23 524,32 519,41 428,41 423,32" stroke="#20208C" fill="white"/>
+ <text x="431" y="36" fill="black" font-family="Arial" font-size="10">tnn::CudaLayerAcc</text>
+ <polygon points="423,53 428,44 533,44 538,53 533,62 428,62 423,53" stroke="#20208C" fill="white"/>
+ <text x="431" y="57" fill="black" font-family="Arial" font-size="10">tnn::OpenCLLayerAcc</text>
+ <polygon points="423,74 428,65 529,65 534,74 529,83 428,83 423,74" stroke="#20208C" fill="white"/>
+ <text x="431" y="78" fill="black" font-family="Arial" font-size="10">MetalCpuAdapterAcc</text>
+ <polygon points="423,95 428,86 542,86 547,95 542,104 428,104 423,95" stroke="#20208C" fill="white"/>
+ <text x="431" y="99" fill="black" font-family="Arial" font-size="10">tnn::X86CpuAdapterAcc</text>
+ <polygon points="423,116 428,107 520,107 525,116 520,125 428,125 423,116" stroke="#20208C" fill="white"/>
+ <text x="431" y="120" fill="black" font-family="Arial" font-size="10">tnn::MetalLayerAcc</text>
+ <polygon points="423,137 428,128 561,128 566,137 561,146 428,146 423,137" stroke="#20208C" fill="white"/>
+ <text x="431" y="141" fill="black" font-family="Arial" font-size="10">tnn::OpenCLCpuAdapterAcc</text>
+ <polygon points="423,158 428,149 514,149 519,158 514,167 428,167 423,158" stroke="#20208C" fill="white"/>
+ <text x="431" y="162" fill="black" font-family="Arial" font-size="10">tnn::CpuLayerAcc</text>
+ <polygon points="423,179 428,170 514,170 519,179 514,188 428,188 423,179" stroke="#20208C" fill="white"/>
+ <text x="431" y="183" fill="black" font-family="Arial" font-size="10">tnn::ArmLayerAcc</text>
+ <polygon points="423,200 428,191 513,191 518,200 513,209 428,209 423,200" stroke="#20208C" fill="white"/>
+ <text x="431" y="204" fill="black" font-family="Arial" font-size="10">tnn::X86LayerAcc</text>
+ <rect x="15" y="272" width="143" height="18" stroke="#20208C" fill="white"/>
+ <text x="18" y="285" fill="black" font-family="Arial" font-size="10">std::vector SupportDataFormat</text>
+ <rect x="207" y="272" width="194" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="217" y="285" fill="black" font-family="Arial" font-size="10">BlobMemoryPool * runtime_blob_pool_</text>
+ <rect x="214" y="293" width="187" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="224" y="306" fill="black" font-family="Arial" font-size="10">ConstantResource * const_resource_</text>
+ <rect x="173" y="314" width="228" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="183" y="327" fill="black" font-family="Arial" font-size="10">ConstantResourceFlag * const_resource_flag_</text>
+ <rect x="261" y="335" width="140" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="271" y="348" fill="black" font-family="Arial" font-size="10">std::map const_blob_map_</text>
+ <rect x="244" y="356" width="157" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="254" y="369" fill="black" font-family="Arial" font-size="10">RuntimeMode runtime_model_</text>
+ <rect x="7" y="296" width="93" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="309" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> ~AbstractLayerAcc</text>
+ <rect x="7" y="317" width="51" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="330" fill="black" font-family="Arial" font-size="10">Status Init</text>
+ <rect x="7" y="338" width="77" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="351" fill="black" font-family="Arial" font-size="10">Status Reshape</text>
+ <rect x="7" y="359" width="74" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="372" fill="black" font-family="Arial" font-size="10">Status Forward</text>
+ <rect x="7" y="380" width="104" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="393" fill="black" font-family="Arial" font-size="10">Status BeforeForward</text>
+ <rect x="7" y="401" width="153" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="414" fill="black" font-family="Arial" font-size="10">Status InferRuntimeOutputShape</text>
+ <rect x="7" y="422" width="160" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="435" fill="black" font-family="Arial" font-size="10">Status AllocateRuntimeOutputBlob</text>
+ <rect x="7" y="443" width="134" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="456" fill="black" font-family="Arial" font-size="10">Status ReloadConstantBlobs</text>
+ <rect x="7" y="464" width="95" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="477" fill="black" font-family="Arial" font-size="10">Status AfterForward</text>
+ <rect x="7" y="485" width="146" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="498" fill="black" font-family="Arial" font-size="10">Status ResolveBlobDataFormat</text>
+ <rect x="7" y="506" width="156" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="519" fill="black" font-family="Arial" font-size="10">void SetRuntimeBlobMemoryPool</text>
+ <rect x="7" y="527" width="125" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="540" fill="black" font-family="Arial" font-size="10">void SetConstantResource</text>
+ <rect x="7" y="548" width="145" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="561" fill="black" font-family="Arial" font-size="10">void SetConstantResourceFlag</text>
+ <rect x="7" y="569" width="105" height="18" stroke="#20208C" fill="white"/>
+ <text x="10" y="582" fill="black" font-family="Arial" font-size="10">void SetRuntimeMode</text>
+</svg>

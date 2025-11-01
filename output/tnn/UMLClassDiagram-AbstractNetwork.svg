@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+<svg width="4126" height="1334" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="4,1331 4,4 4123,4 4123,1331 4,1331" stroke="#ffffff" fill="#ffffff"/>
+ <polygon points="1543,209 1543,5 2583,5 2583,209 1543,209" stroke="#ff0000" fill="#ffffff"/>
+ <polyline points="1543,25 2583,25" stroke="#ff0000" fill="none"/>
+ <polyline points="1543,45 2583,45" stroke="#ff0000" fill="none"/>
+ <text x="2017" y="19" fill="#000000" font-family="Arial" font-size="10">tnn::AbstractNetwork</text>
+ <text x="2062" y="39" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="1551" y="59" fill="#000000" font-family="Arial" font-size="10">+ SetCpuNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="1551" y="71" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (network: AbstractNetwork *) Status Virtual</text>
+ <text x="1551" y="83" fill="#000000" font-family="Arial" font-size="10">+ ~AbstractNetwork () Virtual</text>
+ <text x="1551" y="95" fill="#000000" font-family="Arial" font-size="10">+ DeInit () Status Pure Virtual</text>
+ <text x="1551" y="107" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Pure Virtual</text>
+ <text x="1551" y="119" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Pure Virtual</text>
+ <text x="1551" y="131" fill="#000000" font-family="Arial" font-size="10">+ GetAllInputBlobs (blobs: BlobMap &amp; ) Status Pure Virtual</text>
+ <text x="1551" y="143" fill="#000000" font-family="Arial" font-size="10">+ GetAllOutputBlobs (blobs: BlobMap &amp; ) Status Pure Virtual</text>
+ <text x="1551" y="155" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Pure Virtual</text>
+ <text x="1551" y="167" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Pure Virtual</text>
+ <text x="1551" y="179" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Pure Virtual</text>
+ <text x="1551" y="191" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Pure Virtual</text>
+ <text x="1551" y="203" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Pure Virtual</text>
+ <polygon points="4,823 4,247 1020,247 1020,823 4,823" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="4,267 1020,267" stroke="#0000ff" fill="none"/>
+ <polyline points="4,599 1020,599" stroke="#0000ff" fill="none"/>
+ <text x="466" y="261" fill="#000000" font-family="Arial" font-size="10">tnn::CoreMLNetwork</text>
+ <text x="12" y="281" fill="#000000" font-family="Arial" font-size="10"># blob_input_: std::vector= {...}</text>
+ <text x="12" y="293" fill="#000000" font-family="Arial" font-size="10"># blob_input_map_: BlobMap</text>
+ <text x="12" y="305" fill="#000000" font-family="Arial" font-size="10"># blob_output_: std::vector= {...}</text>
+ <text x="12" y="317" fill="#000000" font-family="Arial" font-size="10"># blob_output_map_: BlobMap</text>
+ <text x="12" y="329" fill="#000000" font-family="Arial" font-size="10"># context_: Context *= nullptr</text>
+ <text x="12" y="341" fill="#000000" font-family="Arial" font-size="10"># coreml_executor_: CoreMLModel *= nil</text>
+ <text x="12" y="353" fill="#000000" font-family="Arial" font-size="10"># coreml_input_arr_: std::shared_ptr</text>
+ <text x="12" y="365" fill="#000000" font-family="Arial" font-size="10"># coreml_input_array_feature_type_: std::vector</text>
+ <text x="12" y="377" fill="#000000" font-family="Arial" font-size="10"># coreml_input_feature_description_: std::vector</text>
+ <text x="12" y="389" fill="#000000" font-family="Arial" font-size="10"># coreml_input_feature_type_: std::vector</text>
+ <text x="12" y="401" fill="#000000" font-family="Arial" font-size="10"># coreml_input_shape_: std::vector</text>
+ <text x="12" y="413" fill="#000000" font-family="Arial" font-size="10"># coreml_layer_ptrs_: std::vector</text>
+ <text x="12" y="425" fill="#000000" font-family="Arial" font-size="10"># coreml_layers_: std::vector</text>
+ <text x="12" y="437" fill="#000000" font-family="Arial" font-size="10"># coreml_model_: std::unique_ptr</text>
+ <text x="12" y="449" fill="#000000" font-family="Arial" font-size="10"># coreml_model_description_: std::shared_ptr</text>
+ <text x="12" y="461" fill="#000000" font-family="Arial" font-size="10"># coreml_neural_network_: std::shared_ptr</text>
+ <text x="12" y="473" fill="#000000" font-family="Arial" font-size="10"># coreml_output_arr_: std::shared_ptr</text>
+ <text x="12" y="485" fill="#000000" font-family="Arial" font-size="10"># coreml_output_array_feature_type_: std::vector</text>
+ <text x="12" y="497" fill="#000000" font-family="Arial" font-size="10"># coreml_output_feature_description_: std::vector</text>
+ <text x="12" y="509" fill="#000000" font-family="Arial" font-size="10"># coreml_output_feature_type_: std::vector</text>
+ <text x="12" y="521" fill="#000000" font-family="Arial" font-size="10"># coreml_output_shape_: std::vector</text>
+ <text x="12" y="533" fill="#000000" font-family="Arial" font-size="10"># device_: AbstractDevice *= nullptr</text>
+ <text x="12" y="545" fill="#000000" font-family="Arial" font-size="10"># input_name_: std::vector</text>
+ <text x="12" y="557" fill="#000000" font-family="Arial" font-size="10"># model_config_: ModelConfig</text>
+ <text x="12" y="569" fill="#000000" font-family="Arial" font-size="10"># net_resource_: NetResource *= nullptr</text>
+ <text x="12" y="581" fill="#000000" font-family="Arial" font-size="10"># net_structure_: NetStructure *= nullptr</text>
+ <text x="12" y="593" fill="#000000" font-family="Arial" font-size="10"># output_name_: std::vector</text>
+ <text x="12" y="613" fill="#000000" font-family="Arial" font-size="10">+ DeInit () Status Virtual</text>
+ <text x="12" y="625" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Virtual</text>
+ <text x="12" y="637" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Virtual</text>
+ <text x="12" y="649" fill="#000000" font-family="Arial" font-size="10">+ GetAllInputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="12" y="661" fill="#000000" font-family="Arial" font-size="10">+ GetAllOutputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="12" y="673" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="12" y="685" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Virtual</text>
+ <text x="12" y="697" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Virtual</text>
+ <text x="12" y="709" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="12" y="721" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Virtual</text>
+ <text x="12" y="733" fill="#000000" font-family="Arial" font-size="10">+ ~CoreMLNetwork () Virtual</text>
+ <text x="12" y="745" fill="#000000" font-family="Arial" font-size="10">+ CompileModel (model: CoreML__Specification__Model *) Status</text>
+ <text x="12" y="757" fill="#000000" font-family="Arial" font-size="10">+ ConvertCoreMLModel (net_structure: NetStructure *, net_resource: NetResource *) Status</text>
+ <text x="12" y="769" fill="#000000" font-family="Arial" font-size="10">+ CoreMLNetwork () </text>
+ <text x="12" y="781" fill="#000000" font-family="Arial" font-size="10">+ InitCoreMLModel (net_structure: NetStructure *, net_resource: NetResource *) Status</text>
+ <text x="12" y="793" fill="#000000" font-family="Arial" font-size="10">+ SetInput (CoreML__Specification__FeatureDescription **describe, name: std::string , shape: std::vector , type: DataType ) Status</text>
+ <text x="12" y="805" fill="#000000" font-family="Arial" font-size="10">+ SetOutput (CoreML__Specification__FeatureDescription **describe, name: std::string , shape: std::vector , type: DataType ) Status</text>
+ <text x="12" y="817" fill="#000000" font-family="Arial" font-size="10"># CheckCoreMLStatus () Status</text>
+ <polyline points="1020,249 1021,249 1022,248 1023,248 1024,248 1025,248 1025,247 1026,247 1027,247 1028,246 1029,246 1078,231 1127,217 1177,204 1228,192 1279,181 1330,171 1382,162 1433,154 1483,146 1533,140" stroke="#CC0044" fill="none"/>
+ <polygon points="1533,137 1543,139 1533,144 1533,137" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1038,751 1038,319 2054,319 2054,751 1038,751" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1038,339 2054,339" stroke="#0000ff" fill="none"/>
+ <polyline points="1038,467 2054,467" stroke="#0000ff" fill="none"/>
+ <text x="1502" y="333" fill="#000000" font-family="Arial" font-size="10">tnn::DefaultNetwork</text>
+ <text x="1046" y="353" fill="#000000" font-family="Arial" font-size="10"># optimize_mtx_: std::mutex</text>
+ <text x="1046" y="365" fill="#000000" font-family="Arial" font-size="10"># blob_manager_: BlobManager *= nullptr</text>
+ <text x="1046" y="377" fill="#000000" font-family="Arial" font-size="10"># config_: NetworkConfig</text>
+ <text x="1046" y="389" fill="#000000" font-family="Arial" font-size="10"># context_: Context *= nullptr</text>
+ <text x="1046" y="401" fill="#000000" font-family="Arial" font-size="10"># device_: AbstractDevice *= nullptr</text>
+ <text x="1046" y="413" fill="#000000" font-family="Arial" font-size="10"># layers_: std::vector</text>
+ <text x="1046" y="425" fill="#000000" font-family="Arial" font-size="10"># net_resource_: NetResource *= nullptr</text>
+ <text x="1046" y="437" fill="#000000" font-family="Arial" font-size="10"># net_structure_: NetStructure *= nullptr</text>
+ <text x="1046" y="449" fill="#000000" font-family="Arial" font-size="10"># runtime_blob_pool_: BlobMemoryPool *= nullptr</text>
+ <text x="1046" y="461" fill="#000000" font-family="Arial" font-size="10"># runtime_model_: RuntimeMode</text>
+ <text x="1046" y="481" fill="#000000" font-family="Arial" font-size="10">+ DeInit () Status Virtual</text>
+ <text x="1046" y="493" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Virtual</text>
+ <text x="1046" y="505" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Virtual</text>
+ <text x="1046" y="517" fill="#000000" font-family="Arial" font-size="10">+ GetAllInputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="1046" y="529" fill="#000000" font-family="Arial" font-size="10">+ GetAllOutputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="1046" y="541" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="1046" y="553" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Virtual</text>
+ <text x="1046" y="565" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Virtual</text>
+ <text x="1046" y="577" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="1046" y="589" fill="#000000" font-family="Arial" font-size="10">+ SetCpuNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="1046" y="601" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Virtual</text>
+ <text x="1046" y="613" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (network: AbstractNetwork *) Status Virtual</text>
+ <text x="1046" y="625" fill="#000000" font-family="Arial" font-size="10">+ ~DefaultNetwork () Virtual</text>
+ <text x="1046" y="637" fill="#000000" font-family="Arial" font-size="10">+ DefaultNetwork () </text>
+ <text x="1046" y="649" fill="#000000" font-family="Arial" font-size="10"># AllocateBlobMemory () Status Virtual</text>
+ <text x="1046" y="661" fill="#000000" font-family="Arial" font-size="10"># InitLayers (net_structure: NetStructure *, net_resource: NetResource *) Status Virtual</text>
+ <text x="1046" y="673" fill="#000000" font-family="Arial" font-size="10"># DoReshape () Status</text>
+ <text x="1046" y="685" fill="#000000" font-family="Arial" font-size="10"># GenerateCacheFileName (model_config: ModelConfig &amp; , md5_str: std::string &amp; ) std::string</text>
+ <text x="1046" y="697" fill="#000000" font-family="Arial" font-size="10"># GenerateInt8Blob (name: const std::string &amp; , net_resource: NetResource *, Blob **blob) Status</text>
+ <text x="1046" y="709" fill="#000000" font-family="Arial" font-size="10"># GetContext () Context *</text>
+ <text x="1046" y="721" fill="#000000" font-family="Arial" font-size="10"># PrepareDoReshape (inputs: const InputShapesMap &amp; , shape_changed: bool &amp; ) Status</text>
+ <text x="1046" y="733" fill="#000000" font-family="Arial" font-size="10"># UpdateBlobPrecision (layer_info: std::shared_ptr , is_input: bool , is_quantized_net: bool , name: const std::string &amp; , net_resource: NetResource *, Blob **blob) Status</text>
+ <text x="1046" y="745" fill="#000000" font-family="Arial" font-size="10">- ReshapeLayers () Status</text>
+ <polyline points="1807,319 1820,308 1833,297 1846,287 1859,276 1872,266 1884,255 1897,245 1909,235 1920,225 1932,216" stroke="#CC0044" fill="none"/>
+ <polygon points="1930,213 1940,209 1935,218 1930,213" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="127,1161 127,1029 1020,1029 1020,1161 127,1161" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="127,1049 1020,1049" stroke="#0000ff" fill="none"/>
+ <polyline points="127,1069 1020,1069" stroke="#0000ff" fill="none"/>
+ <text x="536" y="1043" fill="#000000" font-family="Arial" font-size="10">tnn::ConstFolder</text>
+ <text x="572" y="1063" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="135" y="1083" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap ) Status Virtual</text>
+ <text x="135" y="1095" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs_shape: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="135" y="1107" fill="#000000" font-family="Arial" font-size="10">+ ~ConstFolder () Virtual</text>
+ <text x="135" y="1119" fill="#000000" font-family="Arial" font-size="10">+ ConstFolder () </text>
+ <text x="135" y="1131" fill="#000000" font-family="Arial" font-size="10">+ GetOptimizedNet (const_fold_struct: std::shared_ptr &amp; , const_fold_resource: std::shared_ptr &amp; , target_flag: int ) Status</text>
+ <text x="135" y="1143" fill="#000000" font-family="Arial" font-size="10"># AllocateBlobMemory () Status Virtual</text>
+ <text x="135" y="1155" fill="#000000" font-family="Arial" font-size="10">- Forward () Status Virtual</text>
+ <polyline points="687,1029 724,1008 765,984 809,959 855,932 904,904 955,875 1006,846 1058,816 1111,786 1162,756" stroke="#CC0044" fill="none"/>
+ <polygon points="1161,753 1171,751 1164,759 1161,753" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1038,1239 1038,951 2054,951 2054,1239 1038,1239" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1038,971 2054,971" stroke="#0000ff" fill="none"/>
+ <polyline points="1038,1051 2054,1051" stroke="#0000ff" fill="none"/>
+ <text x="1491" y="965" fill="#000000" font-family="Arial" font-size="10">tnn::OpenVINONetwork_</text>
+ <text x="1046" y="985" fill="#000000" font-family="Arial" font-size="10">- executable_network_: InferenceEngine::ExecutableNetwork</text>
+ <text x="1046" y="997" fill="#000000" font-family="Arial" font-size="10">- ie_: InferenceEngine::Core</text>
+ <text x="1046" y="1009" fill="#000000" font-family="Arial" font-size="10">- infer_request_: InferenceEngine::InferRequest</text>
+ <text x="1046" y="1021" fill="#000000" font-family="Arial" font-size="10">- input_blob_map_: BlobMap</text>
+ <text x="1046" y="1033" fill="#000000" font-family="Arial" font-size="10">- network_: std::shared_ptr</text>
+ <text x="1046" y="1045" fill="#000000" font-family="Arial" font-size="10">- output_blob_map_: BlobMap</text>
+ <text x="1046" y="1065" fill="#000000" font-family="Arial" font-size="10">+ BuildNgraphNetwork (net_structure: NetStructure *) Status Virtual</text>
+ <text x="1046" y="1077" fill="#000000" font-family="Arial" font-size="10">+ DeInit () Status Virtual</text>
+ <text x="1046" y="1089" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Virtual</text>
+ <text x="1046" y="1101" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Virtual</text>
+ <text x="1046" y="1113" fill="#000000" font-family="Arial" font-size="10">+ GetAllInputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="1046" y="1125" fill="#000000" font-family="Arial" font-size="10">+ GetAllOutputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="1046" y="1137" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="1046" y="1149" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Virtual</text>
+ <text x="1046" y="1161" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Virtual</text>
+ <text x="1046" y="1173" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="1046" y="1185" fill="#000000" font-family="Arial" font-size="10">+ SetCpuNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="1046" y="1197" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Virtual</text>
+ <text x="1046" y="1209" fill="#000000" font-family="Arial" font-size="10">+ SetNetInputNode () Status Virtual</text>
+ <text x="1046" y="1221" fill="#000000" font-family="Arial" font-size="10">+ ~OpenVINONetwork_ () Virtual</text>
+ <text x="1046" y="1233" fill="#000000" font-family="Arial" font-size="10">- InitLayers (net_structure: NetStructure *, net_resource: NetResource *) Status Virtual</text>
+ <polyline points="1546,951 1546,933 1546,915 1546,896 1546,877 1546,858 1546,839 1546,819 1546,800 1546,780 1546,761" stroke="#CC0044" fill="none"/>
+ <polygon points="1543,761 1546,751 1550,761 1543,761" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="2073,1329 2073,861 3108,861 3108,1329 2073,1329" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="2073,881 3108,881" stroke="#0000ff" fill="none"/>
+ <polyline points="2073,1105 3108,1105" stroke="#0000ff" fill="none"/>
+ <text x="2538" y="875" fill="#000000" font-family="Arial" font-size="10">tnn::TensorRTNetwork_</text>
+ <text x="2081" y="895" fill="#000000" font-family="Arial" font-size="10">+ m_concat_blob_names: std::set</text>
+ <text x="2081" y="907" fill="#000000" font-family="Arial" font-size="10">- m_plugin_layer_name_map: std::unordered_map</text>
+ <text x="2081" y="919" fill="#000000" font-family="Arial" font-size="10">- m_trt_logger: TRTLogger</text>
+ <text x="2081" y="931" fill="#000000" font-family="Arial" font-size="10">- network_mutex: std::mutex</text>
+ <text x="2081" y="943" fill="#000000" font-family="Arial" font-size="10">- const_input_blobs_: std::vector</text>
+ <text x="2081" y="955" fill="#000000" font-family="Arial" font-size="10">- const_weight_blobs_: std::vector</text>
+ <text x="2081" y="967" fill="#000000" font-family="Arial" font-size="10">- context_memory_size_: size_t</text>
+ <text x="2081" y="979" fill="#000000" font-family="Arial" font-size="10">- device_id_: int</text>
+ <text x="2081" y="991" fill="#000000" font-family="Arial" font-size="10">- init_thread_id_: std::thread::id</text>
+ <text x="2081" y="1003" fill="#000000" font-family="Arial" font-size="10">- int8_mode: bool</text>
+ <text x="2081" y="1015" fill="#000000" font-family="Arial" font-size="10">- m_context_memory: void *</text>
+ <text x="2081" y="1027" fill="#000000" font-family="Arial" font-size="10">- m_max_batchsize: int</text>
+ <text x="2081" y="1039" fill="#000000" font-family="Arial" font-size="10">- m_tensor_set: std::unordered_set</text>
+ <text x="2081" y="1051" fill="#000000" font-family="Arial" font-size="10">- m_trt_bindings: void **</text>
+ <text x="2081" y="1063" fill="#000000" font-family="Arial" font-size="10">- m_trt_context: nvinfer1::IExecutionContext *</text>
+ <text x="2081" y="1075" fill="#000000" font-family="Arial" font-size="10">- m_trt_engine: nvinfer1::ICudaEngine *</text>
+ <text x="2081" y="1087" fill="#000000" font-family="Arial" font-size="10">- net_resource_: NetResource *</text>
+ <text x="2081" y="1099" fill="#000000" font-family="Arial" font-size="10">- test_mode: bool</text>
+ <text x="2081" y="1119" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Virtual</text>
+ <text x="2081" y="1131" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Virtual</text>
+ <text x="2081" y="1143" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Virtual</text>
+ <text x="2081" y="1155" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Virtual</text>
+ <text x="2081" y="1167" fill="#000000" font-family="Arial" font-size="10">+ OnSharedForwardMemoryChanged (memory: void *) void Virtual</text>
+ <text x="2081" y="1179" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="2081" y="1191" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Virtual</text>
+ <text x="2081" y="1203" fill="#000000" font-family="Arial" font-size="10">+ ~TensorRTNetwork_ () Virtual</text>
+ <text x="2081" y="1215" fill="#000000" font-family="Arial" font-size="10">+ GetPluginLayerNameMap () std::unordered_map</text>
+ <text x="2081" y="1227" fill="#000000" font-family="Arial" font-size="10">+ GetCacheFileName (params_md5: std::vector , input_map: BlobMap , output_map: BlobMap , min_inputs_shape: const InputShapesMap &amp; , device_id: int , int8_mode: bool , use_fp16: bool , enable_const_folder: bool ) std::string</text>
+ <text x="2081" y="1239" fill="#000000" font-family="Arial" font-size="10">+ TensorRTNetwork_ () </text>
+ <text x="2081" y="1251" fill="#000000" font-family="Arial" font-size="10">- InitLayers (net_structure: NetStructure *, net_resource: NetResource *, enable_const_folder: bool ) Status Virtual</text>
+ <text x="2081" y="1263" fill="#000000" font-family="Arial" font-size="10">- CheckConstBlobs () Status</text>
+ <text x="2081" y="1275" fill="#000000" font-family="Arial" font-size="10">- CreateExecuteContext () Status</text>
+ <text x="2081" y="1287" fill="#000000" font-family="Arial" font-size="10">- DumpAllOutputBlob () Status</text>
+ <text x="2081" y="1299" fill="#000000" font-family="Arial" font-size="10">- InitWithoutCache (inputs: BlobMap &amp; , outputs: BlobMap &amp; , cache_file_name: std::string , net_resource: NetResource *, min_inputs_shape: const InputShapesMap &amp; ) Status</text>
+ <text x="2081" y="1311" fill="#000000" font-family="Arial" font-size="10">- IsBlobUsed (blob: Blob *) bool</text>
+ <text x="2081" y="1323" fill="#000000" font-family="Arial" font-size="10">- ReshapeLayers () Status</text>
+ <polyline points="2133,861 2126,857 2119,854 2112,850 2105,846 2098,843 2091,839 2084,835 2077,831 2070,828 2063,824 2051,817 2038,811 2026,804 2013,797 2001,790 1988,784 1976,777 1963,770 1951,763 1938,756" stroke="#CC0044" fill="none"/>
+ <polygon points="1936,759 1929,751 1939,753 1936,759" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="2072,811 2072,259 3088,259 3088,811 2072,811" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="2072,279 3088,279" stroke="#0000ff" fill="none"/>
+ <polyline points="2072,503 3088,503" stroke="#0000ff" fill="none"/>
+ <text x="2543" y="273" fill="#000000" font-family="Arial" font-size="10">tnn::NpuNetwork</text>
+ <text x="2080" y="293" fill="#000000" font-family="Arial" font-size="10">- client_: std::shared_ptr</text>
+ <text x="2080" y="305" fill="#000000" font-family="Arial" font-size="10">- context_: Context *= nullptr</text>
+ <text x="2080" y="317" fill="#000000" font-family="Arial" font-size="10">- cpu_count_: int</text>
+ <text x="2080" y="329" fill="#000000" font-family="Arial" font-size="10">- cpu_inter_in_blobmap_: BlobMap</text>
+ <text x="2080" y="341" fill="#000000" font-family="Arial" font-size="10">- device_: AbstractDevice *= nullptr</text>
+ <text x="2080" y="353" fill="#000000" font-family="Arial" font-size="10">- graph_: ge::Graph= ge::Graph(&quot;graph&quot;)</text>
+ <text x="2080" y="365" fill="#000000" font-family="Arial" font-size="10">- input_blob_map_: BlobMap</text>
+ <text x="2080" y="377" fill="#000000" font-family="Arial" font-size="10">- layers_: std::vector</text>
+ <text x="2080" y="389" fill="#000000" font-family="Arial" font-size="10">- model_name_: std::string</text>
+ <text x="2080" y="401" fill="#000000" font-family="Arial" font-size="10">- net_structure_: NetStructure *= nullptr</text>
+ <text x="2080" y="413" fill="#000000" font-family="Arial" font-size="10">- npu_inter_out_blobmap_: BlobMap</text>
+ <text x="2080" y="425" fill="#000000" font-family="Arial" font-size="10">- output_blob_map_: BlobMap</text>
+ <text x="2080" y="437" fill="#000000" font-family="Arial" font-size="10">- sub_network_: std::shared_ptr</text>
+ <text x="2080" y="449" fill="#000000" font-family="Arial" font-size="10">- sub_network_interp_: std::shared_ptr</text>
+ <text x="2080" y="461" fill="#000000" font-family="Arial" font-size="10">- use_path_: bool</text>
+ <text x="2080" y="473" fill="#000000" font-family="Arial" font-size="10">- use_subnet_: bool</text>
+ <text x="2080" y="485" fill="#000000" font-family="Arial" font-size="10">- version_str_: std::string= &quot;&quot;</text>
+ <text x="2080" y="497" fill="#000000" font-family="Arial" font-size="10">- visited_: std::set</text>
+ <text x="2080" y="517" fill="#000000" font-family="Arial" font-size="10">+ DeInit () Status Virtual</text>
+ <text x="2080" y="529" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Virtual</text>
+ <text x="2080" y="541" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Virtual</text>
+ <text x="2080" y="553" fill="#000000" font-family="Arial" font-size="10">+ GetAllInputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="2080" y="565" fill="#000000" font-family="Arial" font-size="10">+ GetAllOutputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="2080" y="577" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="2080" y="589" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Virtual</text>
+ <text x="2080" y="601" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Virtual</text>
+ <text x="2080" y="613" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="2080" y="625" fill="#000000" font-family="Arial" font-size="10">+ SetDeviceAffinity (std: const ) Status Virtual</text>
+ <text x="2080" y="637" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Virtual</text>
+ <text x="2080" y="649" fill="#000000" font-family="Arial" font-size="10">+ ~NpuNetwork () Virtual</text>
+ <text x="2080" y="661" fill="#000000" font-family="Arial" font-size="10">+ NpuNetwork () </text>
+ <text x="2080" y="673" fill="#000000" font-family="Arial" font-size="10">- BuildGraph (ir_build: domi::HiaiIrBuild &amp; , om_model_buff: domi::ModelBufferData &amp; ) Status</text>
+ <text x="2080" y="685" fill="#000000" font-family="Arial" font-size="10">- ConvertLayers (net_resource: NetResource *) Status</text>
+ <text x="2080" y="697" fill="#000000" font-family="Arial" font-size="10">- CreateGraphInputs (input_shape_map: InputShapesMap &amp; ) Status</text>
+ <text x="2080" y="709" fill="#000000" font-family="Arial" font-size="10">- CreateNpuBlob (dims: hiai::TensorDimension , name: std::string , data: void *) Blob *</text>
+ <text x="2080" y="721" fill="#000000" font-family="Arial" font-size="10">- HiAIModelInit (model_path: std::string , net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: DefaultModelInterpreter *, inputs_shape: InputShapesMap , cpu_inputs_shape: InputShapesMap &amp; ) Status</text>
+ <text x="2080" y="733" fill="#000000" font-family="Arial" font-size="10">- IRInitLayers (net_config: NetworkConfig &amp; , interpreter: DefaultModelInterpreter *, inputs_shape: InputShapesMap &amp; ) Status</text>
+ <text x="2080" y="745" fill="#000000" font-family="Arial" font-size="10">- InitBlobs (inputs_shape: InputShapesMap &amp; , cpu_inputs_shape: InputShapesMap &amp; ) Status</text>
+ <text x="2080" y="757" fill="#000000" font-family="Arial" font-size="10">- InitConfigCheck (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; ) bool</text>
+ <text x="2080" y="769" fill="#000000" font-family="Arial" font-size="10">- InitContext (net_config: NetworkConfig &amp; ) Status</text>
+ <text x="2080" y="781" fill="#000000" font-family="Arial" font-size="10">- InitSubNetwork (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: DefaultModelInterpreter *, cpu_inputs_shape: InputShapesMap &amp; ) Status</text>
+ <text x="2080" y="793" fill="#000000" font-family="Arial" font-size="10">- RomVersionCheck () Status</text>
+ <text x="2080" y="805" fill="#000000" font-family="Arial" font-size="10">- SetGraphInputsAndOutputs (input_shape_map: InputShapesMap &amp; , cpu_input_shape_map: InputShapesMap &amp; ) Status</text>
+ <polyline points="2246,259 2241,255 2235,250 2230,246 2225,241 2219,237 2214,232 2209,228 2204,224 2199,220 2194,216" stroke="#CC0044" fill="none"/>
+ <polygon points="2191,218 2186,209 2196,213 2191,218" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="3106,733 3106,337 4122,337 4122,733 3106,733" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="3106,357 4122,357" stroke="#0000ff" fill="none"/>
+ <polyline points="3106,497 4122,497" stroke="#0000ff" fill="none"/>
+ <text x="3572" y="351" fill="#000000" font-family="Arial" font-size="10">tnn::RknpuNetwork</text>
+ <text x="3114" y="371" fill="#000000" font-family="Arial" font-size="10">- blob_manager_: BlobManager *= nullptr</text>
+ <text x="3114" y="383" fill="#000000" font-family="Arial" font-size="10">- context_: Context *= nullptr</text>
+ <text x="3114" y="395" fill="#000000" font-family="Arial" font-size="10">- device_: AbstractDevice *= nullptr</text>
+ <text x="3114" y="407" fill="#000000" font-family="Arial" font-size="10">- exector_: std::unique_ptr</text>
+ <text x="3114" y="419" fill="#000000" font-family="Arial" font-size="10">- input_blob_map_: BlobMap</text>
+ <text x="3114" y="431" fill="#000000" font-family="Arial" font-size="10">- input_inf_: std::vector</text>
+ <text x="3114" y="443" fill="#000000" font-family="Arial" font-size="10">- layers_: std::vector</text>
+ <text x="3114" y="455" fill="#000000" font-family="Arial" font-size="10">- model_name_: std::string</text>
+ <text x="3114" y="467" fill="#000000" font-family="Arial" font-size="10">- net_structure_: NetStructure *= nullptr</text>
+ <text x="3114" y="479" fill="#000000" font-family="Arial" font-size="10">- output_blob_map_: BlobMap</text>
+ <text x="3114" y="491" fill="#000000" font-family="Arial" font-size="10">- output_inf_: std::vector</text>
+ <text x="3114" y="511" fill="#000000" font-family="Arial" font-size="10">+ DeInit () Status Virtual</text>
+ <text x="3114" y="523" fill="#000000" font-family="Arial" font-size="10">+ Forward () Status Virtual</text>
+ <text x="3114" y="535" fill="#000000" font-family="Arial" font-size="10">+ ForwardAsync (call_back: Callback ) Status Virtual</text>
+ <text x="3114" y="547" fill="#000000" font-family="Arial" font-size="10">+ GetAllInputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="3114" y="559" fill="#000000" font-family="Arial" font-size="10">+ GetAllOutputBlobs (blobs: BlobMap &amp; ) Status Virtual</text>
+ <text x="3114" y="571" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="3114" y="583" fill="#000000" font-family="Arial" font-size="10">+ GetForwardMemorySize (memory_size: int &amp; ) Status Virtual</text>
+ <text x="3114" y="595" fill="#000000" font-family="Arial" font-size="10">+ Init (net_config: NetworkConfig &amp; , model_config: ModelConfig &amp; , interpreter: AbstractModelInterpreter *, min_inputs_shape: InputShapesMap , max_inputs_shape: InputShapesMap , enable_const_folder: bool ) Status Virtual</text>
+ <text x="3114" y="607" fill="#000000" font-family="Arial" font-size="10">+ Reshape (inputs: const InputShapesMap &amp; ) Status Virtual</text>
+ <text x="3114" y="619" fill="#000000" font-family="Arial" font-size="10">+ SetDeviceAffinity (std: const ) Status Virtual</text>
+ <text x="3114" y="631" fill="#000000" font-family="Arial" font-size="10">+ SetForwardMemory (memory: void *) Status Virtual</text>
+ <text x="3114" y="643" fill="#000000" font-family="Arial" font-size="10">+ ~RknpuNetwork () Virtual</text>
+ <text x="3114" y="655" fill="#000000" font-family="Arial" font-size="10">+ RknpuNetwork () </text>
+ <text x="3114" y="667" fill="#000000" font-family="Arial" font-size="10">- ConvertLayers (net_resource: NetResource *) Status</text>
+ <text x="3114" y="679" fill="#000000" font-family="Arial" font-size="10">- CreateGraphInputs (input_shape_map: InputShapesMap &amp; ) Status</text>
+ <text x="3114" y="691" fill="#000000" font-family="Arial" font-size="10">- GetOutputShapeMap (net_config: NetworkConfig &amp; , interpreter: AbstractModelInterpreter *, input_shape: InputShapesMap &amp; , output_shape: OutputShapesMap &amp; ) Status</text>
+ <text x="3114" y="703" fill="#000000" font-family="Arial" font-size="10">- IRInitLayers (net_config: NetworkConfig &amp; , interpreter: AbstractModelInterpreter *, inputs_shape: InputShapesMap &amp; ) Status</text>
+ <text x="3114" y="715" fill="#000000" font-family="Arial" font-size="10">- InitCacheGraph (cache_path: std::string &amp; , graph: rk::nn::Graph *) Status</text>
+ <text x="3114" y="727" fill="#000000" font-family="Arial" font-size="10">- SetGraphInputsAndOutputs (input_shape_map: InputShapesMap &amp; ) Status</text>
+ <polyline points="3304,337 3284,327 3264,316 3243,306 3223,296 3202,287 3181,278 3160,269 3139,261 3118,253 3097,246 3048,231 2999,217 2949,204 2898,192 2847,181 2796,171 2744,162 2693,154 2643,146 2593,140" stroke="#CC0044" fill="none"/>
+ <polygon points="2593,144 2583,139 2593,137 2593,144" stroke="#CC0044" fill="#CC0044"/>
+</svg>

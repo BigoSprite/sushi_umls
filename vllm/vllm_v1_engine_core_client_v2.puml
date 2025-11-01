@@ -19,13 +19,7 @@
 '!theme cloudscape-design
 !theme carbon-gray
 
-object app
-app -right-> LLM #Red
-
-abstract EngineCoreClient {
-
-  +{static}make_client(is_multiproc, is_async, VllmConfig, executor) -> "EngineCoreClient"
-}
+abstract EngineCoreClient
 class MPClient {
   +encoder: MsgpackEncoder
   +decoder: MsgpackDecoder
@@ -55,7 +49,6 @@ class LLMEngine {
 class InprocClient <<C,lightyellow>> {
   +engine_core: EngineCore
 }
-'InprocClient -[hidden]right- MPClient
 
 class EngineCore <<C,lightyellow>> {
   +batch_queue
@@ -141,13 +134,15 @@ SpecializedManager <|.. SlidingWindowManager
 }
 ' frame core_v1
 
+object app
+app -right-> LLM #Red
 LLM "1" *--> "1" LLMEngine: contains
 
 object "OpenAI API" as oai
 oai -> AsyncLLM #Red
 AsyncLLM "1" *---> "1" AsyncMPClient: contains\nDP=1 ? AsyncMPClient : \nDPAsyncMPClient
 
-LLMEngine "1" *-> "1" EngineCoreClient: contains
+LLMEngine "1" *-right-> "1" EngineCoreClient: contains
 
 EngineCoreClient <|.. InprocClient: <color red>**㊀**In process EngineCore</color>\n(for V0-style LLMEngine use)
 EngineCoreClient <|.. MPClient
@@ -157,7 +152,7 @@ AsyncMPClient <|-- DPAsyncMPClient
 
 SyncMPClient "1" *--> "1" CoreEngine: contains\n起新进程via CoreEngine
 
-InprocClient "1" *---> "1" EngineCore #Blue: contains
+InprocClient "1" *-left-> "1" EngineCore #Blue: contains
 EngineCore <|--- EngineCoreProc
 EngineCoreProc <|-- DPEngineCoreProc
 

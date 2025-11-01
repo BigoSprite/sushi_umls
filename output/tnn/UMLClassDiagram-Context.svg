@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<svg width="2486" height="684" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="4,681 4,4 2483,4 2483,681 4,681" stroke="#ffffff" fill="#ffffff"/>
+ <polygon points="1084,305 1084,5 1402,5 1402,305 1084,305" stroke="#ff0000" fill="#ffffff"/>
+ <polyline points="1084,25 1402,25" stroke="#ff0000" fill="none"/>
+ <polyline points="1084,81 1402,81" stroke="#ff0000" fill="none"/>
+ <text x="1216" y="19" fill="#000000" font-family="Arial" font-size="10">tnn::Context</text>
+ <text x="1092" y="39" fill="#000000" font-family="Arial" font-size="10"># cache_file_path_: std::string= &quot;&quot;</text>
+ <text x="1092" y="51" fill="#000000" font-family="Arial" font-size="10"># cache_path_: std::string= &quot;&quot;</text>
+ <text x="1092" y="63" fill="#000000" font-family="Arial" font-size="10"># enable_tune_kernel_: bool</text>
+ <text x="1092" y="75" fill="#000000" font-family="Arial" font-size="10"># precision_: Precision= -1</text>
+ <text x="1092" y="95" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="1092" y="107" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceReshapeBegin () Status Virtual</text>
+ <text x="1092" y="119" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceReshapeEnd () Status Virtual</text>
+ <text x="1092" y="131" fill="#000000" font-family="Arial" font-size="10">+ SetNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="1092" y="143" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (context: Context *) Status Virtual</text>
+ <text x="1092" y="155" fill="#000000" font-family="Arial" font-size="10">+ ~Context () Virtual</text>
+ <text x="1092" y="167" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Pure Virtual</text>
+ <text x="1092" y="179" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Pure Virtual</text>
+ <text x="1092" y="191" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Pure Virtual</text>
+ <text x="1092" y="203" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Pure Virtual</text>
+ <text x="1092" y="215" fill="#000000" font-family="Arial" font-size="10">+ GetCacheFilePath () std::string</text>
+ <text x="1092" y="227" fill="#000000" font-family="Arial" font-size="10">+ GetCachePath () std::string</text>
+ <text x="1092" y="239" fill="#000000" font-family="Arial" font-size="10">+ GetEnableTuneKernel () bool</text>
+ <text x="1092" y="251" fill="#000000" font-family="Arial" font-size="10">+ GetPrecision () Precision</text>
+ <text x="1092" y="263" fill="#000000" font-family="Arial" font-size="10">+ SetCacheFilePath (cache_file_path: std::string ) void</text>
+ <text x="1092" y="275" fill="#000000" font-family="Arial" font-size="10">+ SetCachePath (cache_path: std::string ) void</text>
+ <text x="1092" y="287" fill="#000000" font-family="Arial" font-size="10">+ SetEnableTuneKernel (enable_tune_kernel: bool ) void</text>
+ <text x="1092" y="299" fill="#000000" font-family="Arial" font-size="10">+ SetPrecision (precision: Precision ) void</text>
+ <polygon points="4,601 4,421 298,421 298,601 4,601" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="4,441 298,441" stroke="#0000ff" fill="none"/>
+ <polyline points="4,473 298,473" stroke="#0000ff" fill="none"/>
+ <text x="115" y="435" fill="#000000" font-family="Arial" font-size="10">tnn::ArmContext</text>
+ <text x="12" y="455" fill="#000000" font-family="Arial" font-size="10">- num_threads_: int= 1</text>
+ <text x="12" y="467" fill="#000000" font-family="Arial" font-size="10">- work_space_: std::vector</text>
+ <text x="12" y="487" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="12" y="499" fill="#000000" font-family="Arial" font-size="10">+ GetNumThreads () int Virtual</text>
+ <text x="12" y="511" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="12" y="523" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="12" y="535" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="12" y="547" fill="#000000" font-family="Arial" font-size="10">+ SetNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="12" y="559" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (context: Context *) Status Virtual</text>
+ <text x="12" y="571" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <text x="12" y="583" fill="#000000" font-family="Arial" font-size="10">+ GetSharedWorkSpace (size: size_t ) void *</text>
+ <text x="12" y="595" fill="#000000" font-family="Arial" font-size="10">+ GetSharedWorkSpace (size: size_t , index: int ) void *</text>
+ <polyline points="215,421 223,412 231,404 240,395 249,386 258,378 267,370 277,362 286,355 297,348 307,342 382,304 461,272 543,244 625,222 708,203 789,189 867,177 942,169 1011,163 1074,159" stroke="#CC0044" fill="none"/>
+ <polygon points="1074,155 1084,158 1074,162 1074,155" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="316,583 316,439 610,439 610,583 316,583" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="316,459 610,459" stroke="#0000ff" fill="none"/>
+ <polyline points="316,479 610,479" stroke="#0000ff" fill="none"/>
+ <text x="427" y="453" fill="#000000" font-family="Arial" font-size="10">tnn::CpuContext</text>
+ <text x="324" y="473" fill="#000000" font-family="Arial" font-size="10">- num_threads_: int= 1</text>
+ <text x="324" y="493" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="324" y="505" fill="#000000" font-family="Arial" font-size="10">+ GetNumThreads () int Virtual</text>
+ <text x="324" y="517" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="324" y="529" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="324" y="541" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="324" y="553" fill="#000000" font-family="Arial" font-size="10">+ SetNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="324" y="565" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (context: Context *) Status Virtual</text>
+ <text x="324" y="577" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <polyline points="515,439 523,429 532,418 542,408 552,397 562,387 573,377 584,368 595,358 607,350 619,342 662,317 707,294 754,274 802,255 850,239 897,224 944,211 989,199 1033,189 1074,181" stroke="#CC0044" fill="none"/>
+ <polygon points="1073,178 1084,179 1075,185 1073,178" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="628,637 628,385 922,385 922,637 628,637" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="628,405 922,405" stroke="#0000ff" fill="none"/>
+ <polyline points="628,497 922,497" stroke="#0000ff" fill="none"/>
+ <text x="736" y="399" fill="#000000" font-family="Arial" font-size="10">tnn::CudaContext</text>
+ <text x="636" y="419" fill="#000000" font-family="Arial" font-size="10">+ cublas_handle_: cublasHandle_t</text>
+ <text x="636" y="431" fill="#000000" font-family="Arial" font-size="10">+ cudnn_handle_: cudnnHandle_t</text>
+ <text x="636" y="443" fill="#000000" font-family="Arial" font-size="10">+ device_id_: int</text>
+ <text x="636" y="455" fill="#000000" font-family="Arial" font-size="10">+ own_stream_: bool</text>
+ <text x="636" y="467" fill="#000000" font-family="Arial" font-size="10">+ stream_: cudaStream_t</text>
+ <text x="636" y="479" fill="#000000" font-family="Arial" font-size="10">+ workspace_: void *= nullptr</text>
+ <text x="636" y="491" fill="#000000" font-family="Arial" font-size="10">+ workspace_size_: int</text>
+ <text x="636" y="511" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="636" y="523" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="636" y="535" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="636" y="547" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="636" y="559" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (context: Context *) Status Virtual</text>
+ <text x="636" y="571" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <text x="636" y="583" fill="#000000" font-family="Arial" font-size="10">+ ~CudaContext () Virtual</text>
+ <text x="636" y="595" fill="#000000" font-family="Arial" font-size="10">+ GetStream () cudaStream_t &amp;</text>
+ <text x="636" y="607" fill="#000000" font-family="Arial" font-size="10">+ GetWorkspace () void *</text>
+ <text x="636" y="619" fill="#000000" font-family="Arial" font-size="10">+ SetWorkspaceSize (size: int ) void</text>
+ <text x="636" y="631" fill="#000000" font-family="Arial" font-size="10">+ Setup (device_id: int ) Status</text>
+ <polyline points="884,385 889,381 893,376 898,372 902,367 907,363 912,358 917,354 921,350 926,346 931,342 944,331 958,321 972,310 987,300 1002,290 1016,281 1031,271 1046,262 1060,253 1075,244" stroke="#CC0044" fill="none"/>
+ <polygon points="1073,241 1084,239 1077,247 1073,241" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="940,589 940,433 1234,433 1234,589 940,589" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="940,453 1234,453" stroke="#0000ff" fill="none"/>
+ <polyline points="940,473 1234,473" stroke="#0000ff" fill="none"/>
+ <text x="1048" y="447" fill="#000000" font-family="Arial" font-size="10">tnn::MetalContext</text>
+ <text x="948" y="467" fill="#000000" font-family="Arial" font-size="10">- metal_context_impl_: __strong TNNMMetalContextImpl *= nil</text>
+ <text x="948" y="487" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="948" y="499" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="948" y="511" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="948" y="523" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="948" y="535" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (context: Context *) Status Virtual</text>
+ <text x="948" y="547" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <text x="948" y="559" fill="#000000" font-family="Arial" font-size="10">+ ~MetalContext () Virtual</text>
+ <text x="948" y="571" fill="#000000" font-family="Arial" font-size="10">+ MetalContext () </text>
+ <text x="948" y="583" fill="#000000" font-family="Arial" font-size="10">+ getMetalContextImpl () TNNMMetalContextImpl *</text>
+ <polyline points="1121,433 1126,422 1130,411 1135,400 1141,388 1146,376 1151,364 1157,352 1162,339 1168,327 1173,314" stroke="#CC0044" fill="none"/>
+ <polygon points="1170,313 1177,305 1176,316 1170,313" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1252,565 1252,457 1546,457 1546,565 1252,565" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1252,477 1546,477" stroke="#0000ff" fill="none"/>
+ <polyline points="1252,497 1546,497" stroke="#0000ff" fill="none"/>
+ <text x="1363" y="471" fill="#000000" font-family="Arial" font-size="10">tnn::NpuContext</text>
+ <text x="1398" y="491" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="1260" y="511" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="1260" y="523" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="1260" y="535" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="1260" y="547" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="1260" y="559" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <polyline points="1375,457 1370,445 1365,432 1359,419 1353,405 1346,390 1340,375 1333,360 1326,345 1320,329 1313,314" stroke="#CC0044" fill="none"/>
+ <polygon points="1310,316 1309,305 1316,313 1310,316" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1564,679 1564,343 1858,343 1858,679 1564,679" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1564,363 1858,363" stroke="#0000ff" fill="none"/>
+ <polyline points="1564,455 1858,455" stroke="#0000ff" fill="none"/>
+ <text x="1666" y="357" fill="#000000" font-family="Arial" font-size="10">tnn::OpenCLContext</text>
+ <text x="1572" y="377" fill="#000000" font-family="Arial" font-size="10">- s_mutex_: std::mutex</text>
+ <text x="1572" y="389" fill="#000000" font-family="Arial" font-size="10">- command_queue_: std::shared_ptr= nullptr</text>
+ <text x="1572" y="401" fill="#000000" font-family="Arial" font-size="10">- flush_count_: unsigned int</text>
+ <text x="1572" y="413" fill="#000000" font-family="Arial" font-size="10">- opencl_runtime_: OpenCLRuntime *= nullptr</text>
+ <text x="1572" y="425" fill="#000000" font-family="Arial" font-size="10">- properties_: cl_command_queue_properties</text>
+ <text x="1572" y="437" fill="#000000" font-family="Arial" font-size="10">- tune_command_queue_: std::shared_ptr= nullptr</text>
+ <text x="1572" y="449" fill="#000000" font-family="Arial" font-size="10">- tune_map_size_: uint32_t</text>
+ <text x="1572" y="469" fill="#000000" font-family="Arial" font-size="10">+ GetLocalSizeTuneMap () </text>
+ <text x="1572" y="481" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="1572" y="493" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="1572" y="505" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="1572" y="517" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="1572" y="529" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceReshapeBegin () Status Virtual</text>
+ <text x="1572" y="541" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceReshapeEnd () Status Virtual</text>
+ <text x="1572" y="553" fill="#000000" font-family="Arial" font-size="10">+ ShareCommandQueue (context: Context *) Status Virtual</text>
+ <text x="1572" y="565" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <text x="1572" y="577" fill="#000000" font-family="Arial" font-size="10">+ ~OpenCLContext () Virtual</text>
+ <text x="1572" y="589" fill="#000000" font-family="Arial" font-size="10">+ AddAndGetFlushCount () unsigned int</text>
+ <text x="1572" y="601" fill="#000000" font-family="Arial" font-size="10">+ CommandQueue () cl::CommandQueue *</text>
+ <text x="1572" y="613" fill="#000000" font-family="Arial" font-size="10">+ Init () Status</text>
+ <text x="1572" y="625" fill="#000000" font-family="Arial" font-size="10">+ OpenCLContext () </text>
+ <text x="1572" y="637" fill="#000000" font-family="Arial" font-size="10">+ StoreLocalSizeTuneMap () Status</text>
+ <text x="1572" y="649" fill="#000000" font-family="Arial" font-size="10">+ TuneCommandQueue () cl::CommandQueue *</text>
+ <text x="1572" y="661" fill="#000000" font-family="Arial" font-size="10">- GetCommandQueue () std::shared_ptr</text>
+ <text x="1572" y="673" fill="#000000" font-family="Arial" font-size="10">- ReadStatusCheck (is: std::ifstream &amp; ) bool</text>
+ <polyline points="1564,349 1563,348 1562,348 1561,347 1560,346 1560,346 1559,345 1558,344 1557,343 1556,343 1555,342 1542,331 1528,321 1514,310 1499,300 1485,290 1470,281 1455,271 1440,262 1426,253 1411,244" stroke="#CC0044" fill="none"/>
+ <polygon points="1409,247 1402,239 1413,241 1409,247" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="1876,565 1876,457 2170,457 2170,565 1876,565" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="1876,477 2170,477" stroke="#0000ff" fill="none"/>
+ <polyline points="1876,497 2170,497" stroke="#0000ff" fill="none"/>
+ <text x="1982" y="471" fill="#000000" font-family="Arial" font-size="10">tnn::RknpuContext</text>
+ <text x="2022" y="491" fill="#000000" font-family="Arial" font-size="10" xml:space='preserve'> </text>
+ <text x="1884" y="511" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="1884" y="523" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="1884" y="535" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="1884" y="547" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="1884" y="559" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <polyline points="1986,457 1977,446 1967,434 1957,422 1945,409 1934,397 1921,385 1908,373 1895,362 1881,352 1867,342 1824,317 1779,294 1732,274 1684,255 1637,239 1589,224 1542,211 1497,199 1453,189 1412,181" stroke="#CC0044" fill="none"/>
+ <polygon points="1411,185 1402,179 1413,178 1411,185" stroke="#CC0044" fill="#CC0044"/>
+ <polygon points="2188,595 2188,427 2482,427 2482,595 2188,595" stroke="#0000ff" fill="#ffffff"/>
+ <polyline points="2188,447 2482,447" stroke="#0000ff" fill="none"/>
+ <polyline points="2188,479 2482,479" stroke="#0000ff" fill="none"/>
+ <text x="2299" y="441" fill="#000000" font-family="Arial" font-size="10">tnn::X86Context</text>
+ <text x="2196" y="461" fill="#000000" font-family="Arial" font-size="10">- num_threads_: int= 1</text>
+ <text x="2196" y="473" fill="#000000" font-family="Arial" font-size="10">- work_space_: std::vector</text>
+ <text x="2196" y="493" fill="#000000" font-family="Arial" font-size="10">+ GetCommandQueue (void **command_queue) Status Virtual</text>
+ <text x="2196" y="505" fill="#000000" font-family="Arial" font-size="10">+ GetNumThreads () int Virtual</text>
+ <text x="2196" y="517" fill="#000000" font-family="Arial" font-size="10">+ LoadLibrary (path: std::vector ) Status Virtual</text>
+ <text x="2196" y="529" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardBegin () Status Virtual</text>
+ <text x="2196" y="541" fill="#000000" font-family="Arial" font-size="10">+ OnInstanceForwardEnd () Status Virtual</text>
+ <text x="2196" y="553" fill="#000000" font-family="Arial" font-size="10">+ SetNumThreads (num_threads: int ) Status Virtual</text>
+ <text x="2196" y="565" fill="#000000" font-family="Arial" font-size="10">+ Synchronize () Status Virtual</text>
+ <text x="2196" y="577" fill="#000000" font-family="Arial" font-size="10">+ GetSharedWorkSpace (size: size_t ) void *</text>
+ <text x="2196" y="589" fill="#000000" font-family="Arial" font-size="10">+ GetSharedWorkSpace (size: size_t , index: int ) void *</text>
+ <polyline points="2276,427 2268,418 2259,408 2251,399 2241,390 2232,381 2222,372 2211,364 2201,356 2190,349 2179,342 2104,304 2025,272 1943,244 1861,222 1778,203 1697,189 1619,177 1544,169 1475,163 1412,159" stroke="#CC0044" fill="none"/>
+ <polygon points="1412,162 1402,158 1412,155 1412,162" stroke="#CC0044" fill="#CC0044"/>
+</svg>

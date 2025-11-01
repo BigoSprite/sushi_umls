@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<svg width="644" height="411" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <rect x="147" y="194" width="295" height="210" stroke="#20208C" fill="white"/>
+ <text fill="#8C2020" font-family="Arial" font-size="10">
+  <tspan x="150" y="207">Class: tnn::CudaLayerAcc</tspan>
+  <tspan x="150" y="227">defined as:</tspan>
+  <tspan x="150" y="237" xml:space='preserve'>  </tspan></text>
+ <text x="57" y="164" fill="black" font-family="Arial" font-size="10">Base Classes:</text>
+ <polyline points="147,197 136,197 136,179 121,179" stroke="#8C2020" fill="none"/>
+ <polygon points="121,179 127,176 127,182 121,179" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="7,179 12,170 116,170 121,179 116,188 12,188 7,179" stroke="#20208C" fill="white"/>
+ <text x="15" y="183" fill="black" font-family="Arial" font-size="10">tnn::AbstractLayerAcc</text>
+ <text x="464" y="17" fill="black" font-family="Arial" font-size="10">Derived Classes:</text>
+ <polyline points="442,197 449,197 449,32 464,32" stroke="#8C2020" fill="none"/>
+ <polygon points="464,32 458,29 458,35 464,32" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,53 464,53" stroke="#8C2020" fill="none"/>
+ <polygon points="464,53 458,50 458,56 464,53" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,74 464,74" stroke="#8C2020" fill="none"/>
+ <polygon points="464,74 458,71 458,77 464,74" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,95 464,95" stroke="#8C2020" fill="none"/>
+ <polygon points="464,95 458,92 458,98 464,95" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,116 464,116" stroke="#8C2020" fill="none"/>
+ <polygon points="464,116 458,113 458,119 464,116" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,137 464,137" stroke="#8C2020" fill="none"/>
+ <polygon points="464,137 458,134 458,140 464,137" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,158 464,158" stroke="#8C2020" fill="none"/>
+ <polygon points="464,158 458,155 458,161 464,158" stroke="#8C2020" fill="#8C2020"/>
+ <polyline points="442,197 449,197 449,179 464,179" stroke="#8C2020" fill="none"/>
+ <polygon points="464,179 458,176 458,182 464,179" stroke="#8C2020" fill="#8C2020"/>
+ <polygon points="464,32 469,23 632,23 637,32 632,41 469,41 464,32" stroke="#20208C" fill="white"/>
+ <text x="472" y="36" fill="black" font-family="Arial" font-size="10">tnn::CudaDetectionOutputLayerAcc</text>
+ <polygon points="464,53 469,44 584,44 589,53 584,62 469,62 464,53" stroke="#20208C" fill="white"/>
+ <text x="472" y="57" fill="black" font-family="Arial" font-size="10">tnn::CudaConvLayerAcc</text>
+ <polygon points="464,74 469,65 617,65 622,74 617,83 469,83 464,74" stroke="#20208C" fill="white"/>
+ <text x="472" y="78" fill="black" font-family="Arial" font-size="10">tnn::CudaInnerProductLayerAcc</text>
+ <polygon points="464,95 469,86 616,86 621,95 616,104 469,104 464,95" stroke="#20208C" fill="white"/>
+ <text x="472" y="99" fill="black" font-family="Arial" font-size="10">tnn::CudaLSTMONNXLayerAcc</text>
+ <polygon points="464,116 469,107 596,107 601,116 596,125 469,125 464,116" stroke="#20208C" fill="white"/>
+ <text x="472" y="120" fill="black" font-family="Arial" font-size="10">tnn::CudaConv3DLayerAcc</text>
+ <polygon points="464,137 469,128 606,128 611,137 606,146 469,146 464,137" stroke="#20208C" fill="white"/>
+ <text x="472" y="141" fill="black" font-family="Arial" font-size="10">tnn::CudaPooling1DLayerAcc</text>
+ <polygon points="464,158 469,149 591,149 596,158 591,167 469,167 464,158" stroke="#20208C" fill="white"/>
+ <text x="472" y="162" fill="black" font-family="Arial" font-size="10">tnn::CudaGatherLayerAcc</text>
+ <polygon points="464,179 469,170 594,170 599,179 594,188 469,188 464,179" stroke="#20208C" fill="white"/>
+ <text x="472" y="183" fill="black" font-family="Arial" font-size="10">tnn::CudaPoolingLayerAcc</text>
+ <rect x="151" y="251" width="143" height="18" stroke="#20208C" fill="white"/>
+ <text x="154" y="264" fill="black" font-family="Arial" font-size="10">std::vector SupportDataFormat</text>
+ <rect x="147" y="275" width="97" height="18" stroke="#20208C" fill="white"/>
+ <text x="150" y="288" fill="black" font-family="Arial" font-size="10">void CreateTempBuf</text>
+ <rect x="346" y="251" width="96" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="356" y="264" fill="black" font-family="Arial" font-size="10">bool is_reshaped</text>
+ <rect x="323" y="272" width="119" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="333" y="285" fill="black" font-family="Arial" font-size="10">CudaDevice * device_</text>
+ <rect x="324" y="293" width="118" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="334" y="306" fill="black" font-family="Arial" font-size="10">LayerParam * param_</text>
+ <rect x="300" y="314" width="142" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="310" y="327" fill="black" font-family="Arial" font-size="10">LayerResource * resource_</text>
+ <rect x="316" y="335" width="126" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="326" y="348" fill="black" font-family="Arial" font-size="10">CudaContext * context_</text>
+ <rect x="326" y="356" width="116" height="18" rx="8" stroke="#20208C" fill="white"/>
+ <text x="336" y="369" fill="black" font-family="Arial" font-size="10">std::vector tempbufs_</text>
+ <rect x="143" y="299" width="51" height="18" stroke="#20208C" fill="white"/>
+ <text x="146" y="312" fill="black" font-family="Arial" font-size="10">Status Init</text>
+ <rect x="143" y="320" width="81" height="18" stroke="#20208C" fill="white"/>
+ <text x="146" y="333" fill="black" font-family="Arial" font-size="10" xml:space='preserve'> ~CudaLayerAcc</text>
+ <rect x="143" y="341" width="77" height="18" stroke="#20208C" fill="white"/>
+ <text x="146" y="354" fill="black" font-family="Arial" font-size="10">Status Reshape</text>
+ <rect x="143" y="362" width="74" height="18" stroke="#20208C" fill="white"/>
+ <text x="146" y="375" fill="black" font-family="Arial" font-size="10">Status Forward</text>
+ <rect x="143" y="383" width="134" height="18" stroke="#20208C" fill="white"/>
+ <text x="146" y="396" fill="black" font-family="Arial" font-size="10">Status ReloadConstantBlobs</text>
+</svg>
